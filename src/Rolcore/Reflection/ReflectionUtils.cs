@@ -45,7 +45,6 @@ namespace Rolcore.Reflection
                         newVarValue.AppendLine(arrayEntry.ToString());
 
                     varValue = newVarValue.ToString();
-                    //TODO: https://trac.projectlocker.com/Rolcore/RolcoreIntegration/trac/ticket/10
                 }
                 result.Replace(varMatch.Value, varValue.ToString());
             }

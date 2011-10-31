@@ -97,7 +97,7 @@ namespace Rolcore.Web.Tests
         [TestMethod()]
         public void ToUriTest()
         {
-            string expected = "http://www.Rolcore.com/";
+            string expected = "http://www.rolcore.com/";
             string actual = expected.ToUri().ToString();
             Assert.AreEqual(expected, actual);
         }

@@ -36,5 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Rolcore.Tests")]
-[assembly: InternalsVisibleTo("Rolcore.Core.Tests")]
+[assembly: InternalsVisibleTo("Rolcore.Tests")]
 [assembly: InternalsVisibleTo("Rolcore.Explorables")]

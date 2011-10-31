@@ -123,22 +123,13 @@
     <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionEx.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensios.cs" />
-    <Compile Include="Configuration\AppSettingsUtils.cs" />
-    <Compile Include="Configuration\FileConfigurationSource.cs" />
-    <Compile Include="Configuration\IConfigurationSource.cs" />
-    <Compile Include="Configuration\PropertyOverrideConfigurationElement.cs" />
-    <Compile Include="Configuration\PropertyOverrideConfigurationElementCollection.cs" />
     <Compile Include="Data\ConnectionStringTemplates.cs" />
     <Compile Include="Data\DataTableExtensions.cs" />
-    <Compile Include="Data\DbUtils.cs" />
-    <Compile Include="DateRange.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DateTimeUnit.cs" />
     <Compile Include="DateTimeUnitExtensions.cs" />
     <Compile Include="DateTimeUtils.cs" />
     <Compile Include="Days.cs" />
-    <Compile Include="Diagnostics\ConsoleWriter.cs" />
-    <Compile Include="Diagnostics\DebuggerWriter.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Geography\Address.cs" />
     <Compile Include="Geography\IntExtensions.cs" />
@@ -150,8 +141,6 @@
     <Compile Include="IO\DirectoryEx.cs" />
     <Compile Include="IO\StringExtensions.cs" />
     <Compile Include="IO\TextReaderExtensions.cs" />
-    <Compile Include="Math\Fraction.cs" />
-    <Compile Include="Math\FractionException.cs" />
     <Compile Include="Milliseconds.cs" />
     <Compile Include="Minutes.cs" />
     <Compile Include="MonthOfYear.cs" />
@@ -162,16 +151,13 @@
     <Compile Include="Reflection\ObjectExtensions.cs" />
     <Compile Include="Reflection\ReflectionUtils.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
-    <Compile Include="Science\DatePartedRandomAssignmentExperiment.cs" />
-    <Compile Include="Science\ExperimentItem.cs" />
-    <Compile Include="Science\RandomAssignmentExperiment.cs" />
-    <Compile Include="Science\RandomAssignmentExperimentItem.cs" />
     <Compile Include="Seconds.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Text\RegularExpressions\CommonExpressions.cs" />
     <Compile Include="Text\RegularExpressions\StringExtensions.cs" />
     <Compile Include="ThreadSafeRandom.cs" />
     <Compile Include="UriExtensions.cs" />
+    <Compile Include="Xml\ExtensionMethods.cs" />
     <Compile Include="Xml\ObjectExtenisions.cs" />
     <Compile Include="Xml\Linq\XElementExtensionMethods.cs" />
     <Compile Include="Xml\XmlUtils.cs" />
@@ -193,9 +179,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Excel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
