@@ -1,0 +1,15 @@
+
+/src/Rolcore/bin
+/src/Rolcore/obj
+/src/Rolcore.Data/obj
+/src/Rolcore.Data/bin
+/src/Rolcore.Net.Tests/bin
+/src/Rolcore.Net.Tests/obj
+/src/Rolcore.Net/obj
+/src/Rolcore.Net/bin
+/src/Rolcore.Tests/bin
+/src/Rolcore.Tests/obj
+/src/Rolcore.Web.Tests/obj
+/src/Rolcore.Web.Tests/bin
+/src/Rolcore.Web/obj
+/src/Rolcore.Web/bin
