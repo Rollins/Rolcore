@@ -157,7 +157,6 @@
     <Compile Include="Text\RegularExpressions\StringExtensions.cs" />
     <Compile Include="ThreadSafeRandom.cs" />
     <Compile Include="UriExtensions.cs" />
-    <Compile Include="Xml\ExtensionMethods.cs" />
     <Compile Include="Xml\ObjectExtenisions.cs" />
     <Compile Include="Xml\Linq\XElementExtensionMethods.cs" />
     <Compile Include="Xml\XmlUtils.cs" />
