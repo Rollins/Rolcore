@@ -8,8 +8,8 @@
     <ProjectGuid>{3F4B4BCE-F832-4F2A-8D40-928DA9D24BC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rollins.Web</RootNamespace>
-    <AssemblyName>Rollins.Web</AssemblyName>
+    <RootNamespace>Rolcore.Web</RootNamespace>
+    <AssemblyName>Rolcore.Web</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -71,7 +71,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -133,11 +133,6 @@
   <ItemGroup>
     <Compile Include="ContentTypes.cs" />
     <Compile Include="HttpResponseExtensions.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="SiteMapNodeExtensions.cs" />
     <Compile Include="HttpErrorModule.cs" />
     <Compile Include="HttpUtils.cs" />
@@ -171,13 +166,6 @@
       <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
       <Name>Rollins.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

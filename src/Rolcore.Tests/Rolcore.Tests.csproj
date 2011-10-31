@@ -8,8 +8,8 @@
     <ProjectGuid>{57B1B1B0-4123-4A5B-998F-C5769393747B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Rollins.Tests</RootNamespace>
-    <AssemblyName>Rollins.Tests</AssemblyName>
+    <RootNamespace>Rolcore.Tests</RootNamespace>
+    <AssemblyName>Rolcore.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
