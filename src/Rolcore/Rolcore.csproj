@@ -123,6 +123,8 @@
     <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionEx.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensios.cs" />
+    <Compile Include="Configuration\FileConfigurationSource.cs" />
+    <Compile Include="Configuration\IConfigurationSource.cs" />
     <Compile Include="Data\ConnectionStringTemplates.cs" />
     <Compile Include="Data\DataTableExtensions.cs" />
     <Compile Include="DateTimeExtensions.cs" />
@@ -130,6 +132,8 @@
     <Compile Include="DateTimeUnitExtensions.cs" />
     <Compile Include="DateTimeUtils.cs" />
     <Compile Include="Days.cs" />
+    <Compile Include="Diagnostics\ConsoleWriter.cs" />
+    <Compile Include="Diagnostics\DebuggerWriter.cs" />
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Geography\Address.cs" />
     <Compile Include="Geography\IntExtensions.cs" />
@@ -141,6 +145,8 @@
     <Compile Include="IO\DirectoryEx.cs" />
     <Compile Include="IO\StringExtensions.cs" />
     <Compile Include="IO\TextReaderExtensions.cs" />
+    <Compile Include="Math\Fraction.cs" />
+    <Compile Include="Math\FractionException.cs" />
     <Compile Include="Milliseconds.cs" />
     <Compile Include="Minutes.cs" />
     <Compile Include="MonthOfYear.cs" />

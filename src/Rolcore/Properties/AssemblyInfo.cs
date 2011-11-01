@@ -8,9 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Rolcore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rollins, Inc.")]
 [assembly: AssemblyProduct("Rolcore")]
-[assembly: AssemblyCopyright("Copyright © Rollins, Inc. 2011")]
+[assembly: AssemblyCopyright("Copyright © Rollins, Inc. 2011.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
