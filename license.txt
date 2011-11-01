@@ -1,4 +1,4 @@
-N2 Content Management System
+Rolcore
 
 Copyright (C) 2011 Rollins, Inc.
 
