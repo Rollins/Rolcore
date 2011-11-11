@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Diagnostics.Contracts;
 using System.Linq;
 
 namespace Rolcore.Collections.Specialized
@@ -17,8 +16,9 @@ namespace Rolcore.Collections.Specialized
         /// <returns>A read-only instance.</returns>
         public static NameValueCollection ToReadOnly(this NameValueCollection value)
         {
-            Contract.Requires(value != null, "value is null.");
-
+            if (value == null)
+                throw new ArgumentNullException("value", "value is null.");
+            
             NameValueCollectionEx result = new NameValueCollectionEx();
             result.Add(value);
             return result.ToReadOnly();
@@ -36,8 +36,9 @@ namespace Rolcore.Collections.Specialized
         /// <returns>A <see cref="NameValueCollection"/> representation of the specified string.</returns>
         public static NameValueCollection ToNameValueCollection(this string value, char listItemSeperator, char keyValueSeperator)
         {
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(value), "value is null or empty.");
-
+            if (String.IsNullOrEmpty(value))
+                throw new ArgumentException("value is null or empty.", "value");
+            
             NameValueCollection result = new NameValueCollection();
             string[] nameValuePairs = value.Split(new char[] { listItemSeperator });
             for (int i = 0; i < nameValuePairs.Length; i++)
@@ -60,6 +61,9 @@ namespace Rolcore.Collections.Specialized
             if(value == compare)
                 return true;
 
+            if ((value == null && compare != null) || (value != null && compare == null))
+                return false;
+
             if(value.Count != compare.Count)
                 return false;
 
@@ -77,10 +81,11 @@ namespace Rolcore.Collections.Specialized
         //TODO: Document
         public static NameValueCollection FromKeys(this NameValueCollection collection, params string[] keys)
         {
-            Contract.Requires<ArgumentNullException>(collection != null, "collection is null.");
-            Contract.Requires<ArgumentNullException>(keys != null, "keys is null.");
-            Contract.Requires<ArgumentException>(keys.Length > 0, "keys is empty.");
-
+            if (collection == null)
+                throw new ArgumentNullException("collection", "collection is null.");
+            if(keys == null || keys.Length == 0)
+                throw new ArgumentException("keys is null or empty", "keys");
+            
             NameValueCollection result = new NameValueCollection(collection.Count);
             foreach (string key in collection)
             {

@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Diagnostics.Contracts;
+
 
 namespace Rolcore.Net.Mail
 {

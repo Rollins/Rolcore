@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using Rolcore.Text.RegularExpressions;
-using System.Diagnostics.Contracts;
+
 
 namespace Rolcore.Web
 {
@@ -29,7 +29,8 @@ namespace Rolcore.Web
 
         public static string RemoveHtml(this string s)
         {
-            Contract.Requires<ArgumentNullException>(s != null, "s is null.");
+            if (s == null)
+                throw new ArgumentNullException("s is null.", "s");
 
             if (s.Length == 0)
                 return s;

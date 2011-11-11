@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+
 using System.Xml;
 
 namespace Rolcore.Net.WebMethods
@@ -13,9 +13,11 @@ namespace Rolcore.Net.WebMethods
 
         protected static XmlNode FindObjectNameNode(string objectName, XmlNode start)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrWhiteSpace(objectName), "objectName");
-            Contract.Requires<ArgumentNullException>(start != null, "start");
-
+            if (String.IsNullOrEmpty(objectName))
+                throw new ArgumentException("objectName is null or empty.", "objectName");
+            if (start == null)
+                throw new ArgumentNullException("start", "start is null.");
+            
             string objectNameToLower = objectName.ToLower();
             XmlNode result = null;
             foreach (XmlNode node in start.ChildNodes)

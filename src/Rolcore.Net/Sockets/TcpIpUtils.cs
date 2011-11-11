@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics.Contracts;
+
 
 namespace Rolcore.Net.Sockets
 {

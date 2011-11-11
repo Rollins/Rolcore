@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.OleDb;
-using System.Diagnostics.Contracts;
 
 namespace Rolcore.Data
 {
@@ -15,10 +14,13 @@ namespace Rolcore.Data
         /// <returns></returns>
         public static void FillFromCsvFile(this DataTable table, string folderPath, string fileName)
         {
-            Contract.Requires(table != null, "table is null.");
-            Contract.Requires(!String.IsNullOrEmpty(folderPath), "filePath is null or empty.");
-            Contract.Requires(!String.IsNullOrEmpty(fileName), "fileName is null or empty.");
-
+            if (table == null)
+                throw new ArgumentNullException("table", "table is null.");
+            if (String.IsNullOrEmpty(folderPath))
+                throw new ArgumentException("folderPath is null or empty.", "folderPath");
+            if (String.IsNullOrEmpty(fileName))
+                throw new ArgumentException("fileName is null or empty.", "fileName");
+            
             string command = string.Format("SELECT * FROM {0}", fileName);
             using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(command, ConnectionStringTemplates.CreateCsvFileConnectionString(folderPath)))
             {
