@@ -16,7 +16,9 @@ namespace Rolcore.Net
         /// <returns>An <see cref="HttpWebResponse"/> containing the response from the server.</returns>
         public static HttpWebResponse HttpGet(this Uri uri, string userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727)", string accept = "*/*")
         {
-            Contract.Requires(uri != null, "uri is null.");
+            if (uri == null)
+                throw new ArgumentNullException("uri", "uri is null.");
+
             //TODO: Ensure URL is for HTTP or HTTPS.
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri.ToString());

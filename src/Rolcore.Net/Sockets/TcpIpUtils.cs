@@ -14,9 +14,9 @@ namespace Rolcore.Net.Sockets
         /// <returns>A <see cref="double"/> representation of the specified IP address.</returns>
         public static double IpStringToDouble(string ipAddress)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(ipAddress));
-            Contract.Ensures(Contract.Result<double>() >= 0);
-            
+            if (String.IsNullOrEmpty(ipAddress))
+                throw new ArgumentException("ipAddress is null or empty.", "ipAddress");
+
             double result = 0;
             string[] ipAddressParts = ipAddress.Split('.');
             if (ipAddressParts.Length > 1)

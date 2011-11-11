@@ -23,8 +23,8 @@ namespace Rolcore.Web
         /// </summary>
         public static string GetClientLanguageCode(this HttpContext httpContext)
         {
-            Contract.Requires(httpContext != null, "httpContext is null.");
-            Contract.Ensures(Contract.Result<string>() != string.Empty); // null is okay
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext", "httpContext is null.");
 
             string result = (string)httpContext.Session[ClientLanguageCodeKey];
             if (string.IsNullOrEmpty(result))
@@ -52,9 +52,9 @@ namespace Rolcore.Web
         /// </summary>
         public static Uri GetSiteBaseUrl(this HttpContext httpContext)
         {
-            Contract.Requires(httpContext != null, "httpContext is null.");
-            Contract.Ensures(Contract.Result<Uri>() != null, "Invalid result.");
-
+            if (httpContext == null)
+                throw new ArgumentNullException("httpContext", "httpContext is null.");
+            
             const string cacheKey = "HttpContextExtensionMethods.GetSiteBaseUrl";
             Uri result = httpContext.Items[cacheKey] as Uri;
             if (result != null)

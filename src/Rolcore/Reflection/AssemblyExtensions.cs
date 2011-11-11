@@ -24,9 +24,12 @@ namespace Rolcore.Reflection
             //
             // Pre-conditions
 
-            Contract.Requires<ArgumentNullException>(assembly != null, "assembly is null.");
-            Contract.Requires<ArgumentNullException>(attributeType != null, "attributeType is null.");
-            Contract.Requires<ArgumentException>(attributeType.IsSubclassOf(typeof(Attribute)), "attributeType is not an attribute.");
+            if (assembly == null)
+                throw new ArgumentNullException("assembly", "assembly is null.");
+            if (attributeType == null)
+                throw new ArgumentNullException("attributeType", "attributeType is null.");
+            if (!attributeType.IsSubclassOf(typeof(Attribute)))
+                throw new ArgumentNullException("attributeType is not an attribute.");
 
             //
             // Sift through all types in assembly

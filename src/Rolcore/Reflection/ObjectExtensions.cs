@@ -64,10 +64,12 @@ namespace Rolcore.Reflection
         {
             //
             // Pre-conditions
-
-            Contract.Requires<ArgumentNullException>(obj != null, "obj is null.");
-            Contract.Requires<ArgumentNullException>(attributeType != null, "attributeType is null.");
-            Contract.Requires<ArgumentException>(attributeType.IsSubclassOf(typeof(Attribute)), "attributeType is not an attribute.");
+            if (obj == null)
+                throw new ArgumentNullException("obj", "obj is null.");
+            if (attributeType == null)
+                throw new ArgumentNullException("attributeType", "attributeType is null.");
+            if(!attributeType.IsSubclassOf(typeof(Attribute)))
+                throw new ArgumentException("attributeType is not an attribute.");
 
             //
             // Find methods decorated w/ specified attribute
@@ -95,9 +97,11 @@ namespace Rolcore.Reflection
             //
             // Pre-conditions
 
-            Contract.Requires(obj != null, "obj is null.");
-            Contract.Requires(!String.IsNullOrEmpty(propertyName), "propertyName is null or empty.");
-            
+            if (obj == null)
+                throw new ArgumentNullException("obj", "obj is null.");
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentException("propertyName is null or empty.", "propertyName");
+
             //
             // Setup
 
@@ -129,9 +133,11 @@ namespace Rolcore.Reflection
         /// <param name="propertyValue">Specifies the new value of the property.</param>
         public static void SetPropertyValue(this object obj, string propertyName, object propertyValue)
         {
-            Contract.Requires<ArgumentNullException>(obj != null, "obj is null.");
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(propertyName), "propertyName is null or empty.");
-            
+            if (obj == null)
+                throw new ArgumentNullException("obj", "obj is null.");
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentException("propertyName is null or empty.", "propertyName");
+
             //
             // Parse object heararchy and set value.
 
@@ -165,10 +171,13 @@ namespace Rolcore.Reflection
             //
             // Pre conditions
 
-            Contract.Requires(obj != null, "obj is null.");
-            Contract.Requires(propertyValues != null, "propertyValues is null.");
-            Contract.Requires(propertyValues.Count > 0, "propertyValues is empty.");
-            
+            if (obj == null)
+                throw new ArgumentNullException("obj", "obj is null.");
+            if (propertyValues == null)
+                throw new ArgumentNullException("propertyValues", "propertyValues is null.");
+            if (propertyValues.Count < 1)
+                throw new ArgumentException("propertyValues is empty.");
+
             //
             // Set values
 

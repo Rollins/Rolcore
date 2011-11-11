@@ -25,8 +25,6 @@ namespace Rolcore
         /// </summary>
         private static void EnsureLocal()
         {
-            Contract.Ensures(_local != null);
-
             if (_local == null)
             {
                 int seed;

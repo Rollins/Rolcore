@@ -63,10 +63,14 @@ namespace Rolcore.Net.Mail
         /// <returns>A configured <see cref="MailMessage"/>.</returns>
         public static MailMessage CreateMessage(string to, string cc, string bcc, string from, string subject, string body, bool isBodyHtml)
         {
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(to), "to is null or empty.");
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(from), "from is null or empty.");
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(subject), "subject is null or empty.");
-            Contract.Requires<ArgumentException>(!String.IsNullOrEmpty(body), "body is null or empty.");
+            if (String.IsNullOrEmpty(to))
+                throw new ArgumentException("to is null or empty.", "to");
+            if (String.IsNullOrEmpty(from))
+                throw new ArgumentException("from is null or empty.", "from");
+            if (String.IsNullOrEmpty(subject))
+                throw new ArgumentException("subject is null or empty.", "subject");
+            if (String.IsNullOrEmpty(body))
+                throw new ArgumentException("body is null or empty.", "body");
 
             MailMessage message = new MailMessage(from, to, subject, body)
             {
@@ -89,7 +93,8 @@ namespace Rolcore.Net.Mail
         /// <param name="smtpServer">The SMTP server to send the message through.</param>
         public static void SendEmail(MailMessage message, string smtpServer = null)
         {
-            Contract.Requires<ArgumentException>(message != null, "message is null.");
+            if (message == null)
+                throw new ArgumentNullException("message", "message is null.");
 
             using (SmtpClient smtpClient = new SmtpClient())
             {

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
+using System.IO;
 
 namespace Rolcore.Web.UI
 {
-    public static class ControlExtensionMethods
+    public static class ControlExtensions
     {
         /// <summary>
         /// Finds a child control with the specified <see cref="Control.ID"/>.
@@ -74,6 +75,21 @@ namespace Rolcore.Web.UI
             }
 
             return result.ToArray();
+        }
+
+        public static string RenderControlToString(this Control control)
+        {
+            if (control == null)
+                throw new ArgumentNullException("control", "control is null.");
+
+            StringBuilder resultBuilder = new StringBuilder();
+            using (StringWriter resultWriter = new StringWriter(resultBuilder))
+            {
+                using (HtmlTextWriter writer = new HtmlTextWriter(resultWriter))
+                    control.RenderControl(writer);
+
+                return resultWriter.ToString();
+            }
         }
     }
 }

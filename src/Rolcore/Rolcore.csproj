@@ -127,6 +127,7 @@
     <Compile Include="Configuration\IConfigurationSource.cs" />
     <Compile Include="Data\ConnectionStringTemplates.cs" />
     <Compile Include="Data\DataTableExtensions.cs" />
+    <Compile Include="DateRange.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DateTimeUnit.cs" />
     <Compile Include="DateTimeUnitExtensions.cs" />

@@ -25,7 +25,8 @@ namespace Rolcore
         /// <returns>A sub-domain, for example "www".</returns>
         public static string GetSubDomain(this Uri uri)
         {
-            Contract.Requires(uri != null, "uri is null.");
+            if (uri == null)
+                throw new ArgumentNullException("uri", "uri is null.");
             
             string result = uri.GetBaseUri().ToString().Replace(string.Format("{0}://", uri.Scheme), string.Empty);
             if (string.IsNullOrEmpty(result))
@@ -47,20 +48,20 @@ namespace Rolcore
         /// Extracts the domain name from a URI.
         /// </summary>
         /// <param name="uri">Specifies the URI from which to extract the domain name.</param>
-        /// <returns>A domain, for example "orkin.com" in www.orkin.com.</returns>
+        /// <returns>A domain, for example "mysite.com" in www.mysite.com.</returns>
         public static string GetDomainName(this Uri uri)
         {
-            Contract.Requires(uri != null, "uri is null.");
-
+            if (uri == null)
+                throw new ArgumentNullException("uri", "uri is null.");
+            
             string result = uri.Host;
             if (string.IsNullOrEmpty(result))
                 return string.Empty;
 
-            if (!result.Contains(".")) // http://myorkin/ = myorkin
+            if (!result.Contains("."))
                 return result;
 
-            string[] parts = result.Split('.'); // www, signup, orkin, com
-            // orkin, com
+            string[] parts = result.Split('.');
 
             int lastIndex = parts.Length - 1;
             int nextToLastIndex = lastIndex - 1;

@@ -14,13 +14,8 @@ namespace Rolcore.Geography
             //
             // Pre-conditions
 
-            Contract.Requires<ArgumentOutOfRangeException>(i <= 99999, "i is greater than five digits.");
-
-            //
-            // Post-conditions
-
-            Contract.Ensures(!string.IsNullOrWhiteSpace(Contract.Result<string>()));
-            Contract.Ensures(Contract.Result<string>().Length == 5);
+            if (i > 99999)
+                throw new ArgumentOutOfRangeException("i is greater than five digits.");
 
             //
             // Pad zeros
@@ -30,7 +25,8 @@ namespace Rolcore.Geography
 
         public static string ToUsa5DigitPostalCode(this int i)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(i >= 0, "i is negative.");
+            if (i < 0)
+                throw new ArgumentOutOfRangeException("i is negative.");
 
             return Convert.ToUInt32(i).ToUsa5DigitPostalCode();
         }

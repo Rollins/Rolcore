@@ -145,7 +145,7 @@
     <Compile Include="Syndication\ISyndicationItemProvider.cs" />
     <Compile Include="Syndication\SyndicationFeedExtensions.cs" />
     <Compile Include="UI\CompeteTrackingSnippet.cs" />
-    <Compile Include="UI\ControlExtensionMethods.cs" />
+    <Compile Include="UI\ControlExtensions.cs" />
     <Compile Include="UI\GoogleAnalyticsSnippet.cs" />
     <Compile Include="UI\HtmlUtils.cs" />
     <Compile Include="UI\MetaContentLanguage.cs" />
