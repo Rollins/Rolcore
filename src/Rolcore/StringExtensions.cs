@@ -9,6 +9,29 @@ namespace Rolcore
     public static class StringExtensions
     {
         /// <summary>
+        /// Checks that the string ends with the specified character. If it doesn't then the 
+        /// character is appended.
+        /// </summary>
+        /// <param name="s">Specifies the string to check.</param>
+        /// <param name="c">Specifies the character to check for.</param>
+        /// <returns>The string, with the trailing character.</returns>
+        public static string EnsureTrailing(this string s, char c)
+        {
+            if (s == null)
+                throw new ArgumentNullException("s", "s is null.");
+            
+            int length = s.Length;
+            
+            if(length == 0)
+                return c.ToString();
+            
+            if(s[length-1] != c)
+                return s + c;
+            
+            return s;
+        }
+
+        /// <summary>
         /// Returns the first part of a string, up to a specified number of characters.
         /// </summary>
         /// <param name="numberOfCharacters">The number of characters to get from the string</param>

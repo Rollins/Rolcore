@@ -7,6 +7,9 @@ using System.Net;
 
 namespace Rolcore.Net
 {
+    /// <summary>
+    /// Extensions for <see cref="Uri"/>.
+    /// </summary>
     public static class UriExtensions
     {
         /// <summary>

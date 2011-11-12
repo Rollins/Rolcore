@@ -10,7 +10,6 @@ namespace Rolcore.Web.UI
     /// </summary>
     public static class WebUtils //TODO: Add unit tests for this class
     {
-
         /// <summary>
         /// Determines if a virtual path exists physically.
         /// </summary>
@@ -41,8 +40,19 @@ namespace Rolcore.Web.UI
             return splitKey[splitKey.Length - 1];
         }
 
+        /// <summary>
+        /// Get's a control's value based on the specified ID.
+        /// </summary>
+        /// <param name="formControlId">Specifies the control ID.</param>
+        /// <param name="form">Specifies the submitted form values.</param>
+        /// <returns>The value of the specified control.</returns>
         public static string GetFormControlValueByFormControlId(string formControlId, NameValueCollection form)
         {
+            if (String.IsNullOrEmpty(formControlId))
+                throw new ArgumentException("formControlId is null or empty.", "formControlId");
+            if (form == null)
+                throw new ArgumentNullException("form", "form is null.");
+
             for (int i = 0; i < form.Count; i++)
             {
                 string formKey = form.Keys[i];
@@ -50,7 +60,7 @@ namespace Rolcore.Web.UI
                     if (WebUtils.GetFormControlNameFromPostbackName(formKey) == formControlId)
                         return form[i];
             }
-            return string.Empty;
+            return null;
         }
     }
 }

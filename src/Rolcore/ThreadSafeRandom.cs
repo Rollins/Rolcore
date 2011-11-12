@@ -12,7 +12,7 @@ namespace Rolcore
         /// <summary>
         /// Provides random seed for thread-safe <see cref="Random"/> instances.
         /// </summary>
-        private readonly static Random _global = new Random();
+        private readonly static Random _Global = new Random();
 
         /// <summary>
         /// The thread-local <see cref="Random"/> instance used to perform random functions.
@@ -28,7 +28,7 @@ namespace Rolcore
             if (_local == null)
             {
                 int seed;
-                lock (_global) seed = _global.Next();
+                lock (_Global) seed = _Global.Next();
                 _local = new Random(seed);
             }
         }

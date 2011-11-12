@@ -6,6 +6,9 @@ using System.Diagnostics;
 
 namespace Rolcore
 {
+    /// <summary>
+    /// Extensions for <see cref="Uri"/>.
+    /// </summary>
     public static class UriExtensions
     {
         /// <summary>

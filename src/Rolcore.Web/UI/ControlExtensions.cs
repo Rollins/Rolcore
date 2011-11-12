@@ -7,6 +7,9 @@ using System.IO;
 
 namespace Rolcore.Web.UI
 {
+    /// <summary>
+    /// Extensions for <see cref="Control"/>.
+    /// </summary>
     public static class ControlExtensions
     {
         /// <summary>
