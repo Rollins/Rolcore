@@ -50,7 +50,7 @@
     <CodeContractsBaseLineFile />
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -101,7 +101,6 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Data.Services" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -131,7 +130,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Rolcore\Rolcore.csproj">
       <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
-      <Name>Rollins.Core</Name>
+      <Name>Rolcore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

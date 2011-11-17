@@ -65,7 +65,7 @@
     <CodeContractsBaseLineFile />
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -98,7 +98,7 @@
     <CodeContractsBaseLineFile />
     <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
-    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <ItemGroup>
@@ -158,16 +158,6 @@
     <Compile Include="HttpContextExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rolcore.Net\Rolcore.Net.csproj">
-      <Project>{D9B6370E-3327-4A65-A3F4-EB53D7911348}</Project>
-      <Name>Rollins.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Rolcore\Rolcore.csproj">
-      <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
-      <Name>Rollins.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +177,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Rolcore\Rolcore.csproj">
+      <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
+      <Name>Rolcore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

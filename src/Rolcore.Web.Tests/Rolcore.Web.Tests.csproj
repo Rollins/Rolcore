@@ -73,17 +73,13 @@
     <Compile Include="StringExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Rolcore.Net\Rolcore.Net.csproj">
-      <Project>{D9B6370E-3327-4A65-A3F4-EB53D7911348}</Project>
-      <Name>Rollins.Net</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Rolcore.Web\Rolcore.Web.csproj">
       <Project>{3F4B4BCE-F832-4F2A-8D40-928DA9D24BC6}</Project>
-      <Name>Rollins.Web</Name>
+      <Name>Rolcore.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\Rolcore\Rolcore.csproj">
       <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
-      <Name>Rollins.Core</Name>
+      <Name>Rolcore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

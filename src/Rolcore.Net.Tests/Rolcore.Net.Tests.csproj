@@ -109,7 +109,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Rolcore.Net\Rolcore.Net.csproj">
       <Project>{D9B6370E-3327-4A65-A3F4-EB53D7911348}</Project>
-      <Name>Rollins.Net</Name>
+      <Name>Rolcore.Net</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
