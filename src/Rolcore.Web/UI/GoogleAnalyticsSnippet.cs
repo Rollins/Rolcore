@@ -7,10 +7,8 @@ namespace Rolcore.Web.UI
     [ToolboxData("<{0}:GoogleAnalyticsSnippet runat=\"server\"></{0}:GoogleAnalyticsSnippet>")]
     public class GoogleAnalyticsSnippet : Control
     {
-        protected const string RollupTrackerIdDefaultValue = "UA-11990468-1";
         protected const string PageTrackerIdDefaultValue = "UA-";
-        protected const string RollupTrackerLinkedDomainsCsvDefaultValue = @"""www.orkin.com"",""m.orkin.com"",""careers.orkin.com"",""www.orkincanada.ca"",""www.orkinlocal.com"",""www.termites101.org"",""signup.orkin.com"",""pestthreat.com"",""signup.orkincanada.ca"",""signup.orkincommercial.com"",""signup.orkinlocal.com"",""signup.pestdefense.com"",""signup.westernpest.com"",""my.orkincommercial.com""";
-
+        
         protected bool AllowPageLinker
         {
             get { return this.PageDomainName.Equals("none"); }
@@ -115,10 +113,12 @@ namespace Rolcore.Web.UI
                             this.PageTrackerLinkedDomainsCsv));
 
                         output.WriteLine(
-                            "jQuery.each(" + pageDomainsScriptVarName + @", function(index, domain){ $(""a[href*=""+domain+""]"").click(function(){ _gaq.push(['_link',this.href]); }); });");
+                            string.Format(
+                                @"jQuery.each({0}, function(index, domain){{ $(""a[href*=""+domain+""]"").click(function(){{ _gaq.push(['_link',this.href]); }}); }});", 
+                                pageDomainsScriptVarName));
                     }
                     // PDF Tracking
-                    output.WriteLine(@"$(""a[href*=.pdf]"").click(function(){ _gaq.push(['_trackPageview', this.pathname]); }); ");
+                    output.WriteLine(@"$(""a[href*='.pdf']"").click(function(){ _gaq.push(['_trackPageview', this.pathname]); }); ");
                     // Form Tracking
                     if (this.EnableFormFieldChangeTracking)
                     {
@@ -140,11 +140,13 @@ namespace Rolcore.Web.UI
                             @"var {0} = [{1}];",
                             rollupDomainsScriptVarName,
                             this.RollupTrackerLinkedDomainsCsv));
-                        output.WriteLine("jQuery.each(" + rollupDomainsScriptVarName + @", function(index,domain){ $(""a[href*=""+domain+""]"").click(function(){ _gaq1.push(['_link',this.href]);});});");
+                        output.WriteLine(string.Format(
+                            @"jQuery.each({0}, function(index,domain){{ $(""a[href*=""+domain+""]"").click(function(){{ _gaq1.push(['_link',this.href]);}});}});", 
+                            rollupDomainsScriptVarName));
                     }
 
                     // PDF Tracking
-                    output.WriteLine(@"$(""a[href*=.pdf]"").click(function(){  _gaq1.push(['_trackPageview', this.pathname]); }); ");
+                    output.WriteLine(@"$(""a[href*='.pdf']"").click(function(){  _gaq1.push(['_trackPageview', this.pathname]); }); ");
 
                     // Form Tracking
                     if (this.EnableFormFieldChangeTracking)
@@ -181,14 +183,13 @@ namespace Rolcore.Web.UI
         }
 
         // TODO: Figure out a way to use a string list editor in the component design view. See Orkin.com ticket:771
-        [Bindable(true), Category("Google Analytics Account"), DefaultValue(RollupTrackerLinkedDomainsCsvDefaultValue),
+        [Bindable(true), Category("Google Analytics Account"),
          Description("Gets and sets the list of domains to track in comma seperated values (CSV) format.")]
         public string RollupTrackerLinkedDomainsCsv
         {
             get
             {
-                string result = (string)ViewState["RollupTrackerLinkedDomainsCsv"] ??
-                    RollupTrackerLinkedDomainsCsvDefaultValue;
+                string result = (string)ViewState["RollupTrackerLinkedDomainsCsv"];
 
                 return result;
                 // The list of linked domains was changing to frequently to keep on having to add the
@@ -224,13 +225,13 @@ namespace Rolcore.Web.UI
             set { ViewState["PageTrackerId"] = value; }
         }
 
-        [Bindable(true), Category("Google Analytics Account"), DefaultValue(RollupTrackerIdDefaultValue),
+        [Bindable(true), Category("Google Analytics Account"),
          Description("Gets and sets the the ID to use as a roll-up of multiple Google Aanalytics accounts in the _getTracker portion of the tracking snippet.")]
         public string RollupTrackerId
         {
             get
             {
-                string result = (string)ViewState["RollupTrackerId"] ?? RollupTrackerIdDefaultValue;
+                string result = (string)ViewState["RollupTrackerId"];
                 return result;
             }
             set { ViewState["RollupTrackerId"] = value; }
