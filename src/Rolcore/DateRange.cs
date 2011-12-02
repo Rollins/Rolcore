@@ -23,6 +23,11 @@ namespace Rolcore
     {
         private DateTime? _StartDate, _EndDate;
 
+        /// <summary>
+        /// Throws an exception if the specified start date occurs after the specified end date
+        /// </summary>
+        /// <param name="startDate">Specifies the start date</param>
+        /// <param name="endDate">Specifies the end date</param>
         private static void EnforceStartDateFollowsEndDate(Nullable<DateTime> startDate, Nullable<DateTime> endDate)
         {
             if ((startDate.HasValue && endDate.HasValue) && (endDate.Value < startDate.Value))
