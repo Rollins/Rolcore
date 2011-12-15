@@ -114,7 +114,7 @@ namespace Rolcore.Web.UI
 
                         output.WriteLine(
                             string.Format(
-                                @"jQuery.each({0}, function(index, domain){{ $(""a[href*=""+domain+""]"").click(function(){{ _gaq.push(['_link',this.href]); }}); }});", 
+                                @"jQuery.each({0}, function(index, domain){{ $(""a[href*='""+domain+""']"").click(function(){{ _gaq.push(['_link',this.href]); }}); }});", 
                                 pageDomainsScriptVarName));
                     }
                     // PDF Tracking
@@ -141,7 +141,7 @@ namespace Rolcore.Web.UI
                             rollupDomainsScriptVarName,
                             this.RollupTrackerLinkedDomainsCsv));
                         output.WriteLine(string.Format(
-                            @"jQuery.each({0}, function(index,domain){{ $(""a[href*=""+domain+""]"").click(function(){{ _gaq1.push(['_link',this.href]);}});}});", 
+                            @"jQuery.each({0}, function(index,domain){{ $(""a[href*='""+domain+""']"").click(function(){{ _gaq1.push(['_link',this.href]);}});}});", 
                             rollupDomainsScriptVarName));
                     }
 
