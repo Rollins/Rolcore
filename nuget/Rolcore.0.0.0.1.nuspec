@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
-    <version>0.0.0</version>
+    <version>0.0.0.1</version>
     <authors>Rollins,Inc.</authors>
-    <owners />
+    <owners>Rollins,Inc.</owners>
     <licenseUrl>https://github.com/jamestharpe/Rolcore/blob/master/license.txt</licenseUrl>
     <projectUrl>https://github.com/jamestharpe/Rolcore</projectUrl>
     <id>Rolcore</id>
@@ -16,10 +16,10 @@
     <language>en-US</language>
   </metadata>
   <files>
-    <file src="src\Release\Rolcore.Data.dll" target="lib\net45\Rolcore.Data.dll" />
-    <file src="src\Release\Rolcore.dll" target="lib\net45\Rolcore.dll" />
-    <file src="src\Release\Rolcore.Net.dll" target="lib\net45\Rolcore.Net.dll" />
-    <file src="src\Release\Rolcore.Web.dll" target="lib\net45\Rolcore.Web.dll" />
-    <file src="src\Release\Rolcore.Xml.Linq.dll" target="lib\net45\Rolcore.Xml.Linq.dll" />
+    <file src="lib\net40\Rolcore.Data.dll" target="lib\net40\Rolcore.Data.dll" />
+    <file src="lib\net40\Rolcore.dll" target="lib\net40\Rolcore.dll" />
+    <file src="lib\net40\Rolcore.Net.dll" target="lib\net40\Rolcore.Net.dll" />
+    <file src="lib\net40\Rolcore.Web.dll" target="lib\net40\Rolcore.Web.dll" />
+    <file src="lib\net40\Rolcore.Xml.Linq.dll" target="lib\net40\Rolcore.Xml.Linq.dll" />
   </files>
 </package>
