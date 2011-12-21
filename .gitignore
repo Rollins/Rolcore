@@ -15,3 +15,5 @@
 /src/Rolcore.Web/bin
 /src/Release
 /src/TestResults
+/src/Rolcore.Xml.Linq/bin
+/src/Rolcore.Xml.Linq/obj
