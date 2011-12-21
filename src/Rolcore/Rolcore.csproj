@@ -123,6 +123,7 @@
     <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionEx.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensios.cs" />
+    <Compile Include="ComponentModel\Composition\ConfigurationExportProvider.cs" />
     <Compile Include="Configuration\FileConfigurationSource.cs" />
     <Compile Include="Configuration\IConfigurationSource.cs" />
     <Compile Include="Data\ConnectionStringTemplates.cs" />
