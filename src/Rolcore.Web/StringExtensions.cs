@@ -64,5 +64,15 @@ namespace Rolcore.Web
                 String.Empty, 
                 RegexOptions.IgnoreCase);
         }
+
+        public static string UrlDecode(this string s)
+        {
+            return System.Web.HttpUtility.UrlDecode(s);
+        }
+
+        public static string UrlEncode(this string s)
+        {
+            return System.Web.HttpUtility.UrlEncode(s);
+        }
     }
 }
