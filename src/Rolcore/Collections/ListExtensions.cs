@@ -19,7 +19,7 @@ namespace Rolcore.Collections
             if (list == null || list.Count == 0)
                 throw new ArgumentException("list is null or empty.", "list");
             
-            int maxRandom = list.Count - 1;
+            int maxRandom = list.Count;
             for (int i = 0; i < list.Count; i++)
             {
                 int randomIndex = ThreadSafeRandom.Next(i, maxRandom);
@@ -40,7 +40,7 @@ namespace Rolcore.Collections
             if (list == null || list.Length == 0)
                 throw new ArgumentException("list is null or empty.", "list");
             
-            int maxRandom = list.Length - 1;
+            int maxRandom = list.Length;
             for (int i = 0; i < list.Length; i++)
             {
                 int randomIndex = ThreadSafeRandom.Next(i, maxRandom);
