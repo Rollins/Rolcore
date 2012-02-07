@@ -11,12 +11,12 @@ namespace Rolcore.Web.UI
         
         protected bool AllowPageLinker
         {
-            get { return this.PageDomainName.Equals("none"); }
+            get { return !string.IsNullOrEmpty(this.PageDomainName); }
         }
 
         protected bool AllowRollUpLinker
         {
-            get { return this.RollupDomainName.Equals("none"); }
+            get { return !string.IsNullOrEmpty(this.RollupDomainName); }
         }
 
         protected bool PageTrackerInUse
