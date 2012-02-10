@@ -32,6 +32,8 @@ namespace Rolcore.Tests.MockObjects
                 return result;
             }
         }
+        public DateTime DateTimeProp { get; set; }
+        public DateRange DateRangeProp { get; set; }
         public int IntPropNonNullable { get; set; }
         public int? IntPropNullable{ get; set; }
 
@@ -73,7 +75,9 @@ namespace Rolcore.Tests.MockObjects
                 return base.Equals(asMock)
                     || (asMock.IntPropNonNullable == this.IntPropNonNullable
                         && asMock.IntPropNullable == this.IntPropNullable
-                        && asMock.StringProp == this.StringProp);
+                        && asMock.StringProp == this.StringProp
+                        && asMock.DateTimeProp == this.DateTimeProp
+                        && asMock.DateRangeProp == this.DateRangeProp);
             return base.Equals(obj);
         }
 

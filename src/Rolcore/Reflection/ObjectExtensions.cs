@@ -119,6 +119,7 @@ namespace Rolcore.Reflection
                 object parentObj = type.InvokeMember(firstPropertyName, BindingFlags.GetProperty, binder, obj, args);
                 return parentObj.GetPropertyValue(propertyName.Substring(dotIndex + 1));
             }
+            
             object result = type.InvokeMember(propertyName, BindingFlags.GetProperty, binder, obj, args);
 
             return result;
@@ -214,7 +215,7 @@ namespace Rolcore.Reflection
                         dest.SetPropertyValue(
                             propertyName,
                             sourcePropertyValue);
-                    else if (!sourceType.IsValueType && sourcePropertyValue != null)
+                    else if (!sourceType.IsValueType && !sourceType.IsAnsiClass && sourcePropertyValue != null)
                         sourcePropertyValue.CopyMatchingObjectPropertiesTo(dest.GetPropertyValue(propertyName));
                 }
 

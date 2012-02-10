@@ -102,6 +102,8 @@ namespace Rolcore.Tests
                 IntPropNonNullable = 1,
                 IntPropNullable = (int?)null,
                 StringProp = "Source String",
+                DateTimeProp = DateTime.Now,
+                DateRangeProp = new DateRange(DateTime.Today, DateTime.Now),
                 ExtraProperty = "foobar",
                 SubObject = new
                 {
@@ -114,23 +116,33 @@ namespace Rolcore.Tests
             {
                 IntPropNonNullable = 10,
                 IntPropNullable = 20,
-                StringProp = "Destination String"
+                StringProp = "Destination String",
+                DateTimeProp = DateTime.Now.AddDays(1),
+                DateRangeProp = new DateRange(DateTime.Today.AddDays(1), DateTime.Now.AddDays(1)),
             };
             Assert.AreNotEqual(source.IntPropNonNullable, dest.IntPropNonNullable, "IntPropNonNullable");
             Assert.AreNotEqual(source.IntPropNullable, dest.IntPropNullable, "IntPropNullable");
             Assert.AreNotEqual(source.StringProp, dest.StringProp, "StringProp");
+            Assert.AreNotEqual(source.StringProp, dest.StringProp, "DateTimeProp");
+            Assert.AreNotEqual(source.StringProp, dest.StringProp, "DateRangeProp");
             Assert.AreNotEqual(source.SubObject.IntPropNonNullable, dest.IntPropNonNullable, "SubObject.IntPropNonNullable");
             Assert.AreNotEqual(source.SubObject.IntPropNullable, dest.IntPropNullable, "SubObject.IntPropNullable");
             Assert.AreNotEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.StringProp");
+            Assert.AreNotEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.DateTimeProp");
+            Assert.AreNotEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.DateRangeProp");
 
             ObjectExtensions.CopyMatchingObjectPropertiesTo(source, dest);
 
             Assert.AreEqual(source.IntPropNonNullable, dest.IntPropNonNullable, "IntPropNonNullable");
             Assert.AreEqual(source.IntPropNullable, dest.IntPropNullable, "IntPropNullable");
             Assert.AreEqual(source.StringProp, dest.StringProp, "StringProp");
+            Assert.AreEqual(source.StringProp, dest.StringProp, "DateTimeProp");
+            Assert.AreEqual(source.StringProp, dest.StringProp, "DateRangeProp");
             Assert.AreEqual(source.SubObject.IntPropNonNullable, dest.IntPropNonNullable, "SubObject.IntPropNonNullable");
             Assert.AreEqual(source.SubObject.IntPropNullable, dest.IntPropNullable, "SubObject.IntPropNullable");
             Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.StringProp");
+            Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.DateTimeProp");
+            Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.DateRangeProp");
         }
     }
 }
