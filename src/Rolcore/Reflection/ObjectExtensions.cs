@@ -20,7 +20,7 @@ namespace Rolcore.Reflection
         /// <returns>True if the specified object is nullable. False if it is not.</returns>
         public static bool IsNullableType(this object obj)
         {
-            return obj.GetType().IsNullableType();
+            return (obj == null) || (obj.GetType().IsNullableType());
         }
 
         /// <summary>
@@ -185,6 +185,39 @@ namespace Rolcore.Reflection
             {
                 string propertyValue = propertyValues[propertyKey];
                 obj.SetPropertyValue(propertyKey, propertyValue);
+            }
+        }
+
+        /// <summary>
+        /// Copies properties with matching names and compatible types from the current instance to
+        /// the specified destination, even if the source and destination are not in the same 
+        /// inheritance family. Incompatible and missing properties are ignored.
+        /// </summary>
+        /// <param name="source">Specifies the source object to copy from.</param>
+        /// <param name="dest">Specifies the destination object to copy to.</param>
+        public static void CopyMatchingObjectPropertiesTo(this object source, object dest)
+        {
+            var sourceProperties = source.GetType().GetProperties();
+            var destProperties = dest.GetType().GetProperties();
+            foreach (var sourceProperty in sourceProperties)
+            {
+                var propertyName = sourceProperty.Name;
+                var sourceType = sourceProperty.PropertyType;
+                var destProperty = destProperties
+                    .SingleOrDefault(p => 
+                           p.Name == propertyName
+                        && p.PropertyType.IsAssignableFrom(sourceType));
+                if (destProperty != null)
+                {
+                    var sourcePropertyValue = source.GetPropertyValue(propertyName);
+                    if (((sourceType.IsValueType || sourceType.IsAnsiClass) && destProperty.CanWrite) || (destProperty.CanWrite && sourcePropertyValue == null))
+                        dest.SetPropertyValue(
+                            propertyName,
+                            sourcePropertyValue);
+                    else if (!sourceType.IsValueType && sourcePropertyValue != null)
+                        sourcePropertyValue.CopyMatchingObjectPropertiesTo(dest.GetPropertyValue(propertyName));
+                }
+
             }
         }
     }

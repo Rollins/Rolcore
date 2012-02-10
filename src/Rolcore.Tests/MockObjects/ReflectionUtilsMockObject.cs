@@ -10,12 +10,21 @@ namespace Rolcore.Tests.MockObjects
     {
         private bool _VoidMethodCalled = false;
         private bool _VoidMethodWithAttributeCalled = false;
+        private ReflectionUtilsMockObject _Parent;
+
+        public ReflectionUtilsMockObject(ReflectionUtilsMockObject parent = null)
+        {
+            _Parent = parent;
+        }
 
         public ReflectionUtilsMockObject SubObject
         {
             get
             {
-                ReflectionUtilsMockObject result = new ReflectionUtilsMockObject();
+                if (_Parent != null)
+                    return null; // Lest we recurse forever
+
+                ReflectionUtilsMockObject result = new ReflectionUtilsMockObject(this);
                 result.IntPropNonNullable = this.IntPropNonNullable;
                 result.IntPropNullable = this.IntPropNullable;
                 result.StringProp = this.StringProp;

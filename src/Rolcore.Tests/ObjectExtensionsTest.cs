@@ -90,5 +90,47 @@ namespace Rolcore.Tests
             Assert.AreEqual(1, actual.Length);
             Assert.AreEqual("VoidMethodWithAttribute", actual[0].Name);
         }
+
+        /// <summary>
+        ///A test for CopyMatchingObjectPropertiesTo
+        ///</summary>
+        [TestMethod()]
+        public void CopyMatchingObjectPropertiesToTest()
+        {
+            var source = new
+            {
+                IntPropNonNullable = 1,
+                IntPropNullable = (int?)null,
+                StringProp = "Source String",
+                ExtraProperty = "foobar",
+                SubObject = new
+                {
+                    IntPropNonNullable = 1,
+                    IntPropNullable = (int?)null,
+                    StringProp = "Source String",
+                }
+            };
+            var dest = new ReflectionUtilsMockObject()
+            {
+                IntPropNonNullable = 10,
+                IntPropNullable = 20,
+                StringProp = "Destination String"
+            };
+            Assert.AreNotEqual(source.IntPropNonNullable, dest.IntPropNonNullable, "IntPropNonNullable");
+            Assert.AreNotEqual(source.IntPropNullable, dest.IntPropNullable, "IntPropNullable");
+            Assert.AreNotEqual(source.StringProp, dest.StringProp, "StringProp");
+            Assert.AreNotEqual(source.SubObject.IntPropNonNullable, dest.IntPropNonNullable, "SubObject.IntPropNonNullable");
+            Assert.AreNotEqual(source.SubObject.IntPropNullable, dest.IntPropNullable, "SubObject.IntPropNullable");
+            Assert.AreNotEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.StringProp");
+
+            ObjectExtensions.CopyMatchingObjectPropertiesTo(source, dest);
+
+            Assert.AreEqual(source.IntPropNonNullable, dest.IntPropNonNullable, "IntPropNonNullable");
+            Assert.AreEqual(source.IntPropNullable, dest.IntPropNullable, "IntPropNullable");
+            Assert.AreEqual(source.StringProp, dest.StringProp, "StringProp");
+            Assert.AreEqual(source.SubObject.IntPropNonNullable, dest.IntPropNonNullable, "SubObject.IntPropNonNullable");
+            Assert.AreEqual(source.SubObject.IntPropNullable, dest.IntPropNullable, "SubObject.IntPropNullable");
+            Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.StringProp");
+        }
     }
 }
