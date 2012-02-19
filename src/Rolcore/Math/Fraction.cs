@@ -43,15 +43,15 @@ namespace Rolcore.Math
         /// <summary>
         /// Internal function for constructors
         /// </summary>
-        private void Initialize(long iNumerator, long iDenominator)
+        private void Initialize(long numerator, long denominator)
         {
-            Numerator = iNumerator;
-            Denominator = iDenominator;
+            Numerator = numerator;
+            Denominator = denominator;
             ReduceFraction(this);
         }
 
         /// <summary>
-        /// Properites
+        /// Gets and sets a value indicating the denominator of the fraction.
         /// </summary>
         public long Denominator
         {
@@ -66,6 +66,9 @@ namespace Rolcore.Math
             }
         }
 
+        /// <summary>
+        /// Get's and sets a value indicating the numerator of the fraction.
+        /// </summary>
         public long Numerator
         {
             get

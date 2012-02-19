@@ -25,5 +25,5 @@ namespace Rolcore.Math
             
         }
            
-    }	//end class FractionException
+    }
 }

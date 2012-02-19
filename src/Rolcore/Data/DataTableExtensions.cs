@@ -4,6 +4,9 @@ using System.Data.OleDb;
 
 namespace Rolcore.Data
 {
+    /// <summary>
+    /// Extension methods for <see cref="DataTable"/>.
+    /// </summary>
     public static class DataTableExtensions
     {
         /// <summary>
@@ -14,6 +17,9 @@ namespace Rolcore.Data
         /// <returns></returns>
         public static void FillFromCsvFile(this DataTable table, string folderPath, string fileName)
         {
+            //
+            // Pre-conditions 
+
             if (table == null)
                 throw new ArgumentNullException("table", "table is null.");
             if (String.IsNullOrEmpty(folderPath))
@@ -21,11 +27,12 @@ namespace Rolcore.Data
             if (String.IsNullOrEmpty(fileName))
                 throw new ArgumentException("fileName is null or empty.", "fileName");
             
+            //
+            // Fill 
+
             string command = string.Format("SELECT * FROM {0}", fileName);
             using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(command, ConnectionStringTemplates.CreateCsvFileConnectionString(folderPath)))
-            {
-                dataAdapter.Fill(table);
-            }
+               dataAdapter.Fill(table);
         }
     }
 }

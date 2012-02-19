@@ -17,7 +17,7 @@ namespace Rolcore.IO
             }else foreach (IFormattable formatter in formatters)
             {
                 string searchPattern = formatter.ToString(formattedSearchPattern, null);
-                Trace.WriteLine("SearchPattern: " + searchPattern);
+                Debug.WriteLine("SearchPattern: " + searchPattern);
                 foreach (string result in Directory.EnumerateFiles(path, searchPattern, searchOption))
                     yield return result;
             }
