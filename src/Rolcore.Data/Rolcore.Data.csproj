@@ -98,7 +98,12 @@
     <Compile Include="DataTableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Rolcore\Rolcore.csproj">
+      <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
+      <Name>Rolcore</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
