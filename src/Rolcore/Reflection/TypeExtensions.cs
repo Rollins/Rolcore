@@ -2,6 +2,9 @@
 
 namespace Rolcore.Reflection
 {
+    /// <summary>
+    /// Extension methods for <see cref="Type"/>.
+    /// </summary>
     public static class TypeExtensions
     {
         /// <summary>

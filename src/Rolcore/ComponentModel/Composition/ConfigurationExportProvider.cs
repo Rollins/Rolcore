@@ -21,12 +21,12 @@ namespace Rolcore.ComponentModel.Composition
     /// </summary>
     public class ConfigurationExportProvider : ExportProvider
     {
-        private readonly IConfigurationSource configurationSource;
+        private readonly IConfigurationSource _ConfigurationSource;
 
         public ConfigurationExportProvider(IConfigurationSource configurationSource)
         {
             // the configuration source determines where configuration values come from (eg. App.Config file)
-            this.configurationSource = configurationSource;
+            _ConfigurationSource = configurationSource;
         }
 
         protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
@@ -45,7 +45,7 @@ namespace Rolcore.ComponentModel.Composition
                 yield break;
             }
 
-            if (this.configurationSource.ContainsSetting(contractName))
+            if (this._ConfigurationSource.ContainsSetting(contractName))
             {
                 // import was found to be an app setting - may need to convert it to an appropriate type for the importer
                 Type targetType = null;
@@ -56,7 +56,7 @@ namespace Rolcore.ComponentModel.Composition
                     // import appears on a parameter
                     var importingParameter = ReflectionModelServices.GetImportingParameter(definition);
                     targetType = importingParameter.Value.ParameterType;
-                    stringValue = this.configurationSource.GetSetting(contractName);
+                    stringValue = this._ConfigurationSource.GetSetting(contractName);
                 }
                 else
                 {
@@ -75,7 +75,7 @@ namespace Rolcore.ComponentModel.Composition
                     }
 
                     targetType = getAccessor.ReturnType;
-                    stringValue = this.configurationSource.GetSetting(contractName);
+                    stringValue = this._ConfigurationSource.GetSetting(contractName);
                 }
 
                 if (targetType == null)
@@ -86,10 +86,10 @@ namespace Rolcore.ComponentModel.Composition
                 var export = new Export(contractName, () => Convert.ChangeType(stringValue, targetType));
                 yield return export;
             }
-            else if (this.configurationSource.ContainsSection(contractName))
+            else if (this._ConfigurationSource.ContainsSection(contractName))
             {
                 // import was found to be a configuration section
-                var section = this.configurationSource.GetSection(contractName);
+                var section = this._ConfigurationSource.GetSection(contractName);
                 yield return new Export(contractName, () => section);
             }
         }
