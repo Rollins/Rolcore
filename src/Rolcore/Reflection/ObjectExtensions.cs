@@ -198,18 +198,36 @@ namespace Rolcore.Reflection
         /// <param name="dest">Specifies the destination object to copy to.</param>
         public static void CopyMatchingObjectPropertiesTo(this object source, object dest)
         {
+            //
+            // Pre-conditions
+
+            if (source == null)
+                throw new ArgumentNullException("source", "source is null.");
+            if (dest == null)
+                throw new ArgumentNullException("dest", "dest is null.");
+
+            //
+            // Copy
+
             var sourceProperties = source.GetType().GetProperties();
             var destProperties = dest.GetType().GetProperties();
             foreach (var sourceProperty in sourceProperties)
             {
+                //
+                // Find destination property 
+
                 var propertyName = sourceProperty.Name;
                 var sourceType = sourceProperty.PropertyType;
                 var destProperty = destProperties
-                    .SingleOrDefault(p => 
+                    .SingleOrDefault(p =>
                            p.Name == propertyName
                         && p.PropertyType.IsAssignableFrom(sourceType));
+
                 if (destProperty != null)
                 {
+                    //
+                    // Perform copy, if possible
+
                     var sourcePropertyValue = source.GetPropertyValue(propertyName);
                     if (((sourceType.IsValueType || sourceType.IsAnsiClass) && destProperty.CanWrite) || (destProperty.CanWrite && sourcePropertyValue == null))
                         dest.SetPropertyValue(
