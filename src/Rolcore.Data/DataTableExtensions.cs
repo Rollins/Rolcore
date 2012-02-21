@@ -5,9 +5,13 @@ using System.Text;
 using System.Data;
 using System.IO;
 using System.Web.UI;
+using System.Collections.Specialized;
 
 namespace Rolcore.Data
 {
+    /// <summary>
+    /// Extension methods for <see cref="DataTable"/>.
+    /// </summary>
     public static class DataTableExtensions
     {
         /// <summary>
@@ -65,6 +69,51 @@ namespace Rolcore.Data
 
                 return writer.GetStringBuilder().ToString();
             }
+        }
+
+        /// <summary>
+        /// Gets the column names of the table.
+        /// </summary>
+        /// <param name="table">Specifies the table to retrieve the column names from.</param>
+        /// <returns>An array of strings containing the names of all the columns in the table.</returns>
+        public static string[] GetColumnNames(this DataTable table)
+        {
+            List<string> result = new List<string>(table.Columns.Count);
+            foreach (DataColumn column in table.Columns)
+                result.Add(column.ColumnName);
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Generates a column map for the specified source <see cref="DataTable"/>, adding only 
+        /// unmapped columns.
+        /// </summary>
+        /// <param name="source">Specifies the source <see cref="DataTable"/> containing the 
+        /// columns to be mapped.</param>
+        /// <param name="columnMap">Specifies any existing mappings.</param>
+        public static NameValueCollection GetColumnMapOrDefault(this DataTable source, NameValueCollection columnMap = null)
+        {
+            //
+            // Pre-conditions
+
+            if (source == null)
+                throw new ArgumentNullException("source", "source is null.");
+            if (columnMap == null)
+                columnMap = new NameValueCollection(source.Columns.Count);
+
+            NameValueCollection result = new NameValueCollection(columnMap);
+
+            // Force entries in columnMap for all columns, assuming only mismatched column names
+            // were mapped
+
+            if (result.Count != source.Columns.Count)
+                foreach (DataColumn sourceColumn in source.Columns)
+                    if (!result.AllKeys.Contains(sourceColumn.ColumnName))
+                        result.Add(sourceColumn.ColumnName, sourceColumn.ColumnName);
+
+            return result;
+
+            //TODO: Unit test
         }
     }
 }
