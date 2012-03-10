@@ -1,6 +1,7 @@
 ﻿using Rollins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Rolcore;
 
 namespace Rollins.Tests
 {
@@ -145,14 +146,15 @@ namespace Rollins.Tests
         [TestMethod()]
         public void OccursWithinTest()
         {
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var target = new DateRange();
+            var wideRange = new DateRange(DateTime.MinValue, DateTime.MaxValue);
 
-            DateRange target = new DateRange(); // TODO: Initialize to an appropriate value
-            DateRange other = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.OccursWithin(other);
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(wideRange.OccursWithin(target));
+            Assert.IsTrue(DateRange.Now.OccursWithin(target));
+            Assert.IsTrue(DateRange.Today.OccursWithin(target));
+
+            target = DateRange.Today;
+            Assert.IsTrue(DateRange.Now.OccursWithin(target));
         }
 
         /// <summary>
