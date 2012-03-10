@@ -124,7 +124,9 @@ namespace Rolcore
             if (!Intersects(other)) 
                 throw new InvalidOperationException("DateRanges do not intersect");
 
-            return new DateRange(GetLaterStartDate(other.StartDate), GetEarlierEndDate(other.EndDate));
+            var laterStartDate = GetLaterStartDate(other.StartDate);
+            var earlierEndDate = GetEarlierEndDate(other.EndDate);
+            return new DateRange(laterStartDate, earlierEndDate);
         } // Tested
 
         /// <summary>
