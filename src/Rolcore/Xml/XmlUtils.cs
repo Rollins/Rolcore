@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System;
 
 namespace Rolcore.Xml
 {
@@ -11,16 +12,24 @@ namespace Rolcore.Xml
     {
         public static string GetElementFromNodeList(XmlNodeList nodeList, string elementName)
         { 
-            foreach (XmlNode n in nodeList)
-            {
-                if (n.Name == elementName)
-                    return n.InnerText;
-            }
+            foreach (XmlNode node in nodeList)
+                if (node.Name == elementName)
+                    return node.InnerText;
+
             return string.Empty;
         }
 
+        /// <summary>
+        /// Deserializes the given XML into an object instance.
+        /// </summary>
+        /// <typeparam name="T">The type of object to be deserialized.</typeparam>
+        /// <param name="xml">The XML to deserialize in to an instance of <see cref="T"/>.</param>
+        /// <returns>An instance of <see cref="T"/> deserialized from the given XML.</returns>
         public static T DeserializeFromXml<T>(string xml)
         {
+            if (string.IsNullOrEmpty(xml))
+                throw new ArgumentException("xml is null or empty");
+
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             using (StringReader stream = new StringReader(xml))
                 return (T)serializer.Deserialize(stream);

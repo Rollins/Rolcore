@@ -16,9 +16,10 @@ namespace Rolcore.Reflection
         /// Gets a list of <see cref="Type"/>s decorated with the given attribute.
         /// </summary>
         /// <param name="assembly">Specifies the <see cref="Assembly"/> to search.</param>
-        /// <param name="attributeType"></param>
-        /// <param name="inherit"></param>
-        /// <returns></returns>
+        /// <param name="attributeType">Specifies the <see cref="Type"/> of <see cref="Attribute"/>
+        /// to search for.</param>
+        /// <param name="inherit">Specifies if inheritance chains should be searched.</param>
+        /// <returns>An enumerable list of types decorated with the specified attribute.</returns>
         public static IEnumerable<Type> GetTypesWithAttribute(this Assembly assembly, Type attributeType, bool inherit)
         {
             //
@@ -35,13 +36,13 @@ namespace Rolcore.Reflection
             // Sift through all types in assembly
 
             List<Type> result = assembly.GetTypes().ToList();
-            for (int i = result.Count - 1; i >= 0; i--)
+            for (var i = result.Count - 1; i >= 0; i--)
             {
                 //
                 // Check type for attribute
 
                 MemberInfo typeMemberInfo = result[i];
-                object[] attributes = typeMemberInfo.GetCustomAttributes(attributeType, inherit);
+                var attributes = typeMemberInfo.GetCustomAttributes(attributeType, inherit);
 
                 //
                 // If type has attribute, yield the result
