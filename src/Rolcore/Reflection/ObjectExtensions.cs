@@ -90,7 +90,7 @@ namespace Rolcore.Reflection
         /// </summary>
         /// <param name="propertyName">Specifies the name of the property to be returned. This 
         /// value can be specified using "dot syntax", e.g. "FirstProperty.SecondProperty".</param>
-        /// <param name="obj">Specifies the object fromwhich to retrieve the property value.</param>
+        /// <param name="obj">Specifies the object from which to retrieve the property value.</param>
         /// <returns>The value of the specified property.</returns>
         public static object GetPropertyValue(this object obj, string propertyName)
         {
@@ -190,13 +190,16 @@ namespace Rolcore.Reflection
         }
 
         /// <summary>
-        /// Copies properties with matching names and compatible types from the current instance to
-        /// the specified destination, even if the source and destination are not in the same 
-        /// inheritance family. Incompatible and missing properties are ignored.
+        /// Copies value type properties with matching names and compatible types from the current 
+        /// instance to the specified destination, even if the source and destination are not in 
+        /// the same inheritance family. Incompatible and missing properties are ignored. If both
+        /// the source and the destination have a complex property, the method will recurse if 
+        /// shallow is false.
         /// </summary>
         /// <param name="source">Specifies the source object to copy from.</param>
         /// <param name="dest">Specifies the destination object to copy to.</param>
-        public static void CopyMatchingObjectPropertiesTo(this object source, object dest)
+        /// <param name="shallow">Specifies if the copy should be shallow.</param>
+        public static void CopyMatchingObjectPropertiesTo(this object source, object dest, bool shallow = false)
         {
             //
             // Pre-conditions
@@ -229,11 +232,19 @@ namespace Rolcore.Reflection
                     // Perform copy, if possible
 
                     var sourcePropertyValue = source.GetPropertyValue(propertyName);
+                    
+                    //
+                    // Assign value types properties
+
                     if (((sourceType.IsValueType || sourceType.IsAnsiClass) && destProperty.CanWrite) || (destProperty.CanWrite && sourcePropertyValue == null))
                         dest.SetPropertyValue(
                             propertyName,
                             sourcePropertyValue);
-                    else if (!sourceType.IsValueType && !sourceType.IsAnsiClass && sourcePropertyValue != null)
+
+                    //
+                    // Recurse on complex types 
+
+                    else if (!shallow && !sourceType.IsValueType && !sourceType.IsAnsiClass && sourcePropertyValue != null)
                         sourcePropertyValue.CopyMatchingObjectPropertiesTo(dest.GetPropertyValue(propertyName));
                 }
 
