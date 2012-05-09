@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Data", "Rolcore.Dat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Xml.Linq", "Rolcore.Xml.Linq\Rolcore.Xml.Linq.csproj", "{BF1D31C7-8AE5-4F81-BE38-2182110028B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Repository", "Rolcore.Repository\Rolcore.Repository.csproj", "{B38439F2-CC36-49F3-A757-340B5A136064}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Rolcore (Core).vsmdi
@@ -63,6 +65,10 @@ Global
 		{BF1D31C7-8AE5-4F81-BE38-2182110028B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1D31C7-8AE5-4F81-BE38-2182110028B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF1D31C7-8AE5-4F81-BE38-2182110028B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38439F2-CC36-49F3-A757-340B5A136064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38439F2-CC36-49F3-A757-340B5A136064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38439F2-CC36-49F3-A757-340B5A136064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38439F2-CC36-49F3-A757-340B5A136064}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
