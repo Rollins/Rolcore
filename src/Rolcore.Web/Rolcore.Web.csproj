@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentTypes.cs" />
+    <Compile Include="Http.cs" />
     <Compile Include="HttpResponseExtensions.cs" />
     <Compile Include="SiteMapNodeExtensions.cs" />
     <Compile Include="HttpErrorModule.cs" />

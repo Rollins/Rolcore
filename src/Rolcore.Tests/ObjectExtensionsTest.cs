@@ -136,8 +136,8 @@ namespace Rolcore.Tests
             Assert.AreEqual(source.IntPropNonNullable, dest.IntPropNonNullable, "IntPropNonNullable");
             Assert.AreEqual(source.IntPropNullable, dest.IntPropNullable, "IntPropNullable");
             Assert.AreEqual(source.StringProp, dest.StringProp, "StringProp");
-            Assert.AreEqual(source.StringProp, dest.StringProp, "DateTimeProp");
-            Assert.AreEqual(source.StringProp, dest.StringProp, "DateRangeProp");
+            Assert.AreEqual(source.DateTimeProp, dest.DateTimeProp, "DateTimeProp");
+            Assert.AreEqual(source.DateRangeProp, dest.DateRangeProp, "DateRangeProp");
             Assert.AreEqual(source.SubObject.IntPropNonNullable, dest.IntPropNonNullable, "SubObject.IntPropNonNullable");
             Assert.AreEqual(source.SubObject.IntPropNullable, dest.IntPropNullable, "SubObject.IntPropNullable");
             Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.StringProp");
