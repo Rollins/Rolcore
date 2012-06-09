@@ -44,8 +44,17 @@ namespace Rolcore.Web.UI
         {
             RenderingUtils.RenderJavaScriptBeginTag(output);
 
-            output.WriteLine(@"var gaJsHost = ((""https:"" == document.location.protocol) ? ""https://ssl."" : ""http://www."");");
-            output.WriteLine(@"document.write(unescape(""%3Cscript src='"" + gaJsHost + ""google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E""));");
+            output.WriteLine(@"(function() {");
+            output.WriteLine(@"var ga = document.createElement('script');");
+            output.WriteLine(@"ga.type = 'text/javascript';");
+            output.WriteLine(@"ga.async = true;");
+            output.WriteLine(@"ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';");
+            output.WriteLine(@"var s = document.getElementsByTagName('script')[0];");
+            output.WriteLine(@"s.parentNode.insertBefore(ga, s);");
+            output.WriteLine(@"})();");
+
+            //output.WriteLine(@"var gaJsHost = ((""https:"" == document.location.protocol) ? ""https://ssl."" : ""http://www."");");
+            //output.WriteLine(@"document.write(unescape(""%3Cscript src='"" + gaJsHost + ""google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E""));");
 
             output.RenderEndTag();
         }

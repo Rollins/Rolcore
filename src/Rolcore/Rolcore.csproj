@@ -116,6 +116,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Generic\DictionaryExtensions.cs" />
+    <Compile Include="Collections\Generic\KeyValuePairExtensions.cs" />
     <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionEx.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensios.cs" />
@@ -124,7 +126,6 @@
     <Compile Include="Configuration\IConfigurationSource.cs" />
     <Compile Include="ConsoleUtils.cs" />
     <Compile Include="Data\ConnectionStringTemplates.cs" />
-    <Compile Include="Data\DataTableExtensions.cs" />
     <Compile Include="DateRange.cs" />
     <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="DateTimeUnit.cs" />
@@ -156,6 +157,9 @@
     <Compile Include="Reflection\ObjectExtensions.cs" />
     <Compile Include="Reflection\ReflectionUtils.cs" />
     <Compile Include="Reflection\TypeExtensions.cs" />
+    <Compile Include="Science\ExperimentItem.cs" />
+    <Compile Include="Science\RandomAssignmentExperiment.cs" />
+    <Compile Include="Science\RandomAssignmentExperimentItem.cs" />
     <Compile Include="Seconds.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Text\RegularExpressions\CommonExpressions.cs" />
@@ -163,6 +167,7 @@
     <Compile Include="ThreadSafeRandom.cs" />
     <Compile Include="UriExtensions.cs" />
     <Compile Include="Xml\ObjectExtenisions.cs" />
+    <Compile Include="Xml\XmlReaderExtensions.cs" />
     <Compile Include="Xml\XmlUtils.cs" />
   </ItemGroup>
   <ItemGroup>

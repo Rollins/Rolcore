@@ -11,7 +11,6 @@ namespace Rolcore
     /// </summary>
     public static class ConsoleUtils
     {
-
         /// <summary>
         /// Prompts for input until valid input is received.
         /// </summary>
@@ -21,23 +20,34 @@ namespace Rolcore
         /// <returns>User input as the appropriate type.</returns>
         public static T PromptForValue<T>(string prompt, string afterInvalidResponsePrompt) where T : struct
         {
+            //
+            // Initial prompt
+
             Console.WriteLine(prompt);
-            string input = Console.ReadLine();
-
-            Nullable<T> result = new Nullable<T>();
-
-            IConvertible convertibleInput = (IConvertible)input;
+            var input = Console.ReadLine();
+            
+            var result = new Nullable<T>();
+            var convertibleInput = (IConvertible)input;
 
             while (!result.HasValue)
             {
                 try
                 {
+                    //
+                    // Attempt to convert
+
                     result = new Nullable<T>((T)convertibleInput.ToType(typeof(T), CultureInfo.CurrentCulture));
                 }
                 catch (Exception e)
                 {
+                    //
+                    // Handle invalid input
+
                     if ((e is InvalidCastException) || (e is FormatException))
                     {
+                        //
+                        // Re-attempt 
+
                         Console.WriteLine(afterInvalidResponsePrompt);
                         input = Console.ReadLine();
                         convertibleInput = (IConvertible)input;
@@ -46,6 +56,7 @@ namespace Rolcore
                         throw e;
                 }
             }
+
             return result.Value;
         }
 
