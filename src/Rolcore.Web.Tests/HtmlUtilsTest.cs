@@ -138,31 +138,31 @@ namespace Rollins.Web.Tests
 
             const string anchorHrefStandardDblQuote = "<p><a href=\"https://github.com/jamestharpe/Rolcore\">Go to Rolcore</a></p>";
             var matchValue = actual.Match(anchorHrefStandardDblQuote).Value;
-            Assert.AreEqual("href=\"https://github.com/jamestharpe/Rolcore\"", matchValue);
+            Assert.AreEqual(" href=\"https://github.com/jamestharpe/Rolcore\"", matchValue);
 
             const string anchorHrefStandardSnglQuote = "<p><a href='https://github.com/jamestharpe/Rolcore'>Go to Rolcore</a></p>";
             matchValue = actual.Match(anchorHrefStandardSnglQuote).Value;
-            Assert.AreEqual("href='https://github.com/jamestharpe/Rolcore'", matchValue);
+            Assert.AreEqual(" href='https://github.com/jamestharpe/Rolcore'", matchValue);
 
             const string anchorHrefStandardNoQuote = "<p><a href=https://github.com/jamestharpe/Rolcore>Go to Rolcore</a></p>";
             matchValue = actual.Match(anchorHrefStandardNoQuote).Value;
-            Assert.AreEqual("href=https://github.com/jamestharpe/Rolcore", matchValue);
+            Assert.AreEqual(" href=https://github.com/jamestharpe/Rolcore", matchValue);
 
             const string anchorHrefMismatchDblSnglQuote = "<p><a href=\"https://github.com/jamestharpe/Rolcore'>Go to Rolcore</a></p>";
             matchValue = actual.Match(anchorHrefMismatchDblSnglQuote).Value;
-            Assert.AreEqual("href=\"https://github.com/jamestharpe/Rolcore'", matchValue);
+            Assert.AreEqual(" href=\"https://github.com/jamestharpe/Rolcore'", matchValue);
 
             const string anchorHrefMismatchSnglDblQuote = "<p><a href='https://github.com/jamestharpe/Rolcore\">Go to Rolcore</a></p>";
             matchValue = actual.Match(anchorHrefMismatchSnglDblQuote).Value;
-            Assert.AreEqual("href='https://github.com/jamestharpe/Rolcore\"", matchValue);
+            Assert.AreEqual(" href='https://github.com/jamestharpe/Rolcore\"", matchValue);
 
             const string anchorHrefOpenDblQuote = "<p><a href=\"https://github.com/jamestharpe/Rolcore>Go to Rolcore</a></p>";
             matchValue = actual.Match(anchorHrefOpenDblQuote).Value;
-            Assert.AreEqual("href=\"https://github.com/jamestharpe/Rolcore", matchValue);
+            Assert.AreEqual(" href=\"https://github.com/jamestharpe/Rolcore", matchValue);
 
             const string anchorHrefOpenSnglQuote = "<p><a href='https://github.com/jamestharpe/Rolcore>Go to Rolcore</a></p>";
             matchValue = actual.Match(anchorHrefOpenSnglQuote).Value;
-            Assert.AreEqual("href='https://github.com/jamestharpe/Rolcore", matchValue);
+            Assert.AreEqual(" href='https://github.com/jamestharpe/Rolcore", matchValue);
         }
     }
 }

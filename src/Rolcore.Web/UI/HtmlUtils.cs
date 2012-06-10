@@ -31,7 +31,7 @@ namespace Rolcore.Web.UI
             // "attributeName" plus zero or more spaces plus "=" plus zero or more 
             // spaces plus "'" or '"' or nothing plus one or more of any character other than "'", 
             // '"', or ">" plus "'" or '"' or nothing.
-            var result = new Regex(attributeName + @" *= *['""]?([^'"">]+)['""]?");
+            var result = new Regex(" " + attributeName + @" *= *['""]?([^'"">]+)['""]?");
 
             return result;
         } // Tested
