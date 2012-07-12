@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Rolcore
 {
@@ -74,6 +75,16 @@ namespace Rolcore
                 result = result.Subtract(unit.ToTimeSpan());
                 yield return result;
             }
+        }
+
+        /// <summary>
+        /// Gets the given Date in sortable datetime format
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns>Sortable date time format ex: 2012-06-26T11:55:36 </returns>
+        public static string GetDateInSortableDateTimeFormat(this DateTime date)
+        {
+            return date.ToString("s", CultureInfo.InvariantCulture);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Rollins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Rolcore;
 
 namespace Rollins.Tests
 {
@@ -113,14 +114,11 @@ namespace Rollins.Tests
         [TestMethod()]
         public void GetIntersectionTest()
         {
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var target = new DateRange(DateTime.Today.AddDays(-1), DateTime.Today);
+            var otherTarget = new DateRange(DateTime.Today, DateTime.Today.AddDays(1));
+            var expectedIntersection = new DateRange(DateTime.Today, DateTime.Today);
 
-            DateRange target = new DateRange(); // TODO: Initialize to an appropriate value
-            DateRange other = null; // TODO: Initialize to an appropriate value
-            DateRange expected = null; // TODO: Initialize to an appropriate value
-            DateRange actual;
-            actual = target.GetIntersection(other);
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(expectedIntersection.Equals(target.GetIntersection(otherTarget)));
         }
 
         /// <summary>
@@ -129,14 +127,20 @@ namespace Rollins.Tests
         [TestMethod()]
         public void IntersectsTest()
         {
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var target = new DateRange();
+            var otherTarget = new DateRange(DateTime.MinValue, DateTime.MaxValue);
 
-            DateRange target = new DateRange(); // TODO: Initialize to an appropriate value
-            DateRange other = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Intersects(other);
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(otherTarget.Intersects(target));
+            Assert.IsTrue(DateRange.Now.Intersects(target));
+            Assert.IsTrue(DateRange.Today.Intersects(target));
+
+            target = DateRange.Today;
+            Assert.IsTrue(DateRange.Now.Intersects(target));
+
+            target = new DateRange(DateTime.Today.AddDays(-1), DateTime.Today);
+            otherTarget = new DateRange(DateTime.Today, DateTime.Today.AddDays(1));
+
+            Assert.IsTrue(otherTarget.Intersects(target)); // juuuust touches
         }
 
         /// <summary>
@@ -145,14 +149,19 @@ namespace Rollins.Tests
         [TestMethod()]
         public void OccursWithinTest()
         {
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            var target = new DateRange();
+            var otherTarget = new DateRange(DateTime.MinValue, DateTime.MaxValue);
 
-            DateRange target = new DateRange(); // TODO: Initialize to an appropriate value
-            DateRange other = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.OccursWithin(other);
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(otherTarget.OccursWithin(target));
+            Assert.IsTrue(DateRange.Now.OccursWithin(target));
+            Assert.IsTrue(DateRange.Today.OccursWithin(target));
+
+            target = DateRange.Today;
+            Assert.IsTrue(DateRange.Now.OccursWithin(target));
+
+            target = new DateRange(DateTime.Today.AddDays(-1), DateTime.Today);
+            otherTarget = new DateRange(DateTime.Today, DateTime.Today.AddDays(1));
+            Assert.IsFalse(otherTarget.OccursWithin(target));
         }
 
         /// <summary>

@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using System.Xml;
+using System.Linq;
 using System.Xml.Serialization;
 using System;
+using System.Diagnostics.Contracts;
 
 namespace Rolcore.Xml
 {

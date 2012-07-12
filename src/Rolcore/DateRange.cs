@@ -19,7 +19,7 @@ namespace Rolcore
     /// the <see cref="TimeSpan"/> structure, this class retains the start and end date 
     /// components of the range (hence the choice for the term "Range" instead of "Span").
     /// </summary>
-    public class DateRange : IEquatable<DateRange> //TODO: Write unit tests
+    public class DateRange : IEquatable<DateRange> 
     {
         private DateTime? _StartDate, _EndDate;
 
@@ -66,7 +66,7 @@ namespace Rolcore
         /// </summary>
         public DateRange() : this(new Nullable<DateTime>(), new Nullable<DateTime>()) 
         { 
-        }
+        }  // Tested
 
         /// <summary>
         /// Allows the <see cref="StartDate"/> and <see cref="EndDate"/> initial values 
@@ -79,7 +79,7 @@ namespace Rolcore
             EnforceStartDateFollowsEndDate(startDate, endDate);
             this._StartDate = startDate;
             this._EndDate = endDate;
-        }
+        } // Tested
 
         /// <summary>
         /// Gets a <see cref="Nullable<TimeSpan>"/> value for the time between the 
@@ -89,7 +89,7 @@ namespace Rolcore
         public Nullable<TimeSpan> TimeSpan
         {
             get { return this.EndDate - this.StartDate; }
-        }
+        } //TODO: Test
 
         public Nullable<DateTime> StartDate
         {
@@ -99,7 +99,7 @@ namespace Rolcore
                 EnforceStartDateFollowsEndDate(value, this._EndDate);
                 _StartDate = value;
             }
-        }
+        } //TODO: Test
 
         public Nullable<DateTime> EndDate
         {
@@ -109,7 +109,7 @@ namespace Rolcore
                 EnforceStartDateFollowsEndDate(this._StartDate, value);
                 _EndDate = value;
             }
-        }
+        } //TODO: Test
 
         /// <summary>
         /// Gets the intersecting <see cref="DateRange"/> that overlaps the current and 
@@ -124,8 +124,10 @@ namespace Rolcore
             if (!Intersects(other)) 
                 throw new InvalidOperationException("DateRanges do not intersect");
 
-            return new DateRange(GetLaterStartDate(other.StartDate), GetEarlierEndDate(other.EndDate));
-        }
+            var laterStartDate = GetLaterStartDate(other.StartDate);
+            var earlierEndDate = GetEarlierEndDate(other.EndDate);
+            return new DateRange(laterStartDate, earlierEndDate);
+        } // Tested
 
         /// <summary>
         /// Determines if the currnent instance occurs within the given instance.
@@ -140,7 +142,7 @@ namespace Rolcore
                 return false;
             DateRange intersection = this.GetIntersection(other);
             return intersection.Equals(this);
-        }
+        } // Tested
 
         /// <summary>
         /// Determines if two <see cref="DateRange"/>s intersect.
@@ -160,12 +162,12 @@ namespace Rolcore
                      || (other.StartDate.HasValue && this.EndDate.HasValue && this.EndDate.Value < other.StartDate.Value)
                      // this starts after other end
                      || (other.EndDate.HasValue && this.StartDate.HasValue && this.StartDate.Value > other.EndDate.Value));
-        }
+        } // Tested
 
         public bool Includes(DateTime d)
         {
             return this.Intersects(new DateRange(d, d));
-        }
+        } //TODO: Test
 
         public bool Equals(DateRange other)
         {
@@ -173,7 +175,7 @@ namespace Rolcore
                 return false;
 
             return ((this.StartDate == other.StartDate) && (this.EndDate == other.EndDate));
-        }
+        } // Tested
 
         public static DateRange Now
         {
@@ -182,7 +184,7 @@ namespace Rolcore
                 DateTime now = DateTime.Now;
                 return new DateRange(now, now);
             }
-        }
+        } // Tested
 
         /// <summary>
         /// Gets a <see cref="DateRange"/> that represents the current day.
@@ -195,6 +197,6 @@ namespace Rolcore
                 DateTime tomorrow = today.AddDays(1);
                 return new DateRange(today, tomorrow);
             }
-        }
+        } // Tested
     }
 }
