@@ -167,6 +167,7 @@
     <Compile Include="ThreadSafeRandom.cs" />
     <Compile Include="UriExtensions.cs" />
     <Compile Include="Xml\ObjectExtenisions.cs" />
+    <Compile Include="Xml\TypeExtensions.cs" />
     <Compile Include="Xml\XmlReaderExtensions.cs" />
     <Compile Include="Xml\XmlUtils.cs" />
   </ItemGroup>

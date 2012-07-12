@@ -18,7 +18,7 @@ namespace Rolcore.Net
             }
 
             return response;
-        }
+        } //TODO: Unit test
 
         public static HttpWebResponse Get(string uri, string userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727)", string accept = "*/*")
         {
@@ -38,6 +38,6 @@ namespace Rolcore.Net
             request.KeepAlive = true;
             // Get response for http web request
             return (HttpWebResponse)request.GetResponse();
-        }
+        } //TODO: Unit test
     }
 }
