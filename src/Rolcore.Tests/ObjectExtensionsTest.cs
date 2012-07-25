@@ -104,13 +104,13 @@ namespace Rolcore.Tests
                 StringProp = "Source String",
                 DateTimeProp = DateTime.Now,
                 DateRangeProp = new DateRange(DateTime.Today, DateTime.Now),
-                ExtraProperty = "foobar",
                 SubObject = new
                 {
                     IntPropNonNullable = 1,
                     IntPropNullable = (int?)null,
                     StringProp = "Source String",
-                }
+                },
+                StringArrayProp = new string[3] {"Matt", "Joanne", "Robert"}
             };
             var dest = new ReflectionUtilsMockObject()
             {
@@ -119,6 +119,7 @@ namespace Rolcore.Tests
                 StringProp = "Destination String",
                 DateTimeProp = DateTime.Now.AddDays(1),
                 DateRangeProp = new DateRange(DateTime.Today.AddDays(1), DateTime.Now.AddDays(1)),
+                StringArrayProp = (string[])null
             };
             Assert.AreNotEqual(source.IntPropNonNullable, dest.IntPropNonNullable, "IntPropNonNullable");
             Assert.AreNotEqual(source.IntPropNullable, dest.IntPropNullable, "IntPropNullable");
@@ -143,6 +144,9 @@ namespace Rolcore.Tests
             Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.StringProp");
             Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.DateTimeProp");
             Assert.AreEqual(source.SubObject.StringProp, dest.StringProp, "SubObject.DateRangeProp");
+            Assert.AreEqual(source.StringArrayProp[0], dest.StringArrayProp[0], "StringArrayProp[0]");
+            Assert.AreEqual(source.StringArrayProp[1], dest.StringArrayProp[1], "StringArrayProp[1]");
+            Assert.AreEqual(source.StringArrayProp[2], dest.StringArrayProp[2], "StringArrayProp[2]");
         }
     }
 }
