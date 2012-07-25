@@ -36,8 +36,8 @@ namespace Rolcore.Tests.MockObjects
         public DateRange DateRangeProp { get; set; }
         public int IntPropNonNullable { get; set; }
         public int? IntPropNullable{ get; set; }
-
         public string StringProp{ get; set; }
+        public string[] StringArrayProp { get; set; }
 
         public bool VoidMethodCalled
         {
@@ -72,12 +72,21 @@ namespace Rolcore.Tests.MockObjects
         {
             ReflectionUtilsMockObject asMock = obj as ReflectionUtilsMockObject;
             if (asMock != null)
-                return base.Equals(asMock)
+            {
+                bool result = base.Equals(asMock)
                     || (asMock.IntPropNonNullable == this.IntPropNonNullable
                         && asMock.IntPropNullable == this.IntPropNullable
                         && asMock.StringProp == this.StringProp
                         && asMock.DateTimeProp == this.DateTimeProp
                         && asMock.DateRangeProp == this.DateRangeProp);
+                result = result && (asMock.StringArrayProp.Length == this.StringArrayProp.Length);
+                if (result)
+                {
+                    for (int i = 0; i < asMock.StringArrayProp.Length; i++)
+                        result = result && asMock.StringArrayProp[i] == this.StringArrayProp[i];
+                }
+                return result;
+            }
             return base.Equals(obj);
         }
 
