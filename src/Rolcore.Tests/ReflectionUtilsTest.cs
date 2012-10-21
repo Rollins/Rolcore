@@ -100,8 +100,7 @@ namespace Rolcore.Tests
             string s = string.Empty; // TODO: Initialize to an appropriate value
             object obj = null; // TODO: Initialize to an appropriate value
             string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = ReflectionUtils.ReplaceVars(s, obj);
+            string actual = ReflectionUtils.ReplaceVars(s, obj);
             Assert.AreEqual(expected, actual);
             Assert.Inconclusive("Verify the correctness of this test method.");
         }

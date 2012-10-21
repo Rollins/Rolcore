@@ -26,18 +26,24 @@ namespace Rolcore.Reflection
         /// <summary>
         /// Use this instead of <see cref="Convert.ChangeType"/> to support 
         /// <see cref="Nullable<>"/> types. Returns an <see cref="Object"/> with the specified
-        /// <see cref="Type"/> of which the value is equivelant to the specified object.
+        /// <see cref="Type"/> of which the value is equivalent to the specified object.
         /// </summary>
         /// <param name="obj">Specifies the object for which the type should change.</param>
         /// <param name="toType">Specifies the type to change the specified object to.</param>
         /// <returns>The specified object, converted to the specified type.</returns>
         public static object ChangeType(this object obj, Type toType)
         {
+            if (obj == null)
+                throw new ArgumentNullException("obj", "obj is null.");
+            if (toType == null)
+                throw new ArgumentNullException("toType", "toType is null.");
+
+            var objType = obj.GetType();
             if (obj.IsNullableType())
             {
                 if (obj == null)
                     return null;
-                NullableConverter oConverter = new NullableConverter(obj.GetType());
+                NullableConverter oConverter = new NullableConverter(objType);
                 toType = oConverter.UnderlyingType;
             }
             else if (toType.IsNullableType())
@@ -48,7 +54,13 @@ namespace Rolcore.Reflection
                 toType = converter.UnderlyingType;
             }
 
-            return Convert.ChangeType(obj, toType);
+            if (obj is IConvertible)
+                return Convert.ChangeType(obj, toType);
+
+            if (toType.IsAssignableFrom(objType))
+                return obj;
+
+            throw new InvalidOperationException("Cannot convert " + objType + " to " + toType);
         }
 
         /// <summary>
@@ -140,10 +152,10 @@ namespace Rolcore.Reflection
                 throw new ArgumentException("propertyName is null or empty.", "propertyName");
 
             //
-            // Parse object heararchy and set value.
+            // Parse object hierarchy and set value.
 
             int dotIndex = propertyName.IndexOf('.');
-            if (dotIndex >= 0) // Navigate the object heirarchy.
+            if (dotIndex >= 0) // Navigate the object hierarchy.
             {
                 string firstPropertyName = propertyName.Substring(0, dotIndex);
                 object parentObj = obj.GetPropertyValue(firstPropertyName);
@@ -156,7 +168,8 @@ namespace Rolcore.Reflection
 
                 // Using "ChangeType" to ensure compatability. For example, assigning the string 
                 // "5" to an integer property or assigning a non-nullable value to a nullable type.
-                propertyValue = propertyValue.ChangeType(property.PropertyType);
+                if(propertyValue != null)
+                    propertyValue = propertyValue.ChangeType(property.PropertyType);
 
                 property.SetValue(obj, propertyValue, null);
             }

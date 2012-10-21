@@ -79,8 +79,8 @@ namespace Rolcore.Tests.MockObjects
                         && asMock.StringProp == this.StringProp
                         && asMock.DateTimeProp == this.DateTimeProp
                         && asMock.DateRangeProp == this.DateRangeProp);
-                result = result && (asMock.StringArrayProp.Length == this.StringArrayProp.Length);
-                if (result)
+                result = result && ((asMock.StringArrayProp == StringArrayProp) || asMock.StringArrayProp.Length == this.StringArrayProp.Length);
+                if (result && asMock.StringArrayProp != null && StringArrayProp != null)
                 {
                     for (int i = 0; i < asMock.StringArrayProp.Length; i++)
                         result = result && asMock.StringArrayProp[i] == this.StringArrayProp[i];
