@@ -49,7 +49,7 @@ namespace Rolcore
         /// <summary>
         /// Determines if the given <see cref="DateTime"/> is a holiday or not.
         /// </summary>
-        /// <param name="date">The date to determin if it is a holiday.</param>
+        /// <param name="date">The date to determine if it is a holiday.</param>
         /// <returns>True if the date is a holiday, otherwise false.</returns>
         public static bool IsHoliday(this DateTime date)
         {

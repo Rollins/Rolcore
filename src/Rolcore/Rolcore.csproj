@@ -142,6 +142,7 @@
     <Compile Include="Geography\StringExtensions.cs" />
     <Compile Include="Geography\Usa5DigitDumbPostalCodeProvider.cs" />
     <Compile Include="Hours.cs" />
+    <Compile Include="IHolidayProvider.cs" />
     <Compile Include="IO\DirectoryEx.cs" />
     <Compile Include="IO\StringExtensions.cs" />
     <Compile Include="IO\TextReaderExtensions.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Text\RegularExpressions\StringExtensions.cs" />
     <Compile Include="ThreadSafeRandom.cs" />
     <Compile Include="UriExtensions.cs" />
+    <Compile Include="UsaNationalHolidayProvider.cs" />
     <Compile Include="Xml\ObjectExtenisions.cs" />
     <Compile Include="Xml\XmlReaderExtensions.cs" />
     <Compile Include="Xml\XmlUtils.cs" />
