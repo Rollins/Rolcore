@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ListExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+
     /// <summary>
     /// Provides extension methods related to lists.
     /// </summary>
@@ -70,6 +76,7 @@ namespace Rolcore.Collections
             return result;
         }
 
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed.")]
         public static IEnumerable<T> Uniques<T>(this IEnumerable<T> list)
         {
             if (list == null)

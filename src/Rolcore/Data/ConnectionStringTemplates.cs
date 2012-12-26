@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.OleDb;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ConnectionStringTemplates.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Data
 {
+    using System.Data.OleDb;
+
     /// <summary>
     /// Handy templates for ADO.NET connection strings.
     /// </summary>

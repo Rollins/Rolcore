@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.Composition;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Usa5DigitDumbPostalCodeProvider.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Geography
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+
     /// <summary>
     /// Implements <see cref="IPostalCodeProvider"/> by providing 5-digit USA zip codes based on a
     /// range.

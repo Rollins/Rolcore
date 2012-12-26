@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.Specialized;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DictionaryExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Collections.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Linq;
+
     /// <summary>
     /// Extension methods for <see cref="Dictionary<>"/>.
     /// </summary>

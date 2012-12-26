@@ -1,14 +1,13 @@
-﻿/*
- * Code by Jason Hunt, found at
- * http://www.noticeablydifferent.com/CodeSamples/DateRange.aspx 
- * 
- * Modified by Rollins, Inc.
- */
-
-using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DateRange.cs" company="Rollins, Inc.">
+//     Code by Jason Hunt, found at http://www.noticeablydifferent.com/CodeSamples/DateRange.aspx .
+//     Modified by Rollins, Inc.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+
     /// <summary>
     /// This class handles all ranges attainable with the DateTime structure. The 
     /// <see cref="StartDate"/> date must precede the <see cref="EndDate"/>. The Start 

@@ -1,14 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
-using Rolcore.Collections;
-using System.Collections;
-using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ListExtensionMethodsTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Tests
 {
-    
-    
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Collections;
+
     /// <summary>
     ///This is a test class for ListExtensionMethodsTest and is intended
     ///to contain all ListExtensionMethodsTest Unit Tests

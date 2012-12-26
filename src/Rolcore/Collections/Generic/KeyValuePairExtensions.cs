@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections.Specialized;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="KeyValuePairExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Collections.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+
     /// <summary>
     /// Extension methods for <see cref="KeyValuePair<>"/>.
     /// </summary>

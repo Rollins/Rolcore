@@ -1,13 +1,17 @@
-using System;
-
+//-----------------------------------------------------------------------
+// <copyright file="Fraction.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Math
 {
-	/// <summary>
-	/// A fraction.
-	/// </summary>
+    using System;
+
+    /// <summary>
+    /// A fraction.
+    /// </summary>
     public class Fraction
     {
-        private long _Numerator;
         private long _Denominator;
 
         /// <summary>
@@ -41,16 +45,6 @@ namespace Rolcore.Math
         }
 
         /// <summary>
-        /// Internal function for constructors
-        /// </summary>
-        private void Initialize(long numerator, long denominator)
-        {
-            Numerator = numerator;
-            Denominator = denominator;
-            ReduceFraction(this);
-        }
-
-        /// <summary>
         /// Gets and sets a value indicating the denominator of the fraction.
         /// </summary>
         public long Denominator
@@ -67,21 +61,18 @@ namespace Rolcore.Math
         }
 
         /// <summary>
-        /// Get's and sets a value indicating the numerator of the fraction.
+        /// Gets and sets a value indicating the numerator of the fraction.
         /// </summary>
-        public long Numerator
-        {
-            get
-            { return _Numerator; }
-            set
-            { _Numerator = value; }
-        }
+        public long Numerator { get; set; }
 
+        /// <summary>
+        /// Sets the value of the fraction.
+        /// </summary>
         public long Value
         {
             set
             {
-                _Numerator = value;
+                Numerator = value;
                 _Denominator = 1;
             }
         }
@@ -341,6 +332,47 @@ namespace Rolcore.Math
         }
 
         /// <summary>
+        /// The function reduces(simplifies) a Fraction object by dividing both its numerator 
+        /// and denominator by their GCD
+        /// </summary>
+        public static void ReduceFraction(Fraction frac)
+        {
+            try
+            {
+                if (frac.Numerator == 0)
+                {
+                    frac.Denominator = 1;
+                    return;
+                }
+
+                var gcd = GreatestCommonDenominator(frac.Numerator, frac.Denominator);
+                frac.Numerator /= gcd;
+                frac.Denominator /= gcd;
+
+                if (frac.Denominator < 0) // if -ve sign in denominator
+                {
+                    // pass -ve sign to numerator
+                    frac.Numerator *= -1;
+                    frac.Denominator *= -1;
+                }
+            }
+            catch (Exception exp)
+            {
+                throw new FractionException(string.Format("Cannot reduce Fraction: {0}", exp.Message));
+            }
+        }
+
+        /// <summary>
+        /// Internal function for constructors
+        /// </summary>
+        private void Initialize(long numerator, long denominator)
+        {
+            Numerator = numerator;
+            Denominator = denominator;
+            ReduceFraction(this);
+        }
+
+        /// <summary>
         /// internal function for negation
         /// </summary>
         private static Fraction Negate(Fraction frac1)
@@ -367,11 +399,11 @@ namespace Rolcore.Math
             }
             catch (OverflowException)
             {
-                throw new FractionException("Overflow occurred while performing arithemetic operation");
+                throw new FractionException("Overflow occurred while performing arithmetic operation");
             }
             catch (Exception)
             {
-                throw new FractionException("An error occurred while performing arithemetic operation");
+                throw new FractionException("An error occurred while performing arithmetic operation");
             }
         }
 
@@ -388,11 +420,11 @@ namespace Rolcore.Math
             }
             catch (OverflowException)
             {
-                throw new FractionException("Overflow occurred while performing arithemetic operation");
+                throw new FractionException("Overflow occurred while performing arithmetic operation");
             }
             catch (Exception)
             {
-                throw new FractionException("An error occurred while performing arithemetic operation");
+                throw new FractionException("An error occurred while performing arithmetic operation");
             }
         }
 
@@ -417,37 +449,5 @@ namespace Rolcore.Math
             } while (iNo1 != 0);
             return iNo2;
         }
-
-        /// <summary>
-        /// The function reduces(simplifies) a Fraction object by dividing both its numerator 
-        /// and denominator by their GCD
-        /// </summary>
-        public static void ReduceFraction(Fraction frac)
-        {
-            try
-            {
-                if (frac.Numerator == 0)
-                {
-                    frac.Denominator = 1;
-                    return;
-                }
-
-                long iGCD = GreatestCommonDenominator(frac.Numerator, frac.Denominator);
-                frac.Numerator /= iGCD;
-                frac.Denominator /= iGCD;
-
-                if (frac.Denominator < 0)	// if -ve sign in denominator
-                {
-                    //pass -ve sign to numerator
-                    frac.Numerator *= -1;
-                    frac.Denominator *= -1;
-                }
-            } // end try
-            catch (Exception exp)
-            {
-                throw new FractionException(string.Format("Cannot reduce Fraction: {0}", exp.Message));
-            }
-        }
-
     }
 }

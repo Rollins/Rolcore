@@ -1,8 +1,12 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------
+// <copyright file="XElementExtensionMethods.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+using System;
 using System.Xml;
 using System.Xml.Linq;
 using System.Linq;
-using System.Diagnostics.Contracts;
 using System.Collections.Generic;
 
 namespace Rolcore.Xml.Linq
@@ -34,7 +38,11 @@ namespace Rolcore.Xml.Linq
         /// <returns>Returns the value of the child element, if it finds or returns null</returns>
         public static string GetChildElementValue(this XElement parentElement, string nameOfTheChildElement)
         {
-            Contract.Requires(!String.IsNullOrEmpty(nameOfTheChildElement), "nameOfTheChildElement is null or empty.");
+            if (parentElement == null)
+                throw new ArgumentNullException("parentElement", "parentElement is null.");
+            if (String.IsNullOrEmpty(nameOfTheChildElement))
+                throw new ArgumentException("nameOfTheChildElement is null or empty.", "nameOfTheChildElement");
+            
             var _childElement = parentElement.Elements().Where(e => e.Name.LocalName == nameOfTheChildElement).FirstOrDefault();
             return (_childElement == null) ? string.Empty : _childElement.Value;
         }
@@ -47,8 +55,11 @@ namespace Rolcore.Xml.Linq
         /// <returns>Returns an IEnumerable collection of elements with specified name</returns>
         public static IEnumerable<XElement> GetAllElementsByNameFromXmlReader(XmlReader xmlReader, string nameOfTheElement)
         {
-            Contract.Requires(xmlReader != null, "xmlReader is null.");
-            Contract.Requires(!String.IsNullOrEmpty(nameOfTheElement), "nameOfTheElement is null or empty.");
+            if (xmlReader == null)
+                throw new ArgumentNullException("xmlReader", "xmlReader is null.");
+            if (String.IsNullOrEmpty(nameOfTheElement))
+                throw new ArgumentException("nameOfTheElement is null or empty.", "nameOfTheElement");
+
             return XElement.Load(xmlReader).Descendants().Where(e => e.Name.LocalName == nameOfTheElement);
         }
     }

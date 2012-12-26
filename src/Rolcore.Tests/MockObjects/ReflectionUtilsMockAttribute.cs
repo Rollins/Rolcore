@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ReflectionUtilsMockAttribute.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Tests.MockObjects
 {
+    using System;
+
+    /// <summary>
+    /// A mock attribute used for testing.
+    /// </summary>
     [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     sealed class ReflectionUtilsMockAttribute : Attribute
     {

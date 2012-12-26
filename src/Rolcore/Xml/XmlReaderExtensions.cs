@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="XmlReaderExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Xml
 {
+    using System;
+    using System.Text;
+    using System.Xml;
+
     /// <summary>
     /// Extension methods for <see cref="XmlReader"/>.
     /// </summary>

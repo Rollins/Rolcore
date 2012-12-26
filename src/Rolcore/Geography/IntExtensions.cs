@@ -1,7 +1,15 @@
-﻿using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IntExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Geography
 {
+    using System;
+
+    /// <summary>
+    /// Extension methods for <see cref="int"/>.
+    /// </summary>
     public static class IntExtensions
     {
         /// <summary>

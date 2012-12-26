@@ -1,10 +1,15 @@
-﻿using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
-using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="XmlUtils.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Xml
 {
+    using System;
+    using System.IO;
+    using System.Xml;
+    using System.Xml.Serialization;
+
     /// <summary>
     /// Static class containing utility methods for working with XML.
     /// </summary>

@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-
-using System.Linq;
-using System.Reflection;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ObjectExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Reflection
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Reflection;
+
     /// <summary>
     /// Extensions for <see cref="Object"/>.
     /// </summary>
@@ -72,6 +77,7 @@ namespace Rolcore.Reflection
         /// <param name="inherit">Specifies weather to search the instance's inheritance chain to 
         /// find the attribute.</param>
         /// <returns>Methods decorated with the specified attribute.</returns>
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed.")]
         public static MethodInfo[] GetMethodsWithAttribute(this object obj, Type attributeType, bool inherit)
         {
             //

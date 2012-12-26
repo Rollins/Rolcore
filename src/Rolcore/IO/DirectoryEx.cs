@@ -1,10 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.IO;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DirectoryEx.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.IO
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+
     public static class DirectoryEx 
     {
         public static IEnumerable<string> EnumerateFilesFormattedSearchPattern(string path, string formattedSearchPattern, SearchOption searchOption, params IFormattable[] formatters)

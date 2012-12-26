@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DateTimeUtils.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// Utility methods for <see cref="DateTime"/>.
+    /// </summary>
     public class DateTimeUtils
     {
         /// <summary>

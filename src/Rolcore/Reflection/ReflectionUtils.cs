@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.IO;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ReflectionUtils.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Reflection
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     /// <summary>
     /// Contains static utility methods for common reflection tasks.
     /// </summary>
@@ -77,7 +82,7 @@ namespace Rolcore.Reflection
         /// <returns>A new instance of the specified type.</returns>
         public static T CreateObject<T>(string typeName, string assemblyName) where T : class
         {
-            return ((T)Activator.CreateInstance(assemblyName, typeName).Unwrap());
+            return (T)Activator.CreateInstance(assemblyName, typeName).Unwrap();
         }
 
         /// <summary>

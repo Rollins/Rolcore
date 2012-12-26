@@ -1,9 +1,13 @@
-﻿using System.Collections.Specialized;
-using System;
-using System.Collections;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="NameValueCollectionEx.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Collections.Specialized
 {
+    using System;
+    using System.Collections.Specialized;
+
     /// <summary>
     /// Extends <see cref="NameValueCollection"/> to provide a read-only option.
     /// </summary>

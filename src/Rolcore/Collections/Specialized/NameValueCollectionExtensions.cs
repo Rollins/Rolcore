@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Linq;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="NameValueCollectionExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Collections.Specialized
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Linq;
+
     /// <summary>
     /// Provides extension methods related to <see cref="NameValueCollection"/>.
     /// </summary>
-    public static class NameValueCollectionExtensios
+    public static class NameValueCollectionExtensions
     {
         /// <summary>
         /// Creates a copy of the current instance that is read-only.

@@ -1,18 +1,19 @@
-﻿/*
- * Code from EduSoft, found at
- * http://www.koders.com/csharp/fid0A1086040608245C7586A5EB7CB1CB5E8C346F39.aspx
- * 
- * No licensing or copyright information given.
- */
-
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DebuggerWriter.cs" company="Rollins, Inc.">
+//     Code from EduSoft, found at
+//     http://www.koders.com/csharp/fid0A1086040608245C7586A5EB7CB1CB5E8C346F39.aspx
+//     No licensing or copyright information given.
+//     Modified by Rollins, Inc.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Diagnostics
 {
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+
     /// <summary>
     /// Implements a <see cref="TextWriter"/> for writing information to the debugger log.
     /// </summary>
@@ -76,7 +77,7 @@ namespace Rolcore.Diagnostics
             }
             if (value != null)
             {
-                Debugger.Log(level, category, value);
+                Debugger.Log(this.level, this.category, value);
             }
         }
 

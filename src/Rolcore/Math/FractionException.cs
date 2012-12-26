@@ -1,8 +1,12 @@
-using System;
-using System.Runtime.Serialization;
-
+//-----------------------------------------------------------------------
+// <copyright file="FractionException.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Math
 {
+    using System;
+
     /// <summary>
     /// Exception class for Fraction, derived from System.Exception
     /// </summary>

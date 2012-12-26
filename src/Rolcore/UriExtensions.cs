@@ -1,11 +1,12 @@
-﻿using System;
-
-using System.Web;
-using System.Collections.Specialized;
-using System.Diagnostics;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="UriExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+
     /// <summary>
     /// Extensions for <see cref="Uri"/>.
     /// </summary>

@@ -31,24 +31,21 @@
         <MSBuild Projects="@(SolutionFile)" Targets="Rebuild" Properties="OutDir=%(BuildArtifacts.FullPath);Configuration=$(Configuration)" />
     </Target>
     
-    <Target Name="CompileAndTest" DependsOnTargets="Compile">
-        <CallTarget Targets="Test" />
-    </Target>
-    
-    <Target Name="TestOnly">
-        <RemoveDir Directories="@(TestResults)"/>
-        <CallTarget Targets="Test" />
-    </Target>
+    <Target Name="CompileAndTest" DependsOnTargets="Compile;Test"/>
+    <Target Name="TestOnly" DependsOnTargets="Test"/>
 
     <Target Name="Test" Outputs="%(TestAssemblies.Filename)">
-        <!-- Hat tip to Greg MacLellan: 
+        <!-- 
+            Hat tip to Greg MacLellan: 
             http://youtrack.jetbrains.com/issue/TW-14756 
-            -->
+        -->
+        <RemoveDir Directories="@(TestResults)"/>
         <MakeDir Directories="@(TestResults)" />
         <PropertyGroup>
             <MsTestCommand>mstest /nologo  /testcontainer:"%(TestAssemblies.FullPath)" /resultsfile:@(TestResults)\%(TestAssemblies.Filename).trx"</MsTestCommand>
         </PropertyGroup>
         <Exec Command="$(MsTestCommand)" ContinueOnError="false" />
     </Target>
+
 
 </Project>

@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="StringExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Geography
 {
+    using System.Text.RegularExpressions;
+
+    /// <summary>
+    /// Extension methods for <see cref="string"/>.
+    /// </summary>
     public static class StringExtensions
     {
         private static Regex CreateUsa5DigitPostalCodeMatcher()

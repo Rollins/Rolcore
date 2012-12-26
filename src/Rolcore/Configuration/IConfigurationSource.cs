@@ -1,11 +1,9 @@
-﻿/*
- * Code from Kent Boogaart's article, found at
- * http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
- * 
- * No licensing or copyright information given.
- */
-
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IConfigurationSource.cs" company="Rollins, Inc.">
+//     Code from Kent Boogaart's article, found at http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
+//     and Modified by Rollins, Inc.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Configuration
 {
     /// <summary>

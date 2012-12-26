@@ -1,7 +1,12 @@
-﻿using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ThreadSafeRandom.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+
     /// <summary>
     /// Provides a thread-safe, statistically random operations. Use instead of 
     /// <see cref="Random"/>.

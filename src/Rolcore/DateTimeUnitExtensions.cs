@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DateTimeUnitExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+
+    /// <summary>
+    /// Extension methods for <see cref="DateTimeUnit"/>.
+    /// </summary>
     public static class DateTimeUnitExtensions
     {
         /// <summary>

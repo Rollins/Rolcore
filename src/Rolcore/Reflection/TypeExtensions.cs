@@ -1,7 +1,12 @@
-﻿using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="TypeExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Reflection
 {
+    using System;
+
     /// <summary>
     /// Extension methods for <see cref="Type"/>.
     /// </summary>

@@ -1,7 +1,12 @@
-﻿using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Address.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Geography
 {
+    using System.Text;
+
     /// <summary>
     /// Represents an address.
     /// </summary>

@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Globalization;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ConsoleUtils.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+    using System.Globalization;
+
     /// <summary>
     /// Utilities for interacting with the <see cref="Console"/>.
     /// </summary>

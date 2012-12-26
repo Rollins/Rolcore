@@ -1,29 +1,28 @@
-﻿/*
- * Code from EduSoft, found at
- * http://www.koders.com/csharp/fid0A1086040608245C7586A5EB7CB1CB5E8C346F39.aspx
- * 
- * No licensing or copyright information given.
- * 
- * Modified by Rollins, Inc.
- */
-
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using Rolcore;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ConsoleWriter.cs" company="Rollins, Inc.">
+//     Code from EduSoft, found at
+//     http://www.koders.com/csharp/fid0A1086040608245C7586A5EB7CB1CB5E8C346F39.aspx
+//     No licensing or copyright information given.
+//     Modified by Rollins, Inc.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Diagnostics
 {
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+
     /// <summary>
     /// Implements a <see cref="TextWriter"/> for writing information to the Console.
     /// </summary>
     /// <seealso cref="Debugger.Log"/>
     public class ConsoleWriter : TextWriter
     {
-        private bool isOpen;
         private static UnicodeEncoding encoding;
+
+        private bool isOpen;
         private readonly int level;
         private readonly string category;
 
@@ -66,12 +65,6 @@ namespace Rolcore.Diagnostics
         }
         #endregion Constructors
 
-        protected override void Dispose(bool disposing)
-        {
-            isOpen = false;
-            base.Dispose(disposing);
-        }
-
         public override void Write(char value)
         {
             if (!isOpen)
@@ -80,6 +73,10 @@ namespace Rolcore.Diagnostics
             Console.Write(string.Format("{0}{1} {2}", "\t".Repeat(level), category, value));
         }
 
+        /// <summary>
+        /// Writes the specified value to the console.
+        /// </summary>
+        /// <param name="value">Specifies the value to write.</param>
         public override void Write(string value)
         {
             if (!isOpen)
@@ -125,6 +122,12 @@ namespace Rolcore.Diagnostics
         public string Category
         {
             get { return category; }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            isOpen = false;
+            base.Dispose(disposing);
         }
     }
 }

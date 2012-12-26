@@ -1,11 +1,13 @@
-﻿using Rollins;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Rolcore;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DateRangeTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rollins.Tests
 {
-    
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore;
     
     /// <summary>
     ///This is a test class for DateRangeTest and is intended

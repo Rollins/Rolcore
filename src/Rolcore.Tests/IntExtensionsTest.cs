@@ -1,11 +1,13 @@
-﻿using Rolcore.Geography;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IntExtensionsTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Tests
 {
-    
-    
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Geography;
+
     /// <summary>
     ///This is a test class for IntExtensionsTest and is intended
     ///to contain all IntExtensionsTest Unit Tests

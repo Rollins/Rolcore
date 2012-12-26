@@ -1,21 +1,20 @@
-﻿/*
- * Code from Kent Boogaart's article, found at
- * http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
- * 
- * Modified by Rollins, Inc.
- */
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition.Hosting;
-using System.ComponentModel.Composition.Primitives;
-using System.ComponentModel.Composition.ReflectionModel;
-using System.Linq;
-using System.Reflection;
-using Rolcore.Configuration;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ConfigurationExportProvider.cs" company="Rollins, Inc.">
+//     Code from Kent Boogaart's article, found at http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
+//     and Modified by Rollins, Inc.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.ComponentModel.Composition
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition.Hosting;
+    using System.ComponentModel.Composition.Primitives;
+    using System.ComponentModel.Composition.ReflectionModel;
+    using System.Linq;
+    using System.Reflection;
+    using Rolcore.Configuration;
+
     /// <summary>
     /// An <see cref="ExportProvider"/> that exports values from an App.Config or Web.Config file.
     /// </summary>

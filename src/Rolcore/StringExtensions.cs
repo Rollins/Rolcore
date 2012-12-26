@@ -1,8 +1,13 @@
-﻿using System;
-using System.Text;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="StringExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore
 {
+    using System;
+    using System.Text;
+
     /// <summary>
     /// Extensions for <see cref="String"/>.
     /// </summary>

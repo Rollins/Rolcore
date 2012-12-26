@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="RandomAssignmentExperimentItem.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Science
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Represents an item that is part of a <see cref="RandomAssignmentExperiment"/>.
     /// </summary>

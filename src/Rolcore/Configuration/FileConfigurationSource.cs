@@ -1,15 +1,14 @@
-﻿/*
- * Code from Kent Boogaart's article, found at
- * http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
- * 
- * Modified by Rollins, Inc.
- */
-
-using System.Configuration;
-using System.Linq;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="FileConfigurationSource.cs" company="Rollins, Inc.">
+//     Code from Kent Boogaart's article, found at http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
+//     and Modified by Rollins, Inc.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Configuration
 {
+    using System.Configuration;
+    using System.Linq;
+
     /// <summary>
     /// Implements <see cref="IConfigurationSource"/> to provide configuration via the 
     /// <see cref="ConfigurationManager"/>.
