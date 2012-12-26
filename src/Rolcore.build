@@ -2,7 +2,7 @@
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" 
          ToolsVersion="4.5"
-         DefaultTargets="Compile">
+         DefaultTargets="CompileAndTest">
     
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,8 +30,17 @@
     <Target Name="Compile" DependsOnTargets="Initialize">
         <MSBuild Projects="@(SolutionFile)" Targets="Rebuild" Properties="OutDir=%(BuildArtifacts.FullPath);Configuration=$(Configuration)" />
     </Target>
+    
+    <Target Name="CompileAndTest" DependsOnTargets="Compile">
+        <CallTarget Targets="Test" />
+    </Target>
+    
+    <Target Name="TestOnly">
+        <RemoveDir Directories="@(TestResults)"/>
+        <CallTarget Targets="Test" />
+    </Target>
 
-    <Target Name="Test" DependsOnTargets="Compile" Outputs="%(TestAssemblies.Filename)">
+    <Target Name="Test" Outputs="%(TestAssemblies.Filename)">
         <!-- Hat tip to Greg MacLellan: 
             http://youtrack.jetbrains.com/issue/TW-14756 
             -->
