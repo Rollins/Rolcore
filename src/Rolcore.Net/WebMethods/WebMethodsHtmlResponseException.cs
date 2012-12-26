@@ -5,13 +5,13 @@ namespace Rolcore.Net.WebMethods
     [global::System.Serializable]
     public class WebMethodsHtmlResponseException : Exception
     {
-        private string _ErrorDump = null;
-        private string _LocalizedError = null;
-        private string _ErrorType = null;
-        private string _User = null;
-        private string _Details = null;
-        private string _ErrorMessageId = null;
-        private DateTime _Time;
+        private readonly string _ErrorDump = null;
+        private readonly string _LocalizedError = null;
+        private readonly string _ErrorType = null;
+        private readonly string _User = null;
+        private readonly string _Details = null;
+        private readonly string _ErrorMessageId = null;
+        private readonly DateTime _Time;
 
         protected WebMethodsHtmlResponseException(
           System.Runtime.Serialization.SerializationInfo info,
@@ -93,10 +93,22 @@ namespace Rolcore.Net.WebMethods
             get { return _Details; }
         }
 
-
         public string ErrorMessageId
         {
             get { return _ErrorMessageId; }
         }
+
+        public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("ErrorDump", ErrorDump);
+            info.AddValue("LocalizedError", LocalizedError);
+            info.AddValue("ErrorType", ErrorType);
+            info.AddValue("User", User);
+            info.AddValue("Time", Time);
+            info.AddValue("Details", Details);
+            info.AddValue("ErrorMessageId", ErrorMessageId);
+        } //TODO: Unit test
     }
 }

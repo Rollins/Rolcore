@@ -53,7 +53,7 @@ namespace Rolcore
                         convertibleInput = (IConvertible)input;
                     }
                     else
-                        throw e;
+                        throw;
                 }
             }
 

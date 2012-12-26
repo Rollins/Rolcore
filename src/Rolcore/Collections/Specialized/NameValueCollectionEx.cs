@@ -7,6 +7,7 @@ namespace Rolcore.Collections.Specialized
     /// <summary>
     /// Extends <see cref="NameValueCollection"/> to provide a read-only option.
     /// </summary>
+    [Serializable]
     public class NameValueCollectionEx : NameValueCollection
     {
         #region Constructors

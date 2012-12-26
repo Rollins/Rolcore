@@ -6,6 +6,7 @@ namespace Rolcore.Math
     /// <summary>
     /// Exception class for Fraction, derived from System.Exception
     /// </summary>
+    [Serializable]
     public class FractionException : Exception
     {
         public FractionException()

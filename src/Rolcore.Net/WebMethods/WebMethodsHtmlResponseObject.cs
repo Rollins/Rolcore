@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Rolcore.Net.WebMethods
@@ -74,13 +74,13 @@ namespace Rolcore.Net.WebMethods
                     case "n":
                         return false;
                     default:
-                        throw new FormatException(string.Format("Current object is not a boolean value: {0}", text));
+                        throw new InvalidOperationException(string.Format("Current object is not a boolean value: {0}", text));
                 }
             }
         }
 
         /// <summary>
-        /// Interprets the insance as an <see cref="int"/> value.
+        /// Interprets the instance as an <see cref="int"/> value.
         /// </summary>
         public int AsInt
         {
@@ -90,7 +90,7 @@ namespace Rolcore.Net.WebMethods
                 int result = 0;
                 int.TryParse(text, out result);
                 if ((result == 0) && (text != 0.ToString()))
-                    throw new FormatException(string.Format("Current object is not an integer value: {0}", text));
+                    throw new InvalidOperationException(string.Format("Current object is not an integer value: {0}", text));
                 return result;
             }
         }
@@ -141,18 +141,20 @@ namespace Rolcore.Net.WebMethods
                     {   // Traverse each node, then sub-node, for the one we're seeking
                         nameNode = FindObjectNameNode(objectNames[i], nameNode.ParentNode);
                         if (nameNode == null)
-                            throw new WebMethodsCommunicationException(string.Format("Object path {0} not found. {1} does not exist.", objectName, objectName[i]));
+                            throw new KeyNotFoundException(
+                                string.Format("Object path {0} not found. {1} does not exist.", 
+                                    objectName, objectName[i]));
                     }
                 }
                 else // Simple find
                     nameNode = FindObjectNameNode(objectName, nameNode);
 
                 if (nameNode == null)
-                    throw new WebMethodsCommunicationException(string.Format("{0} does not exist.", objectName));
+                    throw new KeyNotFoundException(string.Format("{0} does not exist.", objectName));
 
                 return new WebMethodsHtmlResponseObject(nameNode.NextSibling.OuterXml);
             }
-        }
+        } //TODO: Unit test
 
         /// <summary>
         /// Determines if the given object name exists within the hierarchy.

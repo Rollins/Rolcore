@@ -22,6 +22,7 @@ namespace Rolcore.Data
         /// <param name="folderPath">Path of the CSV file</param>
         /// <param name="fileName">File name including the extension</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]
         public static void FillFromCsvFile(this DataTable table, string folderPath, string fileName)
         {
             //
