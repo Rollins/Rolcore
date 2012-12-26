@@ -43,13 +43,13 @@ namespace Rolcore
         /// <param name="year">The year in which the date should be calculated.</param>
         /// <param name="month">The month (1 through 12) in which the date should be calculated.</param>
         /// <param name="dayOfWeek">The day of week to calculate in the given month and year.</param>
-        /// <param name="dayOccurences">Which occurance to calculate (1 through 5).</param>
-        /// <returns>A <see cref="DateTime"/> that represents the desired occurance of the desired
+        /// <param name="dayOccurences">Which occurrence to calculate (1 through 5).</param>
+        /// <returns>A <see cref="DateTime"/> that represents the desired occurrence of the desired
         /// <see cref="DayOfWeek"/> in the given month and year.</returns>
         public static DateTime GetNthDayOfWeekInMonth(int year, MonthOfYear month, DayOfWeek dayOfWeek, short dayOccurences)
         {
-            if (dayOccurences < 1) throw new ArgumentOutOfRangeException("dayOccurence", "There cannot be less than one occurence of a day in a month.");
-            if (dayOccurences > 5) throw new ArgumentOutOfRangeException("dayOccurence", "There cannot be more than 5 occurences of a day in a month.");
+            if (dayOccurences < 1) throw new ArgumentOutOfRangeException("dayOccurence", "There cannot be less than one occurrence of a day in a month.");
+            if (dayOccurences > 5) throw new ArgumentOutOfRangeException("dayOccurence", "There cannot be more than 5 occurrences of a day in a month.");
             
             DateTime result = new DateTime(year, (int)month, 1);
 
@@ -69,7 +69,7 @@ namespace Rolcore
         }
 
         /// <summary>
-        /// Gets the last occurance of the specified <see cref="DayOfWeek"/> within the given month
+        /// Gets the last occurrence of the specified <see cref="DayOfWeek"/> within the given month
         /// and year.
         /// </summary>
         /// <param name="year">The year for which to calculate the desired date.</param>
