@@ -1,4 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="">
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" 
+         ToolsVersion="4.5"
+         DefaultTargets="Compile">
     
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <BuildArtifacts Include=".\build-artifacts"/>
+        <TestAssemblies Include=".\build-artifacts\*.Tests.dll" />
+        <TestResults Include=".\build-artifacts\test-results"/>
+        <SolutionFile Include=".\Rolcore.sln"/>
+    </ItemGroup>
+    
+    <ItemGroup>
+        
+    </ItemGroup>
+    
+    <Target Name="Clean">
+        <RemoveDir Directories="@(BuildArtifacts)"/>
+    </Target>
+
+    <Target Name="Initialize" DependsOnTargets="Clean">
+        <MakeDir Directories="@(BuildArtifacts)" />
+    </Target>
+
+    <Target Name="Compile" DependsOnTargets="Initialize">
+        <MSBuild Projects="@(SolutionFile)" Targets="Rebuild" Properties="OutDir=%(BuildArtifacts.FullPath);Configuration=$(Configuration)" />
+    </Target>
+
+    <Target Name="Test" DependsOnTargets="Compile" Outputs="%(TestAssemblies.Filename)">
+        
+        <Message Text="Found test assemblies: @(TestAssemblies)" />
+        
+        <MakeDir Directories="@(TestResults)" />
+    
+        <PropertyGroup>
+            <MsTestCommand>mstest /nologo  /testcontainer:"%(TestAssemblies.FullPath)" /resultsfile:@(TestResults)\%(TestAssemblies.Filename).trx"</MsTestCommand>
+        </PropertyGroup>
+        
+        <Exec Command="$(MsTestCommand)" ContinueOnError="false" />
+        <!--
+        <Exec Command="mstest.exe /nologo /testcontainer:@(BuildArtifacts)\Rolcore.Tests.dll /resultsfile:@(TestResults)results.trx" />
+        -->
+    </Target>
+
 </Project>

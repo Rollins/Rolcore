@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rollins, Inc.")]
 [assembly: AssemblyProduct("Rolcore.Xml.Linq")]
-[assembly: AssemblyCopyright("Copyright © Rollins, Inc. 2011")]
+[assembly: AssemblyCopyright("Copyright © Rollins, Inc. 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

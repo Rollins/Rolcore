@@ -66,12 +66,6 @@ namespace Rolcore.Tests
         //
         #endregion
 
-        [TestMethod(), Ignore]
-        public void UniquesTest()
-        {
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
         [TestMethod()]
         public void DuplicatesTest()
         {

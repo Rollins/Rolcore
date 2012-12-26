@@ -225,21 +225,6 @@ namespace Rollins.Tests
         }
 
         /// <summary>
-        ///A test for StartDate
-        ///</summary>
-        [TestMethod()]
-        public void StartDateTest()
-        {
-            DateRange target = new DateRange();
-            Nullable<DateTime> expected = new Nullable<DateTime>(); // TODO: Initialize to an appropriate value
-            Nullable<DateTime> actual;
-            target.StartDate = expected;
-            actual = target.StartDate;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for Now
         ///</summary>
         [TestMethod()]
@@ -254,21 +239,6 @@ namespace Rollins.Tests
             Assert.IsTrue(actual.EndDate > beforeNow, "End Date too small");
             Assert.IsTrue(actual.StartDate < DateTime.Now.AddSeconds(1), "Start Date too large");
             Assert.IsTrue(actual.EndDate < DateTime.Now.AddSeconds(1), "End Date too large");
-        }
-
-        /// <summary>
-        ///A test for EndDate
-        ///</summary>
-        [TestMethod()]
-        public void EndDateTest()
-        {
-            DateRange target = new DateRange(); // TODO: Initialize to an appropriate value
-            Nullable<DateTime> expected = new Nullable<DateTime>(); // TODO: Initialize to an appropriate value
-            Nullable<DateTime> actual;
-            target.EndDate = expected;
-            actual = target.EndDate;
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
         }
     }
 }

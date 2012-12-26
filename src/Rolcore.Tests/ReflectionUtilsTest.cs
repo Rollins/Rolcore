@@ -83,29 +83,6 @@ namespace Rolcore.Tests
         }
 
         /// <summary>
-        ///A test for IsNullableType
-        ///</summary>
-        [TestMethod(), Ignore]
-        public void IsNullableTypeTest()
-        {
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for ReplaceVars
-        ///</summary>
-        [TestMethod(), Ignore]
-        public void ReplaceVarsTest()
-        {
-            string s = string.Empty; // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual = ReflectionUtils.ReplaceVars(s, obj);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
         ///A test for SetPropertyValue, includes "dot syntax" test.
         ///</summary>
         [TestMethod()]

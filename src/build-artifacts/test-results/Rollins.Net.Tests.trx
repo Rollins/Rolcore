@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="e064480b-5d2c-4af7-b430-129ee2cd4d7e" name="jtharpe@LTJTHARPE89730 2012-12-26 12:28:13" runUser="ROLLINS\jtharpe" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="e00fd8e8-9756-4c5d-a27c-0d5a5737f516">
+    <Deployment userDeploymentRoot="D:\opensrc\Rolcore\src\build-artifacts\test-results" useDefaultDeploymentRoot="false" runDeploymentRoot="jtharpe_LTJTHARPE89730 2012-12-26 12_28_13" />
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-12-26T12:28:13.2273592-05:00" queuing="2012-12-26T12:28:13.8173592-05:00" start="2012-12-26T12:28:13.9333592-05:00" finish="2012-12-26T12:28:19.1493592-05:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="3" executed="3" passed="3" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="IpStringToDoubleTest" storage="d:\opensrc\rolcore\src\build-artifacts\rollins.net.tests.dll" id="b5c6505a-d017-0f01-f625-0904dd95d7ee">
+      <Execution id="9432c646-8ccd-43b2-ae84-bdb0b2bf43e4" />
+      <TestMethod codeBase="D:/opensrc/Rolcore/src/build-artifacts/Rollins.Net.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Rolcore.Tests.TcpIpUtilsTest, Rollins.Net.Tests, Version=0.0.4743.22443, Culture=neutral, PublicKeyToken=null" name="IpStringToDoubleTest" />
+    </UnitTest>
+    <UnitTest name="TestExceptionResponse" storage="d:\opensrc\rolcore\src\build-artifacts\rollins.net.tests.dll" id="c41c9042-eada-1efe-609b-17a8f4d27510">
+      <Execution id="6d8cbbdd-864f-4ace-8dbc-569b340a4b43" />
+      <TestMethod codeBase="D:/opensrc/Rolcore/src/build-artifacts/Rollins.Net.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Rolcore.Net.Tests.WebMethodsHtmlResponseObjectTest, Rollins.Net.Tests, Version=0.0.4743.22443, Culture=neutral, PublicKeyToken=null" name="TestExceptionResponse" />
+    </UnitTest>
+    <UnitTest name="Constructor" storage="d:\opensrc\rolcore\src\build-artifacts\rollins.net.tests.dll" id="4da721f7-82d3-a82b-18ed-a16a62016348">
+      <Execution id="f0efe964-aa6e-4ad9-bf17-1432ebcb65a5" />
+      <TestMethod codeBase="D:/opensrc/Rolcore/src/build-artifacts/Rollins.Net.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="Rolcore.Net.Tests.WebMethodsHtmlResponseObjectTest, Rollins.Net.Tests, Version=0.0.4743.22443, Culture=neutral, PublicKeyToken=null" name="Constructor" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="4da721f7-82d3-a82b-18ed-a16a62016348" executionId="f0efe964-aa6e-4ad9-bf17-1432ebcb65a5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c41c9042-eada-1efe-609b-17a8f4d27510" executionId="6d8cbbdd-864f-4ace-8dbc-569b340a4b43" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b5c6505a-d017-0f01-f625-0904dd95d7ee" executionId="9432c646-8ccd-43b2-ae84-bdb0b2bf43e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="f0efe964-aa6e-4ad9-bf17-1432ebcb65a5" testId="4da721f7-82d3-a82b-18ed-a16a62016348" testName="Constructor" computerName="LTJTHARPE89730" duration="00:00:04.7724605" startTime="2012-12-26T12:28:13.9723592-05:00" endTime="2012-12-26T12:28:19.0333592-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f0efe964-aa6e-4ad9-bf17-1432ebcb65a5">
+    </UnitTestResult>
+    <UnitTestResult executionId="6d8cbbdd-864f-4ace-8dbc-569b340a4b43" testId="c41c9042-eada-1efe-609b-17a8f4d27510" testName="TestExceptionResponse" computerName="LTJTHARPE89730" duration="00:00:00.0345620" startTime="2012-12-26T12:28:19.0363592-05:00" endTime="2012-12-26T12:28:19.0743592-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6d8cbbdd-864f-4ace-8dbc-569b340a4b43">
+    </UnitTestResult>
+    <UnitTestResult executionId="9432c646-8ccd-43b2-ae84-bdb0b2bf43e4" testId="b5c6505a-d017-0f01-f625-0904dd95d7ee" testName="IpStringToDoubleTest" computerName="LTJTHARPE89730" duration="00:00:00.0023468" startTime="2012-12-26T12:28:19.0773592-05:00" endTime="2012-12-26T12:28:19.0823592-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9432c646-8ccd-43b2-ae84-bdb0b2bf43e4">
+    </UnitTestResult>
+  </Results>
+</TestRun>

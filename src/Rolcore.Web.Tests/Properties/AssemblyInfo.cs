@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Rolcore.Web.Tests")]
-[assembly: AssemblyCopyright("Copyright © Rollins, Inc. 2011")]
+[assembly: AssemblyCopyright("Copyright © Rollins, Inc. 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
