@@ -8,7 +8,7 @@ namespace Rolcore.Science
     /// <summary>
     /// Base class for an item that is part of an <see cref="Experiment"/>.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Specifies the type of item taking part in the experiment.</typeparam>
     public abstract class ExperimentItem<T>
     {
         private readonly T _Item;

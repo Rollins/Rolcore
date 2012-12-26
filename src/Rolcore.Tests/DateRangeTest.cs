@@ -10,8 +10,8 @@ namespace Rollins.Tests
     using Rolcore;
     
     /// <summary>
-    ///This is a test class for DateRangeTest and is intended
-    ///to contain all DateRangeTest Unit Tests
+    /// This is a test class for DateRangeTest and is intended to contain all DateRangeTest Unit 
+    /// Tests.
     ///</summary>
     [TestClass()]
     public class DateRangeTest

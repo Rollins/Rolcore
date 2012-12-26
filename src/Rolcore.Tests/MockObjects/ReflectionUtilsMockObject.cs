@@ -1,11 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ReflectionUtilsMockObject.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Tests.MockObjects
 {
+    using System;
+    using System.Diagnostics;
+
+    /// <summary>
+    /// An object used for testing the <see cref="ReflectionUtils"/> class.
+    /// </summary>
     class ReflectionUtilsMockObject
     {
         private bool _VoidMethodCalled = false;

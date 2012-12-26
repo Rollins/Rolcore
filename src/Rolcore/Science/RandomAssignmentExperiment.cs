@@ -10,7 +10,6 @@ namespace Rolcore.Science
     using System.Linq;
     using System.Text;
 
-
     /// <summary>
     /// Uses the Random assignment experimental technique to assign subjects to a different "item"
     /// randomly. By randomizing assignment each group of participants is roughly equivelant and 

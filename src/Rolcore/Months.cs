@@ -10,6 +10,9 @@ namespace Rolcore
     /// </summary>
     public static class Months
     {
+        /// <summary>
+        /// The number of months in a year.
+        /// </summary>
         public const int PerYear = 12;
     }
 }

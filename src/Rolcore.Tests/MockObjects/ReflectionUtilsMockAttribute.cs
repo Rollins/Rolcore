@@ -11,7 +11,7 @@ namespace Rolcore.Tests.MockObjects
     /// A mock attribute used for testing.
     /// </summary>
     [global::System.AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-    sealed class ReflectionUtilsMockAttribute : Attribute
+    public sealed class ReflectionUtilsMockAttribute : Attribute
     {
         // See the attribute guidelines at 
         //  http://go.microsoft.com/fwlink/?LinkId=85236

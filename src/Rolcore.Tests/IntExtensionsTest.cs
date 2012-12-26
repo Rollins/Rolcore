@@ -9,8 +9,8 @@ namespace Rolcore.Tests
     using Rolcore.Geography;
 
     /// <summary>
-    ///This is a test class for IntExtensionsTest and is intended
-    ///to contain all IntExtensionsTest Unit Tests
+    /// This is a test class for IntExtensionsTest and is intended to contain all IntExtensionsTest
+    /// Unit Tests.
     ///</summary>
     [TestClass()]
     public class IntExtensionsTest

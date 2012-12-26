@@ -10,6 +10,9 @@ namespace Rolcore.IO
     using System.Diagnostics;
     using System.IO;
 
+    /// <summary>
+    /// Static methods I wish the <see cref="Directory"/> class had.
+    /// </summary>
     public static class DirectoryEx 
     {
         public static IEnumerable<string> EnumerateFilesFormattedSearchPattern(string path, string formattedSearchPattern, SearchOption searchOption, params IFormattable[] formatters)

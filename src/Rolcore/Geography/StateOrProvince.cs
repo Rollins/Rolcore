@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------
-// <copyright file="State.cs" company="Rollins, Inc.">
+// <copyright file="StateOrProvince.cs" company="Rollins, Inc.">
 //     Copyright © Rollins, Inc. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
@@ -10,7 +10,6 @@ namespace Rolcore.Geography
     /// </summary>
     public class StateOrProvince
     {
-
         public string StateName { get; set; }
 
         public string StateAbbreviation { get; set; }
