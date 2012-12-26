@@ -9,6 +9,8 @@ namespace Rolcore.Net
 {
     public static class Http
     {
+        public const string DefaultUserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727)";
+
         public static byte[] Post(string uri, NameValueCollection data)
         {
             byte[] response = null;
@@ -20,7 +22,7 @@ namespace Rolcore.Net
             return response;
         } //TODO: Unit test
 
-        public static HttpWebResponse Get(string uri, string userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727)", string accept = "*/*")
+        public static HttpWebResponse Get(string uri, string userAgent = DefaultUserAgent, string accept = "*/*")
         {
             if (uri == null)
                 throw new ArgumentNullException("uri", "uri is null.");

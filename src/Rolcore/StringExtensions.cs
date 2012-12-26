@@ -72,13 +72,19 @@ namespace Rolcore
             return result.ToString();
         }
 
+        /// <summary>
+        /// Converts the string to a <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="s">Specifies the string to convert.</param>
+        /// <param name="baseUri">Optionally specifies the base URI if the specified string is (or might be) relative.</param>
+        /// <returns>The Uri represented by the given string.</returns>
         public static Uri ToUri(this string s, Uri baseUri = null)
         {
             if (string.IsNullOrWhiteSpace(s))
                 throw new ArgumentException("Cannot convert an null, empty, or whitespace string to a Uri.", "s");
 
             Uri result = (baseUri == null)
-                ? new Uri(s, UriKind.RelativeOrAbsolute) //the constructor will error if it's passed a relative path but not specied as such
+                ? new Uri(s, UriKind.RelativeOrAbsolute) // the constructor will error if it's passed a relative path but not specified as such
                 : new Uri(baseUri, s);
 
             return result;
