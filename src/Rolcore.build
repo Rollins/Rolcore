@@ -44,7 +44,6 @@
         <!-- Hat tip to Greg MacLellan: 
             http://youtrack.jetbrains.com/issue/TW-14756 
             -->
-        <Message Text="Found test assemblies: @(TestAssemblies)" />
         <MakeDir Directories="@(TestResults)" />
         <PropertyGroup>
             <MsTestCommand>mstest /nologo  /testcontainer:"%(TestAssemblies.FullPath)" /resultsfile:@(TestResults)\%(TestAssemblies.Filename).trx"</MsTestCommand>

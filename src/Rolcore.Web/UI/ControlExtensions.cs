@@ -86,12 +86,10 @@ namespace Rolcore.Web.UI
                 throw new ArgumentNullException("control", "control is null.");
 
             StringBuilder resultBuilder = new StringBuilder();
-            using (StringWriter resultWriter = new StringWriter(resultBuilder))
+            using (HtmlTextWriter writer = new HtmlTextWriter(new StringWriter(resultBuilder)))
             {
-                using (HtmlTextWriter writer = new HtmlTextWriter(resultWriter))
-                    control.RenderControl(writer);
-
-                return resultWriter.ToString();
+                control.RenderControl(writer);
+                return writer.InnerWriter.ToString();
             }
         }
     }
