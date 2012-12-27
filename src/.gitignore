@@ -19,6 +19,7 @@ Index.dat
 Storage.dat
 Build/
 build-artificats/
+build-artificats
 
 # External tool builders
 .externalToolBuilders/

@@ -17,3 +17,5 @@
 /src/TestResults
 /src/Rolcore.Xml.Linq/bin
 /src/Rolcore.Xml.Linq/obj
+/src/build-artifacts
+/src/Build
