@@ -53,36 +53,30 @@
         <Exec Command="$(MsTestCommand)" ContinueOnError="false" />
     </Target>
 
-    <Target Name="Package" DependsOnTargets="CompileAndTest"> <!-- DependsOnTargets="CompileAndTest" -->
+    <Target Name="Package" DependsOnTargets="CompileAndTest">
         <RemoveDir Directories="@(PackageDir)"/>
         <MakeDir Directories="@(PackageDir)" />
         
         <Copy SourceFiles="@(NuGetFiles)" DestinationFolder="@(PackageDir)" />
         <Copy SourceFiles="@(PackageAssemblies)" DestinationFolder="@(PackageDir)" />
         
-        <Message Text="Files Copied"/>
-        
-        <Message Text="Loading Assembly Data From: @(PackageVersionAssembly)" />
-            
         <GetAssemblyIdentity AssemblyFiles="@(PackageVersionAssembly)">
             <Output TaskParameter="Assemblies" ItemName="AssemblyIdentity" />
         </GetAssemblyIdentity>
-        
-        <Message Text="Assembly Data Loaded: $(AssemblyIdentity)" />
         
         <XmlUpdate 
             Prefix="nu"
             Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
             XmlFileName="@(NuSpecFile)"
             XPath="/nu:package/nu:metadata/nu:version"
-            Value="%(AssemblyIdentity.Version)" /> <!--%(AssemblyIdentity.Version)-->
-
-        <!--NuGetPack
-            ToolPath="$(NuGetDir)"
-            WorkingDirectory="$(PackageDir)"
-            File="$(PackageDir)$(NuSpecFileName)"
-            Version="%(AssemblyIdentity.Version)"/ -->
+            Value="%(AssemblyIdentity.Version)" />
     </Target>
 
     <!-- TODO: Add http://nuget.org/packages/StyleCop.MSBuild -->
+    <!-- TODO: Unit test code coverage tool? -->
+
+    <!-- TODO:
+    <Target Name="Deploy" DependsOnTargets="Package"> 
+    </Target>
+    -->
 </Project>
