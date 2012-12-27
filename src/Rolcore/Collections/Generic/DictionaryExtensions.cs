@@ -16,15 +16,17 @@ namespace Rolcore.Collections.Generic
     public static class DictionaryExtensions
     {
         /// <summary>
-        /// Converts the specified <see cref="ictionary<string, string>"/> to a 
+        /// Converts the specified <see cref="Dictionary{string, string}"/> to a 
         /// <see cref="NameValueCollection"/>.
         /// </summary>
         /// <param name="value">Specifies the value to convert.</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="NameValueCollection"/> containing the items from the dictionary.</returns>
         public static NameValueCollection ToNameValueCollection(this Dictionary<string, string> value)
         {
             if (value == null)
+            {
                 throw new ArgumentNullException("value", "value is null.");
+            }
 
             return value.ToArray().ToNameValueCollection();
         }

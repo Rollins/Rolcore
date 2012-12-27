@@ -19,15 +19,20 @@ namespace Rolcore.Collections.Generic
         /// <see cref="NameValueCollection"/>.
         /// </summary>
         /// <param name="value">Specifies the value to convert.</param>
-        /// <returns></returns>
+        /// <returns>A <see cref="NameValueCollection"/> containing the values from the 
+        /// <see cref="KeyValuePair{}"/>.</returns>
         public static NameValueCollection ToNameValueCollection(this KeyValuePair<string, string>[] value)
         {
             if (value == null)
+            {
                 throw new ArgumentNullException("value", "value is null.");
+            }
 
             var result = new NameValueCollection(value.Length);
-            foreach(var item in value)
+            foreach (var item in value)
+            {
                 result.Add(item.Key, item.Value);
+            }
 
             return result;
         }
