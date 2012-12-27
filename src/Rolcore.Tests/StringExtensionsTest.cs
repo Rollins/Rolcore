@@ -13,7 +13,7 @@ namespace Rolcore.Tests
     ///This is a test class for StringExtensionMethodsTest and is intended
     ///to contain all StringExtensionMethodsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class StringExtensionsTest
     {
 
@@ -70,7 +70,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for First
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void FirstTest()
         {
             int numberOfCharacters = 10;
@@ -89,7 +89,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for Repeat
         ///</summary>
-        [TestMethod(), ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RepeatNegativeTest()
         {
             string s = "Hello world!";
@@ -102,7 +102,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for Repeat
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Repeat0Test()
         {
             string expected = string.Empty;
@@ -113,7 +113,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for Repeat
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Repeat1Test()
         {
             string expected = "Hello world!";
@@ -124,7 +124,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for Repeat
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Repeat2Test()
         {
             string s = "Hello world!";
@@ -141,7 +141,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for IsInUsa5DigitPostalCodeFormat
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IsInUsaPostalCodeFormatTest()
         {
             Assert.IsFalse("aaaaa".IsInUsaPostalCodeFormat());
@@ -160,7 +160,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for ToRegEx
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HtmlTag_ToRegExTest()
         {
             Regex actual = CommonExpressions.HtmlTag.ToRegEx(RegexOptions.IgnoreCase);

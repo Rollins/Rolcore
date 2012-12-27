@@ -19,22 +19,28 @@ namespace Rolcore.Geography
         /// <returns>A zero-padded, 5-digit zip code.</returns>
         public static string ToUsa5DigitPostalCode(this uint i)
         {
-            //
             // Pre-conditions
-
             if (i > 99999)
+            {
                 throw new ArgumentOutOfRangeException("i is greater than five digits.");
+            }
 
-            //
             // Pad zeros
-
             return i.ToString().PadLeft(5, '0');
         }
 
+        /// <summary>
+        /// Converts the specified integer to a 5-digit zip code.
+        /// </summary>
+        /// <param name="i">Specifies the integer to convert.</param>
+        /// <returns>A string containing the 5-digit zip code.</returns>
         public static string ToUsa5DigitPostalCode(this int i)
         {
+            // Pre-conditions
             if (i < 0)
+            {
                 throw new ArgumentOutOfRangeException("i is negative.");
+            }
 
             return Convert.ToUInt32(i).ToUsa5DigitPostalCode();
         }

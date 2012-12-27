@@ -1,73 +1,25 @@
-﻿using Rolcore.Net.WebMethods;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="WebMethodsHtmlResponseObjectTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Net.Tests
 {
-    
+    using System.Text;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Net.WebMethods;
     
     /// <summary>
-    ///This is a test class for WebMethodsHtmlResponseObjectTest and is intended
-    ///to contain all WebMethodsHtmlResponseObjectTest Unit Tests
+    /// Tests for <see cref="WebMethodsHtmlResponseObject"/>.
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class WebMethodsHtmlResponseObjectTest
     {
-
-        private TestContext testContextInstance;
-
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-        [TestMethod()]
-        public void Constructor()
+        /// Tests that the constructor initializes the instance based on the supplied HTML.
+        /// </summary>
+        [TestMethod]
+        public void Constructor_IntializesBasedOnHtmlString()
         {
             StringBuilder b = new StringBuilder();
             b.AppendLine("<BODY bgcolor=#dddddd>");
@@ -225,7 +177,7 @@ namespace Rolcore.Net.Tests
             Assert.AreEqual(o["BranchInformationList.Location.PostalAddress.City"].AsString, "ATLANTA");
         }
 
-        [TestMethod(), ExpectedException(typeof(WebMethodsHtmlResponseException))]
+        [TestMethod, ExpectedException(typeof(WebMethodsHtmlResponseException))]
         public void TestExceptionResponse()
         {
             StringBuilder b = new StringBuilder();

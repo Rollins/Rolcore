@@ -15,13 +15,13 @@ namespace Rolcore.Tests
     /// This is a test class for ObjectExtensionsTest and is intended
     /// to contain all ObjectExtensionsTest Unit Tests
     /// </summary>
-    [TestClass()]
+    [TestClass]
     public class ObjectExtensionsTest
     {
         /// <summary>
         ///A test for GetMethodsWithAttribute
         ///</summary>
-        [TestMethod(), ExpectedException(typeof(ArgumentException))]
+        [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void GetMethodsWithAttribute_ThrowsExceptionWhenNonAttributeTypeSpecified()
         {
             object instance = new ReflectionUtilsMockObject();
@@ -29,12 +29,12 @@ namespace Rolcore.Tests
             ObjectExtensions.GetMethodsWithAttribute(instance, attributeType, false);
         }
 
-        //TODO: [TestMethod()] public void GetMethodsWithAttributeInheritedTest() { }
+        //TODO: [TestMethod] public void GetMethodsWithAttributeInheritedTest() { }
 
         /// <summary>
         ///A test for GetMethodsWithAttribute
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetMethodsWithAttributeNotIneritedTest()
         {
             object instance = new ReflectionUtilsMockObject();
@@ -47,7 +47,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for CopyMatchingObjectPropertiesTo
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CopyMatchingObjectPropertiesToTest()
         {
             var source = new

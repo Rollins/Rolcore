@@ -10,7 +10,7 @@ namespace Rollins.Web.Tests
     ///This is a test class for UriExtensionsTest and is intended
     ///to contain all UriExtensionsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class UriExtensionsTest
     {
 
@@ -64,7 +64,7 @@ namespace Rollins.Web.Tests
         #endregion
 
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsEmptyUriTest()
         {
             Uri uri = new Uri(string.Empty, UriKind.Relative);
@@ -73,7 +73,7 @@ namespace Rollins.Web.Tests
         }
 
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsYahooDotComTest()
         {
             Uri uri = new Uri("http://search.yahoo.com/search?fr=cb-hp06&type=advisor&ei=UTF-8&p=13%2epest%20threat%2ecom");
@@ -85,7 +85,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("Pest Control", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsPestanalysisComTest()
         {
             Uri uri = new Uri("http://46.pestanalysis.com/search.php?d=pestanalysis.com&cachekey=1210547694&rc=true&term=Pest+analysis&append=");
@@ -93,7 +93,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("Pest analysis", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsEntryNotFoundDotComTest()
         {
             Uri uri = new Uri("http://wwww23.entry-not-found.com/search?qo=www.51.pest%2520threat.com&rn=AHbSGJpsHOpxcb_");
@@ -101,7 +101,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("www.51.pest%20threat.com", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsAttDotNetTest()
         {
             Uri uri = new Uri("http://my.att.net/s/s.dll?num=10&spage=search%2Fresultshome1.htm&searchType=web&string=16+Pest+Threats.com&where=Location+%28e.g.+Address%29&sm.x=7&sm.y=11");
@@ -109,7 +109,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("16 Pest Threats.com", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsSwitchboardDotComTest()
         {
             Uri uri = new Uri("http://switchboard.com/swbd.main/dir/results.htm?cid=&MEM=1&ypcobrand=1&PR=&ST=&inputwhat_dirty=1&KW=tabor+pest+control&initial=&inputwhere_dirty=1&LO=dothan%2C+al+36303&SD=-1&semChannelId=&semSessionId=&search.x=58&search.y=15");
@@ -117,7 +117,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("tabor pest control", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsVerizonDotNetTest()
         {
             Uri uri = new Uri("http://wwwz.websearch.verizon.net/search?qo=www.pest%2520threat.com&rn=yl1ciCfHRyzBX_A");
@@ -125,7 +125,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("www.pest%20threat.com", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsNetscapeDotComTest()
         {
             Uri uri = new Uri("http://search.hp.netscape.com/hp/search?query=28.PestThreat.com&st=webresults&fromPage=HPResultsT");
@@ -133,7 +133,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("28.PestThreat.com", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsYellowpagesDotComTest()
         {
             Uri uri = new Uri("http://www.yellowpages.com/Fairfax-VA/Pest-Control-Services/city-Fairfax?search_terms=Pest+Control");
@@ -141,7 +141,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("Pest Control", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsInformationDotComTest()
         {
             Uri uri = new Uri("http://searchportal.information.com/?epl=01510006R1UMXGYWVlEFDVFQClNQAVcNVA9FUVgMAFxbVllZVFhBURBVUAtLGgJfD0VLAAdBAlw5RwxGChEORUBUWUZuCFRdDGdVBF1QCF4FRUsAB0ECXDlDGkVSXA1cW1MeVW4MUQlTDwFXARIKRz0RWQsNDlU&query=Termites");
@@ -149,7 +149,7 @@ namespace Rollins.Web.Tests
             Assert.AreEqual("Termites", actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void ParseKeyWordsAolDotComTest()
         {
             Uri uri = new Uri("http://search.aol.com/aol/search?invocationType=comsearch30&query=termtie+companies+springboro&do=Search");

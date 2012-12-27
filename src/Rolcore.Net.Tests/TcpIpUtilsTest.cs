@@ -1,73 +1,25 @@
-﻿using Rolcore.Net.Sockets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="TcpIpUtilsTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Tests
 {
-    
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Net.Sockets;
     
     /// <summary>
     ///This is a test class for TcpIpUtilsTest and is intended
     ///to contain all TcpIpUtilsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class TcpIpUtilsTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         /// <summary>
         ///A test for IpStringToDouble
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IpStringToDoubleTest()
         {
             Assert.AreEqual(TcpIpUtils.IpStringToDouble("87.252.223.255"), 1476190207);

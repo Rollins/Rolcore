@@ -14,10 +14,10 @@ namespace Rolcore.Tests
     /// This is a test class for ListExtensionMethodsTest and is intended
     /// to contain all ListExtensionMethodsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ListExtensionMethodsTest
     {
-        [TestMethod()]
+        [TestMethod]
         public void DuplicatesTest()
         {
             // A little bit of Hamlet
@@ -55,7 +55,7 @@ namespace Rolcore.Tests
         /// <summary>
         ///A test for Shuffle
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ShuffleTest()
         {
             object[] list = new object[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }; // TODO: Initialize to an appropriate value

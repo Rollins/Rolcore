@@ -16,7 +16,7 @@ namespace Rolcore.Geography
         /// When implemented in a derived class, returns a list of postal codes, typically for a 
         /// given local.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An enumerable of postal code strings.</returns>
         IEnumerable<string> GetPostalCodes();
     }
 }

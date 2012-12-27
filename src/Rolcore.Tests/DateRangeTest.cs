@@ -13,13 +13,13 @@ namespace Rollins.Tests
     /// This is a test class for DateRangeTest and is intended to contain all DateRangeTest Unit 
     /// Tests.
     /// </summary>
-    [TestClass()]
+    [TestClass]
     public class DateRangeTest
     {
         /// <summary>
         /// A test for DateRange default constructor.
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DateRangeDefaultConstructorTest()
         {
             DateRange target = new DateRange(); // Defaults to infinite range.
@@ -30,7 +30,7 @@ namespace Rollins.Tests
         /// <summary>
         ///A test for DateRange(DateTime, DateTime) Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DateRangeConstructorTest()
         {
             Nullable<DateTime> startDate = DateTime.Today;
@@ -43,7 +43,7 @@ namespace Rollins.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void EqualsTest()
         {
             DateRange target = new DateRange();
@@ -62,7 +62,7 @@ namespace Rollins.Tests
         /// <summary>
         ///A test for GetIntersection
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetIntersectionTest()
         {
             var target = new DateRange(DateTime.Today.AddDays(-1), DateTime.Today);
@@ -75,7 +75,7 @@ namespace Rollins.Tests
         /// <summary>
         ///A test for Intersects
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IntersectsTest()
         {
             var target = new DateRange();
@@ -97,7 +97,7 @@ namespace Rollins.Tests
         /// <summary>
         ///A test for OccursWithin
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OccursWithinTest()
         {
             var target = new DateRange();
@@ -118,7 +118,7 @@ namespace Rollins.Tests
         /// <summary>
         /// A test for Today
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TodayTest()
         {
             DateRange actual = DateRange.Today;
@@ -133,7 +133,7 @@ namespace Rollins.Tests
         /// <summary>
         /// A test for TimeSpan
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TimeSpanTest()
         {
             // Infinite \\
@@ -178,7 +178,7 @@ namespace Rollins.Tests
         /// <summary>
         ///A test for Now
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NowTest()
         {
             DateTime beforeNow = DateTime.Now.AddSeconds(-1);

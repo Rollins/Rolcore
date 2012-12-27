@@ -10,7 +10,7 @@ namespace Rolcore.Tests
     ///This is a test class for UriExtensionsTest and is intended
     ///to contain all UriExtensionsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class UriExtensionsTest
     {
 

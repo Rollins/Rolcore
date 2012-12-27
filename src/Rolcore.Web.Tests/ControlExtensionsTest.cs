@@ -1,18 +1,18 @@
-﻿using Rolcore.Web.UI;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+﻿
 
 namespace Rollins.Web.Tests
 {
-    
+    using Rolcore.Web.UI;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
     
     /// <summary>
     ///This is a test class for ControlExtensionsTest and is intended
     ///to contain all ControlExtensionsTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ControlExtensionsTest
     {
 
@@ -69,7 +69,7 @@ namespace Rollins.Web.Tests
         /// <summary>
         ///A test for RenderControlToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void RenderControlToStringTest()
         {
             using (Control control = new Button { ID = "TestButton", Text = "Click me!" })
