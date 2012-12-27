@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Rolcore.Repository
+﻿namespace Rolcore.Repository
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a read-only repository.
     /// </summary>

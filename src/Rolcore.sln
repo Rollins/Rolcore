@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Repository", "Rolco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Repository.Tests", "Rolcore.Repository.Tests\Rolcore.Repository.Tests.csproj", "{017F2B98-C8CA-453B-93C4-E270E8AD5A24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Data.Tests", "Rolcore.Data.Tests\Rolcore.Data.Tests.csproj", "{2C98E575-DFF1-481A-A8E0-706F98472FD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{017F2B98-C8CA-453B-93C4-E270E8AD5A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017F2B98-C8CA-453B-93C4-E270E8AD5A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017F2B98-C8CA-453B-93C4-E270E8AD5A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

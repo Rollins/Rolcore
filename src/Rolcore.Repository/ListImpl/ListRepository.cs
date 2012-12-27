@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Rolcore.Repository.ListImpl
+﻿namespace Rolcore.Repository.ListImpl
 {
+    using System;
+    using System.Collections.Generic;
+
     public class ListRepository<TItem, TConcurrency> : Repository<TItem, TConcurrency>
         where TItem : class
     {

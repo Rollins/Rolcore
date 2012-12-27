@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using System.Collections.Specialized;
-using Rolcore.Reflection;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DataRowExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Data;
+    using System.Linq;
+    using Rolcore.Reflection;
+
     /// <summary>
-    /// Extension utility methods for <see cref="DataRow"/>.
+    /// Extension methods for <see cref="DataRow"/>.
     /// </summary>
     public static class DataRowExtensions
     {
@@ -22,24 +26,27 @@ namespace Rolcore.Data
         /// called "ID" to a column called "MyID".</param>
         public static void CopyTo(this DataRow source, DataRow destination, NameValueCollection columnMap = null)
         {
-            //
-            // Pre-conditions
+            //// Pre-conditions
 
             if (source == null)
+            {
                 throw new ArgumentNullException("source", "source is null.");
-            if (destination == null)
-                throw new ArgumentNullException("destination", "destination is null.");
+            }
 
-            //
-            // Copy
+            if (destination == null)
+            {
+                throw new ArgumentNullException("destination", "destination is null.");
+            }
+
+            //// Copy
 
             columnMap = source.Table.GetColumnMapOrDefault(columnMap);
 
             foreach (string sourceColumnName in columnMap.AllKeys)
+            {
                 destination[columnMap[sourceColumnName]] = source[sourceColumnName];
-
-            //TODO: Unit test
-        }
+            }
+        } // Tested
 
         /// <summary>
         /// Copies data from a <see cref="DataRow"/> to an <see cref="object"/>.
@@ -49,28 +56,25 @@ namespace Rolcore.Data
         /// <param name="ignoreBlankValues">When true, empty values in the source are ignored.</param>
         /// <param name="columnMap">A <see cref="NameValueCollection"/> for mapping the name of a 
         /// column in the source to the name of a property in the destination.</param>
-        /// <returns>A <see cref="Dictionary<string, object>"/> of changed properties and their 
+        /// <returns>A <see cref="Dictionary{string, object}"/> of changed properties and their 
         /// original values from the destination object.</returns>
         public static Dictionary<string, object> CopyRowData(this DataRow source, object destination, bool ignoreBlankValues, NameValueCollection columnMap, params string[] ignoreColumnNames)
         {
-            //
-            // Pre-conditions
+            //// Pre-conditions
 
             if (source == null)
                 throw new ArgumentNullException("source", "source is null.");
             if (destination == null)
                 throw new ArgumentNullException("destination", "destination is null.");
 
-            //
-            // Map properties
+            //// Map properties
 
             columnMap = source.Table.GetColumnMapOrDefault(columnMap);
             var destinationType = destination.GetType();
             System.Reflection.PropertyInfo[] destinationProperties = destinationType.GetProperties();
             var result = new Dictionary<string, object>(columnMap.Count);
 
-            //
-            // Copy
+            //// Copy
 
             foreach (string sourceColumnName in columnMap.AllKeys)
             {

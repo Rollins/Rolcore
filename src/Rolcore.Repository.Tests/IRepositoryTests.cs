@@ -1,15 +1,13 @@
-﻿using Rolcore.Repository;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using Rolcore.Repository.Tests.Mocks;
-using System.Linq;
-using System.Data;
-using System.Diagnostics;
+﻿
 
 namespace Rolcore.Repository.Tests
 {
-    
+    using System;
+    using System.Data;
+    using System.Diagnostics;
+    using System.Linq;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Repository.Tests.Mocks;
     
     /// <summary>
     ///This is a test class for RepositoryTest and is intended
