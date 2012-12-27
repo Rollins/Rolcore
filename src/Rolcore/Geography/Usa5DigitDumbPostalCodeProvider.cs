@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Usa5DigitDumbPostalCodeProvider.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Geography

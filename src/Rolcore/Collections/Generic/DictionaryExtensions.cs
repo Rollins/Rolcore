@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DictionaryExtensions.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Collections.Generic
@@ -11,7 +11,7 @@ namespace Rolcore.Collections.Generic
     using System.Linq;
 
     /// <summary>
-    /// Extension methods for <see cref="Dictionary<>"/>.
+    /// Extension methods for <see cref="Dictionary"/>.
     /// </summary>
     public static class DictionaryExtensions
     {

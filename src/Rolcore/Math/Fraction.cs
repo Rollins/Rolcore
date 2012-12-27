@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="Fraction.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Math
@@ -12,7 +12,10 @@ namespace Rolcore.Math
     /// </summary>
     public class Fraction
     {
-        private long _Denominator;
+        /// <summary>
+        /// The denominator of the fraction.
+        /// </summary>
+        private long denominator;
 
         /// <summary>
         /// Constructor.
@@ -22,6 +25,11 @@ namespace Rolcore.Math
             Initialize(0, 1);
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="Fraction"/> initialized to the specified
+        /// whole-number value.
+        /// </summary>
+        /// <param name="wholeNumber">Specifies the initial value of the fraction.</param>
         public Fraction(long wholeNumber)
         {
             Initialize(wholeNumber, 1);
@@ -50,11 +58,11 @@ namespace Rolcore.Math
         public long Denominator
         {
             get
-            { return _Denominator; }
+            { return denominator; }
             set
             {
                 if (value != 0)
-                    _Denominator = value;
+                    denominator = value;
                 else
                     throw new FractionException("Denominator cannot be assigned a ZERO Value");
             }
@@ -73,7 +81,7 @@ namespace Rolcore.Math
             set
             {
                 Numerator = value;
-                _Denominator = 1;
+                denominator = 1;
             }
         }
 

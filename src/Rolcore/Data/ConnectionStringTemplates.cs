@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ConnectionStringTemplates.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Data
@@ -12,7 +12,14 @@ namespace Rolcore.Data
     /// </summary>
     public static class ConnectionStringTemplates
     {
+        /// <summary>
+        /// Data Source and provider attributes for an MS Jet OLE DB 4 connection string.
+        /// </summary>
         public const string MsJetOleDb4 = "Data Source=;Provider=Microsoft.Jet.OLEDB.4.0;";
+
+        /// <summary>
+        /// Data Source and provider attributes for an MS Jet OLE DB 12 connection string.
+        /// </summary>
         public const string MsAceOleDb12 = "Data Source=;Provider=Microsoft.ACE.OLEDB.12.0;";
 
         /// <summary>

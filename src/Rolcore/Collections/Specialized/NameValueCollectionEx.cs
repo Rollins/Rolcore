@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NameValueCollectionEx.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Collections.Specialized
@@ -21,8 +21,7 @@ namespace Rolcore.Collections.Specialized
         public NameValueCollectionEx(int capacity) : base(capacity){}
         public NameValueCollectionEx(System.Collections.IEqualityComparer equalityComparer) : base(equalityComparer){}
         public NameValueCollectionEx(int capacity, System.Collections.IEqualityComparer equalityComparer) : base(capacity, equalityComparer){}
-        public NameValueCollectionEx(int capacity, NameValueCollection col) : base(capacity, col){}
-                                                                                                   
+        public NameValueCollectionEx(int capacity, NameValueCollection col) : base(capacity, col){}                                                      
         #endregion Constructors
 
         /// <summary>

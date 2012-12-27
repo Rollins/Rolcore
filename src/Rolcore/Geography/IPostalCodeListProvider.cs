@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="IPostalCodeListProvider.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Geography
@@ -12,6 +12,11 @@ namespace Rolcore.Geography
     /// </summary>
     public interface IPostalCodeListProvider
     {
+        /// <summary>
+        /// When implemented in a derived class, returns a list of postal codes, typically for a 
+        /// given local.
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<string> GetPostalCodes();
     }
 }

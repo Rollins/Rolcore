@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="RandomAssignmentExperiment.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Science
@@ -8,7 +8,6 @@ namespace Rolcore.Science
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Uses the Random assignment experimental technique to assign subjects to a different "item"

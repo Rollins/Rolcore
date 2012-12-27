@@ -80,6 +80,11 @@ namespace Rolcore.Web.UI
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Renders the specified control as a string.
+        /// </summary>
+        /// <param name="control">Specifies the control to render.</param>
+        /// <returns>A string containing the rendered control.</returns>
         public static string RenderControlToString(this Control control)
         {
             if (control == null)

@@ -7,45 +7,88 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     </PropertyGroup>
+
+    <Import Project=".\Build\MSBuild.Community.Tasks.Targets"/>
     
     <ItemGroup>
-        <BuildArtifacts Include=".\build-artifacts"/>
+        <BuildArtifactsDir Include=".\build-artifacts\"/>
         <TestAssemblies Include=".\build-artifacts\*.Tests.dll" />
-        <TestResults Include=".\build-artifacts\test-results"/>
+        <TestResultsDir Include=".\build-artifacts\test-results\"/>
+        <NuGetDir Include="..\nuget\"/>
+        <NuGetExeName Include="nuget.exe"/>
+        <NuSpecFileName Include="Rolcore.nuspec"/>
+        <PackageDir Include=".\build-artifacts\package\"/>
+        <PackageVersionAssemblyName Include="Rolcore.dll"/>
+        <PackageAssemblies Include=".\build-artifacts\*.dll" Exclude=".\build-artifacts\*.Tests.dll" />
         <SolutionFile Include=".\Rolcore.sln"/>
     </ItemGroup>
     
-    <ItemGroup>
-        
-    </ItemGroup>
-    
     <Target Name="Clean">
-        <RemoveDir Directories="@(BuildArtifacts)"/>
+        <RemoveDir Directories="@(BuildArtifactsDir)"/>
     </Target>
 
     <Target Name="Initialize" DependsOnTargets="Clean">
-        <MakeDir Directories="@(BuildArtifacts)" />
+        <MakeDir Directories="@(BuildArtifactsDir)" />
     </Target>
 
     <Target Name="Compile" DependsOnTargets="Initialize">
         <MSBuild Projects="@(SolutionFile)" Targets="Rebuild" Properties="OutDir=%(BuildArtifacts.FullPath);Configuration=$(Configuration)" />
     </Target>
     
-    <Target Name="CompileAndTest" DependsOnTargets="Compile;Test"/>
-    <Target Name="TestOnly" DependsOnTargets="Test"/>
+    <Target Name="CompileAndTest" DependsOnTargets="Compile;TestOnly"/>
+    
+    <Target Name="TestOnly">
+        <RemoveDir Directories="@(TestResultsDir)"/>
+        <CallTarget Targets="Test"/>
+    </Target>
 
     <Target Name="Test" Outputs="%(TestAssemblies.Filename)">
         <!-- 
             Hat tip to Greg MacLellan: 
             http://youtrack.jetbrains.com/issue/TW-14756 
         -->
-        <RemoveDir Directories="@(TestResults)"/>
-        <MakeDir Directories="@(TestResults)" />
+        <MakeDir Directories="@(TestResultsDir)" />
         <PropertyGroup>
-            <MsTestCommand>mstest /nologo  /testcontainer:"%(TestAssemblies.FullPath)" /resultsfile:@(TestResults)\%(TestAssemblies.Filename).trx"</MsTestCommand>
+            <MsTestCommand>mstest /nologo  /testcontainer:"%(TestAssemblies.FullPath)" /resultsfile:@(TestResultsDir)%(TestAssemblies.Filename).trx"</MsTestCommand>
         </PropertyGroup>
         <Exec Command="$(MsTestCommand)" ContinueOnError="false" />
     </Target>
 
+    <Target Name="Package" > <!-- DependsOnTargets="CompileAndTest" -->
+        <RemoveDir Directories="@(PackageDir)"/>
+        <MakeDir Directories="@(PackageDir)" />
+        
+        <Copy SourceFiles="$(NuGetDir)$(NuSpecFileName)" DestinationFiles="$(PackageDir)$(NuSpecFileName)" />
+        <Copy SourceFiles="@(PackageAssemblies)" DestinationFolder="@(PackageDir)" />
+        <Copy SourceFiles="$(NuGetDir)$(NuGetExeName)" DestinationFolder="$(PackageDir)$(NuGetExeName)" />
+        
+        <Message Text="Files Copied"/>
+        
+        <PropertyGroup>
+            <PackageAsm>%(PackageDir.FullPath)$(PackageVersionAssemblyName)</PackageAsm>
+        </PropertyGroup>
+        
+        <Message Text="Loading Assembly Data From: @(PackageAsm)" />
+            
+        <GetAssemblyIdentity AssemblyFiles="@(PackageAsm)">
+            <Output TaskParameter="Assemblies" ItemName="AssemblyIdentity" />
+        </GetAssemblyIdentity>
+        
+        <Message Text="Assembly Data Loaded: $(AssemblyIdentity)" />
+        
+        <XmlUpdate 
+            Prefix="nu"
+            Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+            XmlFileName="%(PackageDir.FullPath)$(NuSpecFileName)"
+            XPath="/nu:package/nu:metadata/nu:version"
+            Value="%(AssemblyIdentity.Version)" /> <!--%(AssemblyIdentity.Version)-->
 
+        <!--NuGetPack
+            ToolPath="$(NuGetDir)"
+            WorkingDirectory="$(PackageDir)"
+            File="$(PackageDir)$(NuSpecFileName)"
+            Version="%(AssemblyIdentity.Version)"/ -->
+    </Target>
+
+    <!-- TODO: Add http://nuget.org/packages/StyleCop.MSBuild -->
 </Project>

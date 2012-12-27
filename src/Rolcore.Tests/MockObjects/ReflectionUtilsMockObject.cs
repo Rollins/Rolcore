@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ReflectionUtilsMockObject.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Tests.MockObjects
@@ -11,11 +11,11 @@ namespace Rolcore.Tests.MockObjects
     /// <summary>
     /// An object used for testing the <see cref="ReflectionUtils"/> class.
     /// </summary>
-    class ReflectionUtilsMockObject
+    public class ReflectionUtilsMockObject
     {
         private bool _VoidMethodCalled = false;
         private bool _VoidMethodWithAttributeCalled = false;
-        private ReflectionUtilsMockObject _Parent;
+        private readonly ReflectionUtilsMockObject _Parent;
 
         public ReflectionUtilsMockObject(ReflectionUtilsMockObject parent = null)
         {

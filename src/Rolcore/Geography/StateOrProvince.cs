@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="StateOrProvince.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.Geography
@@ -10,14 +10,25 @@ namespace Rolcore.Geography
     /// </summary>
     public class StateOrProvince
     {
-        public string StateName { get; set; }
+        /// <summary>
+        /// Gets or sets a value specifying the name of the province.
+        /// </summary>
+        public string Name { get; set; }
 
-        public string StateAbbreviation { get; set; }
+        /// <summary>
+        /// Gets or sets a value specifying the standard abbreviation of the province.
+        /// </summary>
+        public string Abbreviation { get; set; }
 
-        public StateOrProvince(string stateAbbreviation, string stateName)
+        /// <summary>
+        /// Initializes a new instance of <see cref="StateOrProvince"/>.
+        /// </summary>
+        /// <param name="abbreviation">Specifies the initial value for <see cref="Abbreviation"/>.</param>
+        /// <param name="name">Specifies the initial value for <see cref="Name"/>.</param>
+        public StateOrProvince(string abbreviation, string name)
         {
-            this.StateName = stateName;
-            this.StateAbbreviation = stateAbbreviation;
+            this.Name = name;
+            this.Abbreviation = abbreviation;
         }
     }
 }

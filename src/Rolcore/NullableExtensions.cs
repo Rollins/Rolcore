@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NullableExtensions.cs" company="Rollins, Inc.">
-//     Copyright © Rollins, Inc. All rights reserved.
+//     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore
@@ -8,13 +8,26 @@ namespace Rolcore
     using System;
 
     /// <summary>
-    /// Extension methods for nullable types.
+    /// Extension methods for <see cref="Nullable{}"/> types.
     /// </summary>
     public static class NullableExtensions
     {
-        public static string NullableToString<T>(this Nullable<T> value, string format, string nullResult) where T : struct
+        /// <summary>
+        /// Converts the specified <see cref="Nullable{struct}"/> instance to a string and allows an optional 
+        /// default to be specified.
+        /// </summary>
+        /// <typeparam name="T">Specifies the type of <see cref="Nullable{struct}"/> object.</typeparam>
+        /// <param name="value">Specifies the <see cref="Nullable{struct}"/> instance to convert.</param>
+        /// <param name="format">Specifies the format string.</param>
+        /// <param name="nullResult">Specifies the default result to return when the 
+        /// <see cref="Nullable{struct}"/> instance is null (default is null).</param>
+        /// <returns>A string representing the <see cref="Nullable{struct}"/> instance.</returns>
+        public static string NullableToString<T>(this T? value, string format, string nullResult = null) 
+            where T : struct
         {
-            return (value.HasValue) ? string.Format(format, value.Value) : nullResult;
-        }
+            return value.HasValue 
+                ? string.Format(format, value.Value) 
+                : nullResult;
+        } // TODO: Test
     }
 }
