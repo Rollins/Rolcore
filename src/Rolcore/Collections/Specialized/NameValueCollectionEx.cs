@@ -6,6 +6,7 @@
 namespace Rolcore.Collections.Specialized
 {
     using System;
+    using System.Collections;
     using System.Collections.Specialized;
     using System.Runtime.Serialization;
 
@@ -61,8 +62,8 @@ namespace Rolcore.Collections.Specialized
         {
         }
 
-        public NameValueCollectionEx(System.Collections.IEqualityComparer equalityComparer) : base(equalityComparer){}
-        public NameValueCollectionEx(int capacity, System.Collections.IEqualityComparer equalityComparer) : base(capacity, equalityComparer){}
+        public NameValueCollectionEx(IEqualityComparer equalityComparer) : base(equalityComparer){}
+        public NameValueCollectionEx(int capacity, IEqualityComparer equalityComparer) : base(capacity, equalityComparer){}
         public NameValueCollectionEx(int capacity, NameValueCollection col) : base(capacity, col){}                                                      
         #endregion Constructors
 
