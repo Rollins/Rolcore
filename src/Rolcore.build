@@ -14,11 +14,10 @@
         <BuildArtifactsDir Include=".\build-artifacts\"/>
         <TestAssemblies Include=".\build-artifacts\*.Tests.dll" />
         <TestResultsDir Include=".\build-artifacts\test-results\"/>
-        <NuGetDir Include="..\nuget\"/>
-        <NuGetExeName Include="nuget.exe"/>
-        <NuSpecFileName Include="Rolcore.nuspec"/>
+        <NuGetFiles Include="..\nuget\*.*"/>
+        <NuSpecFile Include=".\build-artifacts\package\Rolcore.nuspec"/>
         <PackageDir Include=".\build-artifacts\package\"/>
-        <PackageVersionAssemblyName Include="Rolcore.dll"/>
+        <PackageVersionAssembly Include=".\build-artifacts\package\Rolcore.dll"/>
         <PackageAssemblies Include=".\build-artifacts\*.dll" Exclude=".\build-artifacts\*.Tests.dll" />
         <SolutionFile Include=".\Rolcore.sln"/>
     </ItemGroup>
@@ -58,19 +57,14 @@
         <RemoveDir Directories="@(PackageDir)"/>
         <MakeDir Directories="@(PackageDir)" />
         
-        <Copy SourceFiles="$(NuGetDir)$(NuSpecFileName)" DestinationFiles="$(PackageDir)$(NuSpecFileName)" />
+        <Copy SourceFiles="@(NuGetFiles)" DestinationFolder="@(PackageDir)" />
         <Copy SourceFiles="@(PackageAssemblies)" DestinationFolder="@(PackageDir)" />
-        <Copy SourceFiles="$(NuGetDir)$(NuGetExeName)" DestinationFolder="$(PackageDir)$(NuGetExeName)" />
         
         <Message Text="Files Copied"/>
         
-        <PropertyGroup>
-            <PackageAsm>%(PackageDir.FullPath)$(PackageVersionAssemblyName)</PackageAsm>
-        </PropertyGroup>
-        
-        <Message Text="Loading Assembly Data From: @(PackageAsm)" />
+        <Message Text="Loading Assembly Data From: @(PackageVersionAssembly)" />
             
-        <GetAssemblyIdentity AssemblyFiles="@(PackageAsm)">
+        <GetAssemblyIdentity AssemblyFiles="@(PackageVersionAssembly)">
             <Output TaskParameter="Assemblies" ItemName="AssemblyIdentity" />
         </GetAssemblyIdentity>
         
@@ -79,7 +73,7 @@
         <XmlUpdate 
             Prefix="nu"
             Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
-            XmlFileName="%(PackageDir.FullPath)$(NuSpecFileName)"
+            XmlFileName="@(NuSpecFile)"
             XPath="/nu:package/nu:metadata/nu:version"
             Value="%(AssemblyIdentity.Version)" /> <!--%(AssemblyIdentity.Version)-->
 
