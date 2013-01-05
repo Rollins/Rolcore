@@ -15,7 +15,9 @@
         <TestAssemblies Include=".\build-artifacts\*.Tests.dll" />
         <TestResultsDir Include=".\build-artifacts\test-results\"/>
         <NuGetFiles Include="..\nuget\*.*"/>
-        <NuSpecFile Include=".\build-artifacts\package\Rolcore.nuspec"/>
+        <RolcoreNuSpecFile Include=".\build-artifacts\package\Rolcore.nuspec"/>
+        <RolcoreRepositoryLinqImpleNuSpecFile Include=".\build-artifacts\package\Rolcore.Repository.LinqImpl.nuspec"/>
+        <RolcoreRepositoryWindowsAzureStorageClientImpleNuSpecFile Include=".\build-artifacts\package\Rolcore.Repository.WindowsAzure.StorageClientImpl.nuspec"/>
         <PackageDir Include=".\build-artifacts\package\"/>
         <PackageVersionAssembly Include=".\build-artifacts\package\Rolcore.dll"/>
         <PackageAssemblies Include=".\build-artifacts\*.dll" Exclude=".\build-artifacts\*.Tests.dll" />
@@ -53,7 +55,7 @@
         <Exec Command="$(MsTestCommand)" ContinueOnError="false" />
     </Target>
 
-    <Target Name="Package" DependsOnTargets="CompileAndTest">
+    <Target Name="Package" > <!-- DependsOnTargets="CompileAndTest" -->
         <RemoveDir Directories="@(PackageDir)"/>
         <MakeDir Directories="@(PackageDir)" />
         
@@ -67,8 +69,34 @@
         <XmlUpdate 
             Prefix="nu"
             Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
-            XmlFileName="@(NuSpecFile)"
+            XmlFileName="@(RolcoreNuSpecFile)"
             XPath="/nu:package/nu:metadata/nu:version"
+            Value="%(AssemblyIdentity.Version)" />
+
+        <XmlUpdate
+            Prefix="nu"
+            Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+            XmlFileName="@(RolcoreRepositoryLinqImpleNuSpecFile)"
+            XPath="/nu:package/nu:metadata/nu:version"
+            Value="%(AssemblyIdentity.Version)" />
+        <XmlUpdate
+            Prefix="nu"
+            Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+            XmlFileName="@(RolcoreRepositoryLinqImpleNuSpecFile)"
+            XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency/@version"
+            Value="%(AssemblyIdentity.Version)" />
+
+        <XmlUpdate
+            Prefix="nu"
+            Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+            XmlFileName="@(RolcoreRepositoryWindowsAzureStorageClientImpleNuSpecFile)"
+            XPath="/nu:package/nu:metadata/nu:version"
+            Value="%(AssemblyIdentity.Version)" />
+        <XmlUpdate
+            Prefix="nu"
+            Namespace="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd"
+            XmlFileName="@(RolcoreRepositoryWindowsAzureStorageClientImpleNuSpecFile)"
+            XPath="/nu:package/nu:metadata/nu:dependencies/nu:dependency/@version"
             Value="%(AssemblyIdentity.Version)" />
     </Target>
 

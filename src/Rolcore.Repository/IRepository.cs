@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IRepository.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Repository
 {
     /// <summary>

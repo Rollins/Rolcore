@@ -89,11 +89,34 @@
   </Choose>
   <ItemGroup>
     <Compile Include="IRepositoryTests.cs" />
+    <Compile Include="Linq\LinqRepositoryTest.cs" />
+    <Compile Include="Linq\Test.cs">
+      <DependentUpon>Test.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Linq\Test.designer.cs">
+      <DependentUpon>Test.dbml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ListRepositoryTest.cs" />
     <Compile Include="Mocks\MockEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="WindowsAzure.StorageClient\TableServiceContextRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Rolcore.Repository.LinqImpl\Rolcore.Repository.LinqImpl.csproj">
+      <Project>{e8a87a8c-5a5f-4477-aa7b-99ee0a68a527}</Project>
+      <Name>Rolcore.Repository.LinqImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Rolcore.Repository.WindowsAzure.StorageClientImpl\Rolcore.Repository.WindowsAzure.StorageClientImpl.csproj">
+      <Project>{099addda-ea5b-4b92-a4f4-9568cd048908}</Project>
+      <Name>Rolcore.Repository.WindowsAzure.StorageClientImpl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Rolcore.Repository\Rolcore.Repository.csproj">
       <Project>{e9b3214d-d037-45e7-8d9a-72b1d86f3308}</Project>
       <Name>Rolcore.Repository</Name>
@@ -105,6 +128,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Linq\Test.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>Test.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Linq\Test.dbml.layout">
+      <DependentUpon>Test.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

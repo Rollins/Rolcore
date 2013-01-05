@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RollinsIntegration" Class="TestDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=Test;Integrated Security=True" SettingsObjectName="Rolcore.Repository.Linq.Tests.Properties.Settings" SettingsPropertyName="TestConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.TestItems" Member="TestItems">
+    <Type Name="TestItem">
+      <Column Name="RowKey" Storage="_TestItemId" Modifier="Override" Type="System.String" DbType="NVarChar(50)" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Always" />
+      <Column Name="Timestamp" Modifier="Override" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Column Name="StringProperty" Storage="_NullableStringValue" Modifier="Override" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" UpdateCheck="Always" />
+      <Column Name="DateTimeProperty" Modifier="Override" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" UpdateCheck="Always" />
+      <Column Name="IntProperty" Modifier="Override" Type="System.Int32" DbType="INT" CanBeNull="false" UpdateCheck="Always" />
+    </Type>
+  </Table>
+</Database>

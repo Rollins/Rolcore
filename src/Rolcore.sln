@@ -36,6 +36,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Repository.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Data.Tests", "Rolcore.Data.Tests\Rolcore.Data.Tests.csproj", "{2C98E575-DFF1-481A-A8E0-706F98472FD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Repository.LinqImpl", "Rolcore.Repository.LinqImpl\Rolcore.Repository.LinqImpl.csproj", "{E8A87A8C-5A5F-4477-AA7B-99EE0A68A527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rolcore.Repository.WindowsAzure.StorageClientImpl", "Rolcore.Repository.WindowsAzure.StorageClientImpl\Rolcore.Repository.WindowsAzure.StorageClientImpl.csproj", "{099ADDDA-EA5B-4B92-A4F4-9568CD048908}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +90,14 @@ Global
 		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C98E575-DFF1-481A-A8E0-706F98472FD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A87A8C-5A5F-4477-AA7B-99EE0A68A527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A87A8C-5A5F-4477-AA7B-99EE0A68A527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A87A8C-5A5F-4477-AA7B-99EE0A68A527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A87A8C-5A5F-4477-AA7B-99EE0A68A527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{099ADDDA-EA5B-4B92-A4F4-9568CD048908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099ADDDA-EA5B-4B92-A4F4-9568CD048908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099ADDDA-EA5B-4B92-A4F4-9568CD048908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099ADDDA-EA5B-4B92-A4F4-9568CD048908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,5 +105,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E9B3214D-D037-45E7-8D9A-72B1D86F3308} = {908D4397-01D6-4BEB-A061-AE4D5DBC9A81}
 		{017F2B98-C8CA-453B-93C4-E270E8AD5A24} = {908D4397-01D6-4BEB-A061-AE4D5DBC9A81}
+		{E8A87A8C-5A5F-4477-AA7B-99EE0A68A527} = {908D4397-01D6-4BEB-A061-AE4D5DBC9A81}
+		{099ADDDA-EA5B-4B92-A4F4-9568CD048908} = {908D4397-01D6-4BEB-A061-AE4D5DBC9A81}
 	EndGlobalSection
 EndGlobal

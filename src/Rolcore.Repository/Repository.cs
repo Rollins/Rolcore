@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Linq.Expressions;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Repository.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Repository
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+
     /// <summary>
     /// A generic implementation of <see cref="IRepository<>"/> that delegates operations to 
     /// separate reader and writer instances.
@@ -33,8 +34,8 @@ namespace Rolcore.Repository
             Contract.Ensures(_Reader != null, "reader cannot be null");
             Contract.Ensures(_Writer != null, "writer cannot be null");
 
-            _Reader = reader;
-            _Writer = writer;
+            this._Reader = reader;
+            this._Writer = writer;
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Rolcore.Repository
         /// </summary>
         public IEnumerable<TItem> Items
         {
-            get { return _Reader.Items; }
+            get { return this._Reader.Items; }
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Rolcore.Repository
         /// the backing repository (for example, an auto-generated key).</returns>
         public IEnumerable<TItem> Save(params TItem[] items)
         {
-            return _Writer.Save(items);
+            return this._Writer.Save(items);
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Rolcore.Repository
         /// <returns>The number of items deleted.</returns>
         public int Delete(params TItem[] items)
         {
-            return _Writer.Delete(items);
+            return this._Writer.Delete(items);
         }
 
         /// <summary>
@@ -80,17 +81,17 @@ namespace Rolcore.Repository
         /// <returns>The number of items deleted.</returns>
         public int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null)
         {
-            return _Writer.Delete(rowKey, concurrency, partitionKey);
+            return this._Writer.Delete(rowKey, concurrency, partitionKey);
         }
 
         public IEnumerable<TItem> Insert(params TItem[] items)
         {
-            return _Writer.Insert(items);
+            return this._Writer.Insert(items);
         }
 
         public IEnumerable<TItem> Update(params TItem[] items)
         {
-            return _Writer.Update(items);
+            return this._Writer.Update(items);
         }
     }
 }

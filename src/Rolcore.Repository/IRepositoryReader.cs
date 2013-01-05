@@ -1,4 +1,9 @@
-﻿namespace Rolcore.Repository
+﻿//-----------------------------------------------------------------------
+// <copyright file="IRepositoryReader.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Rolcore.Repository
 {
     using System.Collections.Generic;
 
