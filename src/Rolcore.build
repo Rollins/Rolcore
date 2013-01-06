@@ -55,7 +55,7 @@
         <Exec Command="$(MsTestCommand)" ContinueOnError="false" />
     </Target>
 
-    <Target Name="Package" > <!-- DependsOnTargets="CompileAndTest" -->
+    <Target Name="Package" DependsOnTargets="CompileAndTest" > <!-- DependsOnTargets="CompileAndTest" -->
         <RemoveDir Directories="@(PackageDir)"/>
         <MakeDir Directories="@(PackageDir)" />
         
