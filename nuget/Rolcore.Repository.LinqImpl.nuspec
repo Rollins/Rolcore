@@ -3,7 +3,7 @@
     <metadata>
         <id>Rolcore.Repository.LinqImpl</id>
         <version>0.0.0.0</version>
-        <title />
+        <title>Rolcore Repository - LINQ Implementation</title>
         <authors>Rollins,Inc.</authors>
         <owners>Rollins,Inc.</owners>
         <licenseUrl>https://github.com/jamestharpe/Rolcore/blob/master/license.txt</licenseUrl>
