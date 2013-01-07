@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rolcore.Repository.Contracts
+﻿namespace Rolcore.Repository.Contracts
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
+
     [ContractClassFor(typeof(IRepositoryWriter<,>))]
     public abstract class IRepositoryWriterContracts<TItem, TConcurrency> : IRepositoryWriter<TItem, TConcurrency>
         where TItem : class
     {
+        void IRepositoryWriter<TItem, TConcurrency>.ApplyRules(params TItem[] items)
+        {
+            Contract.Requires<ArgumentNullException>(items != null, "items cannot be null");
+            Contract.Requires<ArgumentException>(items.Length > 0, "items cannot be empty");
+        }
 
         IEnumerable<TItem> IRepositoryWriter<TItem, TConcurrency>.Save(params TItem[] items)
         {
@@ -54,5 +58,8 @@ namespace Rolcore.Repository.Contracts
 
             return default(IEnumerable<TItem>);
         }
+
+        [ImportMany]
+        public IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }
 }

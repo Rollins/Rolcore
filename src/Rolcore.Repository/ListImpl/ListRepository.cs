@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
 
     public class ListRepository<TItem, TConcurrency> : Repository<TItem, TConcurrency>
         where TItem : class
@@ -19,6 +20,9 @@
                 new ListRepositoryWriter<TItem, TConcurrency>(
                     list, setConcurrency, findByItemIdent, findConcurrentlyByItem, findConcurrently, newConcurrencyValue, safeCopy))
         {
+            Contract.Requires<ArgumentNullException>(list != null, "list is null");
+            Contract.Requires<ArgumentNullException>(setConcurrency != null, "setConcurrency is null");
+
             // Ensure the reader and writer are both accessing the same repository
             ((ListRepositoryReader<TItem>)base._Reader).List = ((ListRepositoryWriter<TItem, TConcurrency>)base._Writer).List;
 

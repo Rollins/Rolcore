@@ -3,6 +3,9 @@ using System;
 using System.Linq;
 using System.Data.Linq;
 using Rolcore.Repository.LinqImpl;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Diagnostics;
 
 namespace Rolcore.Repository.Tests.Linq
 {
@@ -28,6 +31,11 @@ namespace Rolcore.Repository.Tests.Linq
             get { return _TestItemsRepository.Items; }
         }
 
+        void IRepositoryWriter<MockEntity<Binary>, Binary>.ApplyRules(params MockEntity<Binary>[] items)
+        {
+            this.ApplyRulesDefaultImplementation(items);
+        }
+
         System.Collections.Generic.IEnumerable<MockEntity<Binary>> IRepositoryWriter<MockEntity<Binary>, Binary>.Insert(params MockEntity<Binary>[] items)
         {
             return _TestItemsRepository.Insert(items);
@@ -51,6 +59,18 @@ namespace Rolcore.Repository.Tests.Linq
         int IRepositoryWriter<MockEntity<Binary>, Binary>.Delete(string rowKey, Binary concurrency, string partitionKey)
         {
             return _TestItemsRepository.Delete(rowKey, concurrency, partitionKey);
+        }
+
+        [ImportMany]
+        IEnumerable<IRepositoryItemRule<MockEntity<Binary>>> IRepositoryWriter<MockEntity<Binary>, Binary>.Rules {
+            get
+            {
+                return _TestItemsRepository.Rules;
+            }
+            set
+            {
+                _TestItemsRepository.Rules = value;
+            }
         }
     }
 

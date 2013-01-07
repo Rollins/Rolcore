@@ -13,13 +13,14 @@ namespace Rolcore.Repository.LinqImpl
     {
         public LinqRepository(
             Table<TItem> table, 
-            Action<TItem, string, TConcurrency, string> setData, 
+            Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues, 
             Func<TBase, bool> itemExists)
             : base(
                 new LinqRepositoryReader<TItem, TBase>(table), 
-                new LinqRepositoryWriter<TItem, TBase, TConcurrency>(table, setData, itemExists))
+                new LinqRepositoryWriter<TItem, TBase, TConcurrency>(table, setKeyAndConcurrencyValues, itemExists))
         {
-            
+            Contract.Requires<ArgumentNullException>(setKeyAndConcurrencyValues != null, "setKeyAndConcurrencyValues is null");
+            Contract.Requires<ArgumentNullException>(itemExists != null, "itemExists is null");
         } // Tested
     }
 }

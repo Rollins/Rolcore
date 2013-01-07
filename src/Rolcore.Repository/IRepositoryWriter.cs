@@ -6,6 +6,7 @@
 namespace Rolcore.Repository
 {
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     /// <summary>
@@ -18,6 +19,12 @@ namespace Rolcore.Repository
     public interface IRepositoryWriter<TItem, TConcurrency>
         where TItem : class
     {
+        /// <summary>
+        /// Applies associated <see cref="Rules"/> to the specified items.
+        /// </summary>
+        /// <param name="items">Specifies the items to apply rules to.</param>
+        void ApplyRules(params TItem[] items);
+
         /// <summary>
         /// Inserts the specified items.
         /// </summary>
@@ -62,5 +69,8 @@ namespace Rolcore.Repository
         /// this argument is only used distributed repositories such as Azure's table service.</param>
         /// <returns>The number of items deleted.</returns>
         int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null);
+
+        [ImportMany]
+        IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }
 }

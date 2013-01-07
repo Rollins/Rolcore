@@ -16,6 +16,8 @@ namespace Rolcore.Repository.LinqImpl
         public LinqRepositoryReader(Table<TItem> table) 
             : base(table)
         {
+            Contract.Requires<ArgumentNullException>(table != null, "table is null");
+            Contract.Requires<ArgumentNullException>(table.Context != null, "table is null");
         }
 
         public IEnumerable<TBase> Items

@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rolcore.Repository.Tests.Mocks;
-using System.Diagnostics;
-using Microsoft.WindowsAzure;
-using Microsoft.WindowsAzure.StorageClient;
-using Rolcore.Repository.WindowsAzure.StorageClientImpl;
-
-namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
+﻿namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
 {
+    using System;
+    using System.Diagnostics;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure;
+    using Microsoft.WindowsAzure.StorageClient;
+    using Rolcore.Repository.Tests.Mocks;
+    using Rolcore.Repository.WindowsAzure.StorageClientImpl;
+
     [TestClass]
     public class TableServiceContextRepositoryTest : IRepositoryTests<IRepository<MockEntity<DateTime>, DateTime>, DateTime>
     {

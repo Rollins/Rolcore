@@ -97,6 +97,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -105,10 +106,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRepositoryItemRuleContracts.cs" />
     <Compile Include="Contracts\IRepositoryWriterContracts.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="IRepositoryItemRule.cs" />
     <Compile Include="IRepositoryReader.cs" />
     <Compile Include="IRepositoryWriter.cs" />
+    <Compile Include="IRepositoryWriterExtensions.cs" />
     <Compile Include="ListImpl\ListRepository.cs" />
     <Compile Include="ListImpl\ListRepositoryBase.cs" />
     <Compile Include="ListImpl\ListRepositoryReader.cs" />

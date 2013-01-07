@@ -8,6 +8,7 @@
     using System.Diagnostics.Contracts;
     using System.Linq;
     using Rolcore.Reflection;
+    using System.ComponentModel.Composition;
     
     public class LinqRepositoryWriter<TItem, TBase, TConcurrency> 
         : LinqRepositoryBase<TItem, TBase>, 
@@ -16,7 +17,7 @@
         where TItem : class, TBase
     {
         private readonly Type _ItemType;
-        private readonly Action<TItem, string, TConcurrency, string> _SetData;
+        private readonly Action<TItem, string, TConcurrency, string> _SetKeyAndConcurrencyValues;
         private readonly Func<TBase, bool> _ItemExists;
 
         private static TBase NewItem()
@@ -58,36 +59,38 @@
 
         /// <summary>
         /// Utility function for "converting up" - taking an object of TBase and returning the 
-        /// equivelant TConcrete instance. Typically this can be done by type casting (e.g. item 
+        /// equivalent TConcrete instance. Typically this can be done by type casting (e.g. item 
         /// as TConcrete), but not always. For example, if the current repository is passed an item
         /// from a separate repository using a different type for TConcrete or a "plain" TBase 
         /// instance that is not of type TConcrete.
         /// </summary>
         /// <param name="item">Specifies the item which is to  be converted to a TItem.</param>
-        /// <returns>The TConcrete equivelant of the specified TBase. This may be the same 
+        /// <returns>The TConcrete equivalent of the specified TBase. This may be the same 
         /// instance, or it may be a copy; so BEWARE!</returns>
-        protected TItem ConcreteFromBase(TBase item)
+        protected static TItem ConcreteFromBase(TBase item)
         {
             Contract.Requires<ArgumentNullException>(item != null, "item cannot be null");
-            Contract.Ensures(Contract.Result<TItem>() != null, "ConcreteFromBase() returned null.");
+            Contract.Ensures(Contract.Result<TItem>() != null, "ConcreteFromBase() returned null."); // http://stackoverflow.com/questions/4852022/codecontract-think-assigned-readonly-field-can-be-null
 
             var result = item as TItem;
             if (result != null)
+            {
                 return result;
-            result = NewItem() as TItem;
+            }
+            result = (TItem)NewItem();
+            Contract.Assume(result != null, "Result was null somehow.");
             item.CopyMatchingObjectPropertiesTo(result);
-            Debug.Assert(result != null, "TItem does not implement / inherit TBase. That ought to be impossible!");
             return result;
         }
 
         /// <summary>
         /// Utility function for "converting up" - taking an enumerable of TBase and returning the 
-        /// equivelant TConcrete enumerable.
+        /// equivalent TConcrete enumerable.
         /// </summary>
         /// <param name="items">Specifies the items to convert to TConcrete instances.</param>
-        /// <returns>An IEnumerable of TConcretes, equivelant of the specified TBase enumerable. 
+        /// <returns>An IEnumerable of TConcretes, equivalent of the specified TBase enumerable. 
         /// This may contain the same instances, different instances, or a mix; so BEWARE!</returns>
-        protected IEnumerable<TItem> ConcreteFromBase(IEnumerable<TBase> items)
+        protected static IEnumerable<TItem> ConcreteFromBase(IEnumerable<TBase> items)
         {
             foreach (var item in items)
                 yield return ConcreteFromBase(item);
@@ -97,34 +100,48 @@
         {
             Contract.Requires<ArgumentNullException>(item != null, "item cannot be null");
 
-            TItem original = Table.GetOriginalEntityState(item);
+            TItem original = this.Table.GetOriginalEntityState(item);
             if (original == null)
+            {
                 try
                 {
-                    Table.Attach(item, asModified);
+                    this.Table.Attach(item, asModified);
                     Debug.WriteLine(String.Format("Item attached: {0}", item));
                 }
-                catch (DuplicateKeyException)
+                catch (DuplicateKeyException ex)
                 {
                     Debug.WriteLine(String.Format("A copy of the item is already attached: {0}", item));
+                    Debug.WriteLine(ex.Message);
                 }
+            }
         }
 
-        public LinqRepositoryWriter(Table<TItem> table, Action<TItem, string, TConcurrency, string> setData, Func<TBase, bool> itemExists)
+        public LinqRepositoryWriter(
+            Table<TItem> table, 
+            Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues, 
+            Func<TBase, bool> itemExists) 
             : base(table)
         {
-            Contract.Requires<ArgumentNullException>(setData != null, "setData cannot be null");
+            Contract.Requires<ArgumentNullException>(table != null, "table is null");
+            Contract.Requires<ArgumentNullException>(table.Context != null, "table is null");
+            Contract.Requires<ArgumentNullException>(setKeyAndConcurrencyValues != null, "setKeyAndConcurrencyValues cannot be null");
             Contract.Requires<ArgumentNullException>(itemExists != null, "itemExists cannot be null");
             Contract.Ensures(_ItemType != null);
             Contract.Ensures(_ItemExists != null);
 
             _ItemType = typeof(TItem);
-            _SetData = setData;
+            _SetKeyAndConcurrencyValues = setKeyAndConcurrencyValues;
             _ItemExists = itemExists;
+        }
+
+        public void ApplyRules(params TBase[] items)
+        {
+            this.ApplyRulesDefaultImplementation(items);
         }
 
         public IEnumerable<TBase> Save(params TBase[] items)
         {
+            this.ApplyRules(items);
             foreach (var item in items)
             {
                 var concrete = ConcreteFromBase(item);
@@ -142,6 +159,7 @@
 
         public IEnumerable<TBase> Insert(params TBase[] items)
         {
+            this.ApplyRules(items);
             foreach (var item in items)
             {
                 var concrete = ConcreteFromBase(item);
@@ -154,6 +172,7 @@
 
         public IEnumerable<TBase> Update(params TBase[] items)
         {
+            this.ApplyRules(items);
             foreach (var item in items)
             {
                 var concrete = ConcreteFromBase(item);
@@ -177,7 +196,7 @@
         public int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null)
         {
             var item = Activator.CreateInstance<TItem>();
-            _SetData(item, rowKey, concurrency, partitionKey);
+            _SetKeyAndConcurrencyValues(item, rowKey, concurrency, partitionKey);
             if (!ItemExists(item))
                 return 0;
             EnsureItemIsAttached(item, false);
@@ -185,6 +204,9 @@
             Table.Context.SubmitChanges();
             return 1;
         }
+
+        [ImportMany]
+        public IEnumerable<IRepositoryItemRule<TBase>> Rules { get; set; }
 
         public bool ItemExists(TBase item)
         {

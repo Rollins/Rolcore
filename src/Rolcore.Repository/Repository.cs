@@ -8,6 +8,8 @@ namespace Rolcore.Repository
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
     /// <summary>
@@ -44,6 +46,11 @@ namespace Rolcore.Repository
         public IEnumerable<TItem> Items
         {
             get { return this._Reader.Items; }
+        }
+
+        public void ApplyRules(params TItem[] items)
+        {
+            _Writer.ApplyRules(items);
         }
 
         /// <summary>
@@ -92,6 +99,13 @@ namespace Rolcore.Repository
         public IEnumerable<TItem> Update(params TItem[] items)
         {
             return this._Writer.Update(items);
+        }
+
+        [ImportMany]
+        public IEnumerable<IRepositoryItemRule<TItem>> Rules 
+        {
+            get { return this._Writer.Rules; }
+            set { this._Writer.Rules = value; }
         }
     }
 }

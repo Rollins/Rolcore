@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 using Rolcore.Reflection;
 using System.Threading;
 using Rolcore;
+using System.ComponentModel.Composition;
 
 namespace Rolcore.Repository.ListImpl
 {
@@ -52,6 +53,11 @@ namespace Rolcore.Repository.ListImpl
             _NewConcurrencyValue = newConcurrencyValue;
         } // Tested
 
+        public void ApplyRules(params TItem[] items)
+        {
+            this.ApplyRulesDefaultImplementation(items);
+        }
+
         /// <summary>
         /// Inserts or updates the specified items in the repository.
         /// </summary>
@@ -62,6 +68,7 @@ namespace Rolcore.Repository.ListImpl
         public IEnumerable<TItem> Save(params TItem[] items)
         {
             Debug.WriteLine(String.Format("Saving {0} items.", items.Length));
+            this.ApplyRules(items);
             foreach (var item in items)
             {
                 Debug.WriteLine("Saving item: " + item);
@@ -77,6 +84,7 @@ namespace Rolcore.Repository.ListImpl
 
         public IEnumerable<TItem> Insert(params TItem[] items)
         {
+            this.ApplyRules(items);
             foreach (TItem item in items)
             {
                 var existingItem = _FindByItemIdent(item, List);
@@ -98,6 +106,7 @@ namespace Rolcore.Repository.ListImpl
 
         public IEnumerable<TItem> Update(params TItem[] items)
         {
+            this.ApplyRules(items);
             foreach (var item in items)
             {
                 var existingItem = _FindConcurrentlyByItem(item, List);
@@ -159,5 +168,8 @@ namespace Rolcore.Repository.ListImpl
 
             return 1;
         } // Tested
+
+        [ImportMany]
+        public IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; } //TODO: Test
     }
 }

@@ -8,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using Microsoft.WindowsAzure;
 using Rolcore.Reflection;
+using System.ComponentModel.Composition;
 
 namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 {
@@ -127,8 +128,14 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             }
         }
 
+        public void ApplyRules(params TItem[] items)
+        {
+            this.ApplyRulesDefaultImplementation(items);
+        }
+
         public IEnumerable<TItem> Save(params TItem[] items)
         {
+            this.ApplyRules(items);
             var context = CloneContext();
             foreach (TItem item in items)
             {
@@ -226,5 +233,8 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 
             return 0;
         } // Tested
+
+        [ImportMany]
+        public IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace Rolcore.Repository.Tests
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Rolcore.Repository.Tests.Mocks;
+    using System.Collections.Generic;
     
     /// <summary>
     ///This is a test class for RepositoryTest and is intended
@@ -209,10 +210,22 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(1, savedCount);
             Debug.WriteLine("retrievedEntity2 Saved");
         }
+
+        [TestMethod]
+        public void Save_AppliesRules()
+        {
+            var target = CreateTargetRepository();
+            var rules = new List<MockRepositoryItemRule<MockEntity<TConcurrency>>>();
+            rules.Add(new MockRepositoryItemRule<MockEntity<TConcurrency>>());
+            target.Rules = rules;
+            InsertTestEntity(target);
+
+            Assert.IsTrue(rules[0].ApplyWasCalled, "Apply() was not called");
+        }
         #endregion Save() Tests
 
         #region Items Tests
-        [TestMethod()]
+        [TestMethod]
         public virtual void Items_ContainsAllItems()
         {
             ClearTestData();
