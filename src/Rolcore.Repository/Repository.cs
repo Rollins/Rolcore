@@ -9,7 +9,6 @@ namespace Rolcore.Repository
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
     /// <summary>
@@ -46,12 +45,12 @@ namespace Rolcore.Repository
         public IEnumerable<TItem> Items
         {
             get { return this._Reader.Items; }
-        }
+        } // TODO: Test
 
         public void ApplyRules(params TItem[] items)
         {
             _Writer.ApplyRules(items);
-        }
+        } // TODO: Test
 
         /// <summary>
         /// Inserts or updates the specified items in the repository.
@@ -63,7 +62,7 @@ namespace Rolcore.Repository
         public IEnumerable<TItem> Save(params TItem[] items)
         {
             return this._Writer.Save(items);
-        }
+        } // TODO: Test
 
         /// <summary>
         /// Deletes the specified items in the repository and returns the number of items deleted.
@@ -73,7 +72,7 @@ namespace Rolcore.Repository
         public int Delete(params TItem[] items)
         {
             return this._Writer.Delete(items);
-        }
+        } // TODO: Test
 
         /// <summary>
         /// Deletes the items specified by the given row key, concurrency, and (optional) partition 
@@ -89,23 +88,23 @@ namespace Rolcore.Repository
         public int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null)
         {
             return this._Writer.Delete(rowKey, concurrency, partitionKey);
-        }
+        } // TODO: Test
 
         public IEnumerable<TItem> Insert(params TItem[] items)
         {
             return this._Writer.Insert(items);
-        }
+        } // TODO: Test
 
         public IEnumerable<TItem> Update(params TItem[] items)
         {
             return this._Writer.Update(items);
-        }
+        } // TODO: Test
 
         [ImportMany]
         public IEnumerable<IRepositoryItemRule<TItem>> Rules 
         {
             get { return this._Writer.Rules; }
             set { this._Writer.Rules = value; }
-        }
+        } // TODO: Test
     }
 }

@@ -32,7 +32,7 @@ namespace Rolcore.Repository.Tests
             ClearTestData();
         }
 
-        protected MockEntity<TConcurrency> InsertTestEntity(IRepository<MockEntity<TConcurrency>, TConcurrency> target)
+        protected MockEntity<TConcurrency> SaveTestEntity(IRepository<MockEntity<TConcurrency>, TConcurrency> target)
         {
             MockEntity<TConcurrency> result = new MockEntity<TConcurrency>()
             {
@@ -54,7 +54,7 @@ namespace Rolcore.Repository.Tests
         {
             var target = CreateTargetRepository();
 
-            var insertedEntity = InsertTestEntity(target);
+            var insertedEntity = SaveTestEntity(target);
 
             var retrievedEntity = target.Items
                 .Where(item => 
@@ -81,7 +81,7 @@ namespace Rolcore.Repository.Tests
         {
             var target = CreateTargetRepository();
 
-            var insertedEntities = new[] { InsertTestEntity(target), InsertTestEntity(target), InsertTestEntity(target) };
+            var insertedEntities = new[] { SaveTestEntity(target), SaveTestEntity(target), SaveTestEntity(target) };
             var insertedKeys = insertedEntities.Select(e => e.RowKey).ToArray();
 
             var retrievedEntities = target.Items
@@ -106,7 +106,7 @@ namespace Rolcore.Repository.Tests
         {
             var target = CreateTargetRepository();
 
-            var insertedEntity = InsertTestEntity(target);
+            var insertedEntity = SaveTestEntity(target);
 
             var retrievedEntity = target.Items
                 .Where(item => 
@@ -143,7 +143,7 @@ namespace Rolcore.Repository.Tests
         {
             var target = CreateTargetRepository();
 
-            var insertedEntity = InsertTestEntity(target);
+            var insertedEntity = SaveTestEntity(target);
 
             var retrievedEntity = target.Items
                 .Where(item =>
@@ -158,7 +158,7 @@ namespace Rolcore.Repository.Tests
         {
             var target = CreateTargetRepository();
 
-            var insertedEntity = InsertTestEntity(target);
+            var insertedEntity = SaveTestEntity(target);
 
             var retrievedEntity = target.Items
                 .Where(item =>
@@ -184,7 +184,7 @@ namespace Rolcore.Repository.Tests
             var target = CreateTargetRepository();
             var conflictTarget = CreateTargetRepository();
 
-            var insertedEntity = InsertTestEntity(target);
+            var insertedEntity = SaveTestEntity(target);
 
             var retrievedEntity1 = target.Items
                 .Where(item =>
@@ -218,7 +218,7 @@ namespace Rolcore.Repository.Tests
             var rules = new List<MockRepositoryItemRule<MockEntity<TConcurrency>>>();
             rules.Add(new MockRepositoryItemRule<MockEntity<TConcurrency>>());
             target.Rules = rules;
-            InsertTestEntity(target);
+            SaveTestEntity(target);
 
             Assert.IsTrue(rules[0].ApplyWasCalled, "Apply() was not called");
         }
@@ -231,7 +231,7 @@ namespace Rolcore.Repository.Tests
             ClearTestData();
             var target = CreateTargetRepository();
 
-            var insertedEntities = new[] { InsertTestEntity(target), InsertTestEntity(target), InsertTestEntity(target) };
+            var insertedEntities = new[] { SaveTestEntity(target), SaveTestEntity(target), SaveTestEntity(target) };
 
             Assert.AreEqual(insertedEntities.Length, target.Items.ToArray().Length);
         }

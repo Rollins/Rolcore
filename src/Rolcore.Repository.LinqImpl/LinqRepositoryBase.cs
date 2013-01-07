@@ -3,6 +3,7 @@
     using System;
     using System.Data.Linq;
     using System.Diagnostics.Contracts;
+    using Rolcore.Diagnostics;
 
     public class LinqRepositoryBase<TItem, TBase>
         where TBase : class

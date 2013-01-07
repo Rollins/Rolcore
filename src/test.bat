@@ -1,1 +1,1 @@
-msbuild Rolcore.build
+msbuild Rolcore.build /p:Configuration=Debug
