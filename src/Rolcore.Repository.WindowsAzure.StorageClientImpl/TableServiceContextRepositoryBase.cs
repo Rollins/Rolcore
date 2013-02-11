@@ -26,6 +26,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         protected TableServiceContextRepositoryBase(CloudTableClient client, string entitySetName)
             : this(client.GetDataServiceContext(), entitySetName)
         {
+            client.CreateTableIfNotExist(entitySetName);
         } // Tested
 
         protected TableServiceContextRepositoryBase(CloudStorageAccount storageAccount, string entitySetName)
