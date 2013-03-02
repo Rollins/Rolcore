@@ -6,7 +6,7 @@ using Rolcore.Repository.Tests.Mocks;
 
 namespace Rolcore.Repository.Tests.Linq
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class LinqRepositoryTest : IRepositoryTests<IRepository<MockEntity<Binary>, Binary>, Binary>
     {
 

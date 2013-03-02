@@ -66,6 +66,10 @@
                 new TableServiceContextRepositoryWriter<MockEntity<DateTime>>(serviceContext, MocksTableName));
         }
 
+
+        /// <summary>
+        /// Clears out all test data from cloud storage.
+        /// </summary>
         protected override void ClearTestData()
         {
             // Retrieve storage account from connection-string
@@ -74,7 +78,10 @@
             // Create the table client
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             if (tableClient.DoesTableExist(MocksTableName))
+            {
                 tableClient.DeleteTable(MocksTableName);
+            }
+
             tableClient.CreateTableIfNotExist(MocksTableName);
         }
     }

@@ -138,7 +138,7 @@ namespace Rolcore.Repository.Tests
         #endregion Delete() Tests
 
         #region Save() Tests
-        [TestMethod()]
+        [TestMethod]
         public virtual void Save_InsertsNewEntity()
         {
             var target = CreateTargetRepository();
@@ -153,7 +153,7 @@ namespace Rolcore.Repository.Tests
             Assert.IsNotNull(retrievedEntity);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public virtual void Save_UpdatesExistingEntity()
         {
             var target = CreateTargetRepository();
@@ -178,7 +178,7 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(expectedIntValue, retrievedEntity.IntProperty);
         }
 
-        [TestMethod(), ExpectedException(typeof(DBConcurrencyException))]
+        [TestMethod, ExpectedException(typeof(DBConcurrencyException))]
         public virtual void Save_ThrowsConcurrencyException()
         {
             var target = CreateTargetRepository();
@@ -223,6 +223,57 @@ namespace Rolcore.Repository.Tests
             Assert.IsTrue(rules[0].ApplyWasCalled, "Apply() was not called");
         }
         #endregion Save() Tests
+
+        #region Insert() Tests
+        [TestMethod]
+        public virtual void Insert_Inserts()
+        {
+            var target = CreateTargetRepository();
+
+            var insertedEntity = new MockEntity<TConcurrency>()
+            {
+                RowKey = Guid.NewGuid().ToString(),
+                DateTimeProperty = DateTime.Now,
+                IntProperty = (new Random()).Next(),
+                PartitionKey = "Mocks",
+                StringProperty = string.Empty
+            };
+
+            insertedEntity = target.Insert(insertedEntity).Single();
+
+            var retrievedEntity = target.Items
+                .Where(item =>
+                    item.PartitionKey == insertedEntity.PartitionKey
+                 && item.RowKey == insertedEntity.RowKey)
+                .Single();
+
+            Assert.IsNotNull(retrievedEntity);
+        }
+
+        // TODO: Insert_ThrowsExceptionWhenItemAlreadyExists()
+        #endregion Insert() Tests
+
+        #region Update() Tests
+        [TestMethod]
+        public virtual void Update_Updates()
+        {
+            var target = CreateTargetRepository();
+
+            var testEntity = SaveTestEntity(target);
+
+            var expectedIntProp = ++testEntity.IntProperty;
+
+            target.Update(testEntity);
+
+            var retrievedEntity = target.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity.PartitionKey
+                 && item.RowKey == testEntity.RowKey)
+                .Single();
+
+            Assert.AreEqual(expectedIntProp, retrievedEntity.IntProperty);
+        }
+        #endregion Update() Tests
 
         #region Items Tests
         [TestMethod]

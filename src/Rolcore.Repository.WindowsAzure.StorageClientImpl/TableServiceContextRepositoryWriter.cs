@@ -179,24 +179,29 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             {
                 EnsureRowKey(item);
                 context.AddObject(EntitySetName, item);
+                result.Add(item);
             }
 
             context.SaveChangesWithRetries(SaveChangesOptions.Batch);
 
             return result;
-        } //TODO: Test
+        } // Tested
 
         public IEnumerable<TItem> Update(params TItem[] items)
         {
             var context = CloneContext();
             var result = new List<TItem>(items.Length);
             foreach (TItem item in items)
+            {
+                this.AttachTo(context, item);
                 context.UpdateObject(item);
+                result.Add(item);
+            }
 
             context.SaveChangesWithRetries(SaveChangesOptions.Batch);
 
             return result;
-        }
+        } // TODO: Test
 
         public int Delete(params TItem[] items)
         {
