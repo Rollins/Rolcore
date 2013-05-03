@@ -7,6 +7,7 @@ namespace Rolcore.Repository.Tests
     using System.Diagnostics;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Repository;
     using Rolcore.Repository.Tests.Mocks;
     using System.Collections.Generic;
     
@@ -14,7 +15,6 @@ namespace Rolcore.Repository.Tests
     ///This is a test class for RepositoryTest and is intended
     ///to contain all RepositoryTest Unit Tests
     ///</summary>
-    [TestClass()]
     public abstract class IRepositoryTests<TRepository, TConcurrency>
         where TRepository : IRepository<MockEntity<TConcurrency>, TConcurrency>
     {
@@ -26,7 +26,7 @@ namespace Rolcore.Repository.Tests
             return default(TConcurrency);
         }
 
-        [TestInitialize()]
+        [TestInitialize]
         public void IRepositoryTestsInitialize()
         {
             ClearTestData();
@@ -49,7 +49,7 @@ namespace Rolcore.Repository.Tests
 
         #region Delete() Tests
 
-        [TestMethod()]
+        [TestMethod]
         public virtual void Delete_DeletesAnEntity()
         {
             var target = CreateTargetRepository();
@@ -76,7 +76,7 @@ namespace Rolcore.Repository.Tests
             Assert.IsNull(retrievedEntity);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public virtual void Delete_DeletesMultipleEntities()
         {
             var target = CreateTargetRepository();
@@ -84,24 +84,25 @@ namespace Rolcore.Repository.Tests
             var insertedEntities = new[] { SaveTestEntity(target), SaveTestEntity(target), SaveTestEntity(target) };
             var insertedKeys = insertedEntities.Select(e => e.RowKey).ToArray();
 
-            var retrievedEntities = target.Items
-                .Where(item => 
-                    insertedKeys.Contains(item.RowKey))
+            var retrievedEntities = target
+                .IterativeWhere(insertedKeys, 
+                    (key, item) => { return item.RowKey == ((string)key); })
                 .ToArray();
-            Assert.AreEqual(insertedEntities.Length, retrievedEntities.Length);
 
-            var actual = target.Delete(retrievedEntities);
+            Assert.AreEqual(insertedEntities.Length, retrievedEntities.Count());
 
-            Assert.AreEqual(3, actual); // Should have deleted three items
+            var actual = target.Delete(retrievedEntities.ToArray());
+            Assert.AreEqual(3, actual, "Should have deleted three items");
 
-            retrievedEntities = target.Items
-                .Where(item => 
-                    insertedKeys.Contains(item.RowKey))
+            retrievedEntities = target
+                .IterativeWhere(insertedKeys, 
+                    (key, item) => { return item.RowKey == ((string)key); })
                 .ToArray();
+
             Assert.AreEqual(0, retrievedEntities.Length);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public virtual void Delete_DeletesByRowKeyAndConcurrency() //TODO: What about testing partition key support?
         {
             var target = CreateTargetRepository();
@@ -126,7 +127,7 @@ namespace Rolcore.Repository.Tests
             Assert.IsNull(retrievedEntity);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public virtual void Delete_ReturnsZeroIfRecordDoesNotExist() //TODO: What about testing partition key support?
         {
             var target = CreateTargetRepository();

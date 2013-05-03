@@ -37,7 +37,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         {
         } // Tested
 
-        public IEnumerable<TItem> Items
+        public IQueryable<TItem> Items
         {
             get 
             {

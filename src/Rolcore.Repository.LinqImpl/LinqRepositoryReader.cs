@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Linq;
 using System.Diagnostics.Contracts;
+using System.Collections;
 
 namespace Rolcore.Repository.LinqImpl
 {
@@ -20,7 +21,7 @@ namespace Rolcore.Repository.LinqImpl
             Contract.Requires<ArgumentNullException>(table.Context != null, "table is null");
         }
 
-        public IEnumerable<TBase> Items
+        public IQueryable<TBase> Items
         {
             get { return Table.Cast<TBase>(); }
         }

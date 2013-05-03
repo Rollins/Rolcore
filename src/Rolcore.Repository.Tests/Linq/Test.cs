@@ -26,7 +26,7 @@ namespace Rolcore.Repository.Tests.Linq
                     (entity.RowKey != null) && (_TestItemsRepository.Items.Any(item => item.RowKey == entity.RowKey)));
         }
 
-        System.Collections.Generic.IEnumerable<MockEntity<Binary>> IRepositoryReader<MockEntity<Binary>>.Items
+        IQueryable<MockEntity<Binary>> IRepositoryReader<MockEntity<Binary>>.Items
         {
             get { return _TestItemsRepository.Items; }
         }
@@ -62,7 +62,8 @@ namespace Rolcore.Repository.Tests.Linq
         }
 
         [ImportMany]
-        IEnumerable<IRepositoryItemRule<MockEntity<Binary>>> IRepositoryWriter<MockEntity<Binary>, Binary>.Rules {
+        IEnumerable<IRepositoryItemRule<MockEntity<Binary>>> IRepositoryWriter<MockEntity<Binary>, Binary>.Rules
+        {
             get
             {
                 return _TestItemsRepository.Rules;

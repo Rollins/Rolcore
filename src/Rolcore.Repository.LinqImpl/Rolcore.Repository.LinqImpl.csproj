@@ -106,7 +106,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILinqRepositoryReader.cs" />
     <Compile Include="LinqRepository.cs" />
     <Compile Include="LinqRepositoryBase.cs" />
     <Compile Include="LinqRepositoryReader.cs" />

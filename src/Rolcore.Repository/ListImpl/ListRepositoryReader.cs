@@ -14,15 +14,15 @@ namespace Rolcore.Repository.ListImpl
     public class ListRepositoryReader<TItem> : ListRepositoryBase<TItem>, IRepositoryReader<TItem>
         where TItem : class
     {
-        private readonly IList<TItem> _CloneList = new List<TItem>();
+        private readonly IList<TItem> cloneList = new List<TItem>();
 
         private void EnsureClone()
         {
-            _CloneList.Clear();
+            this.cloneList.Clear();
             foreach (var item in List)
             {
                 var newItem = CloneItem(item);
-                _CloneList.Add(newItem);
+                this.cloneList.Add(newItem);
             }
         }
 
@@ -41,12 +41,12 @@ namespace Rolcore.Repository.ListImpl
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> of all items available in the list.
         /// </summary>
-        public IEnumerable<TItem> Items
+        public IQueryable<TItem> Items
         {
             get
             {
-                EnsureClone();
-                return _CloneList;
+                this.EnsureClone();
+                return this.cloneList.AsQueryable();
             }
         } // Tested
     }

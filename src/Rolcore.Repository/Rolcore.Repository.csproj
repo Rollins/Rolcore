@@ -111,6 +111,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="IRepositoryItemRule.cs" />
     <Compile Include="IRepositoryReader.cs" />
+    <Compile Include="IRepositoryReaderExtensions.cs" />
     <Compile Include="IRepositoryWriter.cs" />
     <Compile Include="IRepositoryWriterExtensions.cs" />
     <Compile Include="ListImpl\ListRepository.cs" />

@@ -10,6 +10,7 @@ namespace Rolcore.Repository
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     /// <summary>
     /// A generic implementation of <see cref="IRepository<>"/> that delegates operations to 
@@ -42,7 +43,7 @@ namespace Rolcore.Repository
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> of all items available in the repository.
         /// </summary>
-        public IEnumerable<TItem> Items
+        public IQueryable<TItem> Items
         {
             get { return this._Reader.Items; }
         } // TODO: Test

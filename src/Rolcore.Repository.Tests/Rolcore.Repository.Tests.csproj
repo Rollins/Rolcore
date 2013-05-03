@@ -90,6 +90,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="IRepositoryTests.cs" />
+    <Compile Include="Linq\IQueryable.cs" />
     <Compile Include="Linq\LinqRepositoryTest.cs" />
     <Compile Include="Linq\Test.cs">
       <DependentUpon>Test.dbml</DependentUpon>

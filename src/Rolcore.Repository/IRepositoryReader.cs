@@ -5,7 +5,10 @@
 //-----------------------------------------------------------------------
 namespace Rolcore.Repository
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a read-only repository.
@@ -17,6 +20,6 @@ namespace Rolcore.Repository
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> of all items available in the repository.
         /// </summary>
-        IEnumerable<T> Items { get; }
+        IQueryable<T> Items { get; }
     }
 }
