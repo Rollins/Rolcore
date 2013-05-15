@@ -5,6 +5,8 @@
 //-----------------------------------------------------------------------
 namespace Rolcore.IO
 {
+    using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
 
     /// <summary>
@@ -20,6 +22,21 @@ namespace Rolcore.IO
         public static TextReader ToTextReader(this string s)
         {
             return new StringReader(s);
+        }
+
+        public static Stream ToStream(this string s)
+        {
+            Contract.Requires<ArgumentNullException>(s != null, "s is null");
+
+            var result = new MemoryStream();
+            var writer = new StreamWriter(result);
+
+            writer.Write(s);
+            writer.Flush();
+
+            result.Position = 0;
+            
+            return result;
         }
     }
 }
