@@ -1,13 +1,15 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ConfigurationExportProvider.cs" company="Rollins, Inc.">
-//     Code from Kent Boogaart's article, found at http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html
-//     and Modified by Rollins, Inc.
+//     Code from Kent Boogaart's article, found at 
+//     http://kentb.blogspot.com/2010/02/automatic-configuration-exposure-with.html and Modified by
+//     Rollins, Inc.
 // </copyright>
 //-----------------------------------------------------------------------
 namespace Rolcore.ComponentModel.Composition
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
     using System.ComponentModel.Composition.Primitives;
     using System.ComponentModel.Composition.ReflectionModel;
@@ -18,33 +20,48 @@ namespace Rolcore.ComponentModel.Composition
     /// <summary>
     /// An <see cref="ExportProvider"/> that exports values from an App.Config or Web.Config file.
     /// </summary>
+    [Export(typeof(ExportProvider)), Export(typeof(ConfigurationExportProvider))]
     public class ConfigurationExportProvider : ExportProvider
     {
-        private readonly IConfigurationSource _ConfigurationSource;
+        /// <summary>
+        /// The source of configuration values, for example the App.Config.
+        /// </summary>
+        private readonly IConfigurationSource configurationSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConfigurationExportProvider"/> class.
+        /// </summary>
+        /// <param name="configurationSource">Specifies the source of configuration values, for 
+        /// example an App.Config or Web.Config file.</param>
         public ConfigurationExportProvider(IConfigurationSource configurationSource)
         {
-            // the configuration source determines where configuration values come from (eg. App.Config file)
-            _ConfigurationSource = configurationSource;
+            this.configurationSource = configurationSource;
         }
 
-        protected override IEnumerable<Export> GetExportsCore(ImportDefinition definition, AtomicComposition atomicComposition)
+        /// <summary>
+        /// Gets all the exports that match the constraint defined by the specified definition.
+        /// </summary>
+        /// <param name="definition">The object that defines the conditions of the 
+        /// System.ComponentModel.Composition.Primitives.Export objects to return.</param>
+        /// <param name="atomicComposition">The transactional container for the composition.</param>
+        /// <returns>A collection that contains all the exports that match the specified condition.</returns>
+        protected override IEnumerable<Export> GetExportsCore(
+            ImportDefinition definition, 
+            AtomicComposition atomicComposition)
         {
             var contractName = definition.ContractName;
 
-            if (string.IsNullOrEmpty(contractName))
+            var nothingToDo =
+                string.IsNullOrEmpty(contractName) // no contract
+                || (definition.Cardinality != ImportCardinality.ZeroOrOne
+                 && definition.Cardinality != ImportCardinality.ExactlyOne); // we only support single value cardinalities
+
+            if (nothingToDo)
             {
-                // no contract, nothing we can do
                 yield break;
             }
 
-            if (definition.Cardinality != ImportCardinality.ZeroOrOne && definition.Cardinality != ImportCardinality.ExactlyOne)
-            {
-                // we only support single value cardinalities
-                yield break;
-            }
-
-            if (this._ConfigurationSource.ContainsSetting(contractName))
+            if (this.configurationSource.ContainsSetting(contractName))
             {
                 // import was found to be an app setting - may need to convert it to an appropriate type for the importer
                 Type targetType = null;
@@ -55,7 +72,7 @@ namespace Rolcore.ComponentModel.Composition
                     // import appears on a parameter
                     var importingParameter = ReflectionModelServices.GetImportingParameter(definition);
                     targetType = importingParameter.Value.ParameterType;
-                    stringValue = this._ConfigurationSource.GetSetting(contractName);
+                    stringValue = this.configurationSource.GetSetting(contractName);
                 }
                 else
                 {
@@ -74,7 +91,7 @@ namespace Rolcore.ComponentModel.Composition
                     }
 
                     targetType = getAccessor.ReturnType;
-                    stringValue = this._ConfigurationSource.GetSetting(contractName);
+                    stringValue = this.configurationSource.GetSetting(contractName);
                 }
 
                 if (targetType == null)
@@ -85,10 +102,10 @@ namespace Rolcore.ComponentModel.Composition
                 var export = new Export(contractName, () => Convert.ChangeType(stringValue, targetType));
                 yield return export;
             }
-            else if (this._ConfigurationSource.ContainsSection(contractName))
+            else if (this.configurationSource.ContainsSection(contractName))
             {
                 // import was found to be a configuration section
-                var section = this._ConfigurationSource.GetSection(contractName);
+                var section = this.configurationSource.GetSection(contractName);
                 yield return new Export(contractName, () => section);
             }
         }
