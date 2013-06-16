@@ -16,9 +16,9 @@
         where TBase : class
         where TItem : class, TBase
     {
-        private readonly Type _ItemType;
-        private readonly Action<TItem, string, TConcurrency, string> _SetKeyAndConcurrencyValues;
-        private readonly Func<TBase, bool> _ItemExists;
+        private readonly Type itemType;
+        private readonly Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues;
+        private readonly Func<TBase, bool> itemExists;
 
         private static TBase NewItem()
         {
@@ -27,20 +27,20 @@
             return result;
         }
 
-        private IEnumerable<TItem> SubmitChanges()
+        private TItem[] SubmitChanges()
         {
             try
             {
                 var changes = Table.Context.GetChangeSet();
                 var result = changes.Inserts
                     .Where(insert =>
-                        insert.GetType() == _ItemType)
+                        insert.GetType() == itemType)
                     .Union(changes.Updates
                         .Where(update =>
-                            update.GetType() == _ItemType))
+                            update.GetType() == itemType))
                     .Union(changes.Deletes
                         .Where(delete =>
-                            delete.GetType() == _ItemType))
+                            delete.GetType() == itemType))
                     .Cast<TItem>()
                     .ToArray();
 
@@ -50,9 +50,7 @@
             }
             catch (ChangeConflictException exception)
             {
-                //
                 // Required by interface (see unit tests for IRepositoryWriter)
-
                 throw new DBConcurrencyException(exception.Message, exception);
             }
         }
@@ -77,6 +75,7 @@
             {
                 return result;
             }
+
             result = (TItem)NewItem();
             Contract.Assume(result != null, "Result was null somehow.");
             item.CopyMatchingObjectPropertiesTo(result);
@@ -92,13 +91,16 @@
         /// This may contain the same instances, different instances, or a mix; so BEWARE!</returns>
         protected static IEnumerable<TItem> ConcreteFromBase(IEnumerable<TBase> items)
         {
+            Contract.Requires<ArgumentNullException>(items != null, "items is null");
             foreach (var item in items)
+            {
                 yield return ConcreteFromBase(item);
+            }
         }
 
         private void EnsureItemIsAttached(TItem item, bool asModified)
         {
-            Contract.Requires<ArgumentNullException>(item != null, "item cannot be null");
+            Contract.Requires<ArgumentNullException>(item != null, "item is null");
 
             TItem original = this.Table.GetOriginalEntityState(item);
             if (original == null)
@@ -126,12 +128,12 @@
             Contract.Requires<ArgumentNullException>(table.Context != null, "table is null");
             Contract.Requires<ArgumentNullException>(setKeyAndConcurrencyValues != null, "setKeyAndConcurrencyValues cannot be null");
             Contract.Requires<ArgumentNullException>(itemExists != null, "itemExists cannot be null");
-            Contract.Ensures(_ItemType != null);
-            Contract.Ensures(_ItemExists != null);
+            Contract.Ensures(itemType != null);
+            Contract.Ensures(itemExists != null);
 
-            _ItemType = typeof(TItem);
-            _SetKeyAndConcurrencyValues = setKeyAndConcurrencyValues;
-            _ItemExists = itemExists;
+            this.itemType = typeof(TItem);
+            this.setKeyAndConcurrencyValues = setKeyAndConcurrencyValues;
+            this.itemExists = itemExists;
         }
 
         public void ApplyRules(params TBase[] items)
@@ -139,7 +141,7 @@
             this.ApplyRulesDefaultImplementation(items);
         }
 
-        public IEnumerable<TBase> Save(params TBase[] items)
+        public TBase[] Save(params TBase[] items)
         {
             this.ApplyRules(items);
             foreach (var item in items)
@@ -157,7 +159,7 @@
             return SubmitChanges();
         }
 
-        public IEnumerable<TBase> Insert(params TBase[] items)
+        public TBase[] Insert(params TBase[] items)
         {
             this.ApplyRules(items);
             foreach (var item in items)
@@ -167,10 +169,10 @@
                 Debug.WriteLine(string.Format("Inserting: {0}", item));
             }
 
-            return SubmitChanges();
+            return this.SubmitChanges();
         }
 
-        public IEnumerable<TBase> Update(params TBase[] items)
+        public TBase[] Update(params TBase[] items)
         {
             this.ApplyRules(items);
             foreach (var item in items)
@@ -179,7 +181,7 @@
                 EnsureItemIsAttached(concrete, true);
             }
 
-            return SubmitChanges();
+            return this.SubmitChanges();
         }
 
         public int Delete(params TBase[] items)
@@ -190,18 +192,22 @@
 
             Table.DeleteAllOnSubmit(concreteItems);
 
-            return SubmitChanges().Count();
+            return this.SubmitChanges().Length;
         }
 
         public int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null)
         {
             var item = Activator.CreateInstance<TItem>();
-            _SetKeyAndConcurrencyValues(item, rowKey, concurrency, partitionKey);
+            setKeyAndConcurrencyValues(item, rowKey, concurrency, partitionKey);
+            
             if (!ItemExists(item))
+            {
                 return 0;
-            EnsureItemIsAttached(item, false);
-            Table.DeleteOnSubmit(item);
-            Table.Context.SubmitChanges();
+            }
+
+            this.EnsureItemIsAttached(item, false);
+            this.Table.DeleteOnSubmit(item);
+            this.Table.Context.SubmitChanges();
             return 1;
         }
 
@@ -210,7 +216,7 @@
 
         public bool ItemExists(TBase item)
         {
-            return _ItemExists(item);
+            return itemExists(item);
         }
     }
 }

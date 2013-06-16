@@ -42,7 +42,7 @@ namespace Rolcore.Repository.Tests
                 PartitionKey = "Mocks",
                 StringProperty = string.Empty
             };
-            result = target.Save(result).Single();
+            result = target.Save(result)[0];
 
             return result;
         }

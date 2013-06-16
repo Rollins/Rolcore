@@ -36,17 +36,17 @@ namespace Rolcore.Repository.Tests.Linq
             this.ApplyRulesDefaultImplementation(items);
         }
 
-        System.Collections.Generic.IEnumerable<MockEntity<Binary>> IRepositoryWriter<MockEntity<Binary>, Binary>.Insert(params MockEntity<Binary>[] items)
+        MockEntity<Binary>[] IRepositoryWriter<MockEntity<Binary>, Binary>.Insert(params MockEntity<Binary>[] items)
         {
             return _TestItemsRepository.Insert(items);
         }
 
-        System.Collections.Generic.IEnumerable<MockEntity<Binary>> IRepositoryWriter<MockEntity<Binary>, Binary>.Update(params MockEntity<Binary>[] items)
+        MockEntity<Binary>[] IRepositoryWriter<MockEntity<Binary>, Binary>.Update(params MockEntity<Binary>[] items)
         {
             return _TestItemsRepository.Update(items);
         }
 
-        System.Collections.Generic.IEnumerable<MockEntity<Binary>> IRepositoryWriter<MockEntity<Binary>, Binary>.Save(params MockEntity<Binary>[] items)
+        MockEntity<Binary>[] IRepositoryWriter<MockEntity<Binary>, Binary>.Save(params MockEntity<Binary>[] items)
         {
             return _TestItemsRepository.Save(items);
         }

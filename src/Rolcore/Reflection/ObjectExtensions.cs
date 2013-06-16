@@ -10,6 +10,7 @@ namespace Rolcore.Reflection
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Reflection;
 
@@ -38,10 +39,8 @@ namespace Rolcore.Reflection
         /// <returns>The specified object, converted to the specified type.</returns>
         public static object ChangeType(this object obj, Type toType)
         {
-            if (obj == null)
-                throw new ArgumentNullException("obj", "obj is null.");
-            if (toType == null)
-                throw new ArgumentNullException("toType", "toType is null.");
+            Contract.Requires<ArgumentNullException>(obj != null, "obj is null");
+            Contract.Requires<ArgumentNullException>(toType != null, "toType is null");
 
             var objType = obj.GetType();
             if (obj.IsNullableType())
@@ -60,10 +59,14 @@ namespace Rolcore.Reflection
             }
 
             if (obj is IConvertible)
+            {
                 return Convert.ChangeType(obj, toType);
+            }
 
             if (toType.IsAssignableFrom(objType))
+            {
                 return obj;
+            }
 
             throw new InvalidOperationException("Cannot convert " + objType + " to " + toType);
         }

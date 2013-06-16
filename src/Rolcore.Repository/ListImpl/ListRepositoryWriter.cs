@@ -15,11 +15,11 @@ namespace Rolcore.Repository.ListImpl
     public class ListRepositoryWriter<TItem, TConcurrency> : ListRepositoryBase<TItem>, IRepositoryWriter<TItem, TConcurrency>
         where TItem : class
     {
-        private readonly Action<TItem, TConcurrency> _SetConcurrency;
-        private readonly Func<TItem, IList<TItem>, TItem> _FindByItemIdent;
-        private readonly Func<TItem, IList<TItem>, TItem> _FindConcurrentlyByItem;
-        private readonly Func<string, TConcurrency, string, IList<TItem>, TItem> _FindConcurrently;
-        private readonly Func<TConcurrency> _NewConcurrencyValue;
+        private readonly Action<TItem, TConcurrency> setConcurrency;
+        private readonly Func<TItem, IList<TItem>, TItem> findByItemIdent;
+        private readonly Func<TItem, IList<TItem>, TItem> findConcurrentlyByItem;
+        private readonly Func<string, TConcurrency, string, IList<TItem>, TItem> findConcurrently;
+        private readonly Func<TConcurrency> newConcurrencyValue;
 
         /// <summary>
         /// Initializes a new instance of ListRepositoryWriter.
@@ -46,11 +46,11 @@ namespace Rolcore.Repository.ListImpl
             Contract.Requires<ArgumentNullException>(list != null, "list cannot be null");
             Contract.Requires<ArgumentNullException>(setConcurrency != null, "setSameIdentAndConcurrency cannot be null");
 
-            _SetConcurrency = setConcurrency;
-            _FindByItemIdent = findByItemIdent;
-            _FindConcurrentlyByItem = findConcurrentlyByItem;
-            _FindConcurrently = findConcurrently;
-            _NewConcurrencyValue = newConcurrencyValue;
+            this.setConcurrency = setConcurrency;
+            this.findByItemIdent = findByItemIdent;
+            this.findConcurrentlyByItem = findConcurrentlyByItem;
+            this.findConcurrently = findConcurrently;
+            this.newConcurrencyValue = newConcurrencyValue;
         } // Tested
 
         public void ApplyRules(params TItem[] items)
@@ -65,65 +65,78 @@ namespace Rolcore.Repository.ListImpl
         /// <returns>The updated items. Note that depending on the implementation, the result may 
         /// be copies of items passed in; the items therefore may not reflect changes caused by
         /// the backing repository (for example, an auto-generated key).</returns>
-        public IEnumerable<TItem> Save(params TItem[] items)
+        public TItem[] Save(params TItem[] items)
         {
             Debug.WriteLine(String.Format("Saving {0} items.", items.Length));
             this.ApplyRules(items);
+
+            var result = new List<TItem>(items.Length);
             foreach (var item in items)
             {
                 Debug.WriteLine("Saving item: " + item);
 
-                var result = _FindConcurrentlyByItem(item, List);
-                result = (result == null) 
-                    ? result = Insert(item).Single()
-                    : result = Update(item).Single();
+                var resultItem = findConcurrentlyByItem(item, List);
+                resultItem = (resultItem == null)
+                    ? resultItem = this.Insert(item)[0]
+                    : resultItem = this.Update(item)[0];
 
-                yield return result;
+                result.Add(resultItem);
             }
+
+            return result.ToArray();
         } // Tested
 
-        public IEnumerable<TItem> Insert(params TItem[] items)
+        public TItem[] Insert(params TItem[] items)
         {
             this.ApplyRules(items);
+            var result = new List<TItem>(items.Length);
             foreach (TItem item in items)
             {
-                var existingItem = _FindByItemIdent(item, List);
-                if (existingItem != null)
-                    throw new DBConcurrencyException("Item already exists: " + item);
-                
-                Debug.WriteLine("Item does not exist, inserting.");
+                var resultItem = findByItemIdent(item, List);
+                if (resultItem != null)
+                {
+                    throw new DBConcurrencyException(
+                        "Cannot insert an item that already exists: " + item);
+                }
 
-                existingItem = CloneItem(item);
+                resultItem = CloneItem(item);
 
-                var concurrency = _NewConcurrencyValue();
-                _SetConcurrency(item, concurrency);
-                _SetConcurrency(existingItem, concurrency);
+                var concurrency = newConcurrencyValue();
+                setConcurrency(item, concurrency);
+                setConcurrency(resultItem, concurrency);
 
-                List.Add(existingItem);
-                yield return existingItem;
+                List.Add(resultItem);
+                result.Add(resultItem);
             }
+
+            return result.ToArray();
         } //TODO: Test
 
-        public IEnumerable<TItem> Update(params TItem[] items)
+        public TItem[] Update(params TItem[] items)
         {
             this.ApplyRules(items);
+            var result = new List<TItem>(items.Length);
             foreach (var item in items)
             {
-                var existingItem = _FindConcurrentlyByItem(item, List);
+                var resultItem = findConcurrentlyByItem(item, List);
 
-                if (existingItem == null)
+                if (resultItem == null)
+                {
                     throw new DBConcurrencyException("Item does not exist to update: " + item);
+                }
 
-                item.CopyMatchingObjectPropertiesTo(existingItem);
+                item.CopyMatchingObjectPropertiesTo(resultItem);
 
-                var concurrency = _NewConcurrencyValue();
-                _SetConcurrency(item, concurrency);
-                _SetConcurrency(existingItem, concurrency); 
+                var concurrency = this.newConcurrencyValue();
+                this.setConcurrency(item, concurrency);
+                this.setConcurrency(resultItem, concurrency); 
 
                 Debug.WriteLine(item + " saved");
 
-                yield return existingItem;
+                result.Add(resultItem);
             }
+
+            return result.ToArray();
         } //TODO: Test
 
         public int Delete(params TItem[] items)
@@ -133,7 +146,7 @@ namespace Rolcore.Repository.ListImpl
             
             foreach (var item in items)
             {
-                var existingItem = _FindConcurrentlyByItem(item, List);
+                var existingItem = findConcurrentlyByItem(item, List);
 
                 if (existingItem != null)
                 {
@@ -154,7 +167,7 @@ namespace Rolcore.Repository.ListImpl
         {
             Debug.WriteLine(String.Format("Concurrency value ({0}) ignored.", concurrency));
 
-            var existingItem = _FindConcurrently(rowKey, concurrency, partitionKey, List);
+            var existingItem = findConcurrently(rowKey, concurrency, partitionKey, List);
 
             if (existingItem == null)
                 return 0;

@@ -16,7 +16,7 @@
             Contract.Requires<ArgumentException>(items.Length > 0, "items cannot be empty");
         }
 
-        IEnumerable<TItem> IRepositoryWriter<TItem, TConcurrency>.Save(params TItem[] items)
+        TItem[] IRepositoryWriter<TItem, TConcurrency>.Save(params TItem[] items)
         {
             Contract.Requires<ArgumentNullException>(items != null, "items cannot be null");
             Contract.Requires<ArgumentException>(items.Length > 0, "items cannot be empty");
@@ -43,20 +43,20 @@
             return default(int);
         }
 
-        public IEnumerable<TItem> Insert(params TItem[] items)
+        public TItem[] Insert(params TItem[] items)
         {
             Contract.Requires<ArgumentNullException>(items != null, "items cannot be null");
             Contract.Requires<ArgumentException>(items.Length > 0, "items cannot be empty");
 
-            return default(IEnumerable<TItem>);
+            return default(TItem[]);
         }
 
-        public IEnumerable<TItem> Update(params TItem[] items)
+        public TItem[] Update(params TItem[] items)
         {
             Contract.Requires<ArgumentNullException>(items != null, "items cannot be null");
             Contract.Requires<ArgumentException>(items.Length > 0, "items cannot be empty");
 
-            return default(IEnumerable<TItem>);
+            return default(TItem[]);
         }
 
         [ImportMany]

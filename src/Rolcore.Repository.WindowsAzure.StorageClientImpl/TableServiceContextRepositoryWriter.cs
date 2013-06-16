@@ -12,15 +12,19 @@ using System.ComponentModel.Composition;
 
 namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 {
+    /// <summary>
+    /// Implements <see cref="IRepositoryWriter{}"/> using a <see cref="TableServiceContext"/> as 
+    /// the storage mechanism.
+    /// </summary>
+    /// <typeparam name="TItem"></typeparam>
     public class TableServiceContextRepositoryWriter<TItem> 
         : TableServiceContextRepositoryBase, 
           IRepositoryWriter<TItem, DateTime>
         where TItem : class
     {
         #region DataServiceClientException Handling Methods
-        private IEnumerable<TItem> Handle404DataServiceClientException(TItem[] items, DataServiceRequestException ex)
+        private TItem[] Handle404DataServiceClientException(TItem[] items, DataServiceRequestException ex)
         {
-            //
             // Force "insert or replace" to work on the local storage emulator!
             // From http://www.windowsazure.com/en-us/develop/net/how-to-guides/table-services/#insert-entity:
             // "Note that insert-or-replace is not supported on the local storage emulator,
@@ -83,37 +87,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         } // Tested
         #endregion Constructors
 
-        TableServiceContext CloneContext()
-        {
-            var result = new TableServiceContext(Context.BaseUri.ToString(), Context.StorageCredentials);
-            Context.CopyMatchingObjectPropertiesTo(result);
-            result.IgnoreResourceNotFoundException = true; // prevents SingleOrDefault from throwing an exception
-            return result;
-        }
-
-        string GetETag(TItem item)
-        {
-            dynamic dynItem = item;
-            return Context.Entities
-                .Where(e =>
-                    ((dynamic)e.Entity).PartitionKey == dynItem.PartitionKey
-                    && ((dynamic)e.Entity).RowKey == dynItem.RowKey)
-                .Select(e => e.ETag)
-                .SingleOrDefault();
-        }
-
-        void AttachTo(TableServiceContext context, TItem item)
-        {
-            EnsureRowKey(item);
-
-            var eTag = GetETag(item);
-
-            if (eTag != null)
-                context.AttachTo(EntitySetName, item, eTag);
-            else
-                context.AttachTo(EntitySetName, item);
-        }
-
+        #region Private Methods
         private static void EnsureRowKey(TItem item)
         {
             dynamic dynItem = (dynamic)item;
@@ -128,18 +102,54 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             }
         }
 
+        /// <summary>
+        /// Clones the backing <see cref="TableServiceContext"/>.
+        /// </summary>
+        /// <returns></returns>
+        private TableServiceContext CloneContext()
+        {
+            var result = new TableServiceContext(this.Context.BaseUri.ToString(), Context.StorageCredentials);
+            Context.CopyMatchingObjectPropertiesTo(result);
+            result.IgnoreResourceNotFoundException = true; // prevents SingleOrDefault from throwing an exception
+            return result;
+        }
+
+        private string GetETag(TItem item)
+        {
+            dynamic dynItem = item;
+            return Context.Entities
+                .Where(e =>
+                    ((dynamic)e.Entity).PartitionKey == dynItem.PartitionKey
+                    && ((dynamic)e.Entity).RowKey == dynItem.RowKey)
+                .Select(e => e.ETag)
+                .SingleOrDefault();
+        }
+
+        private void AttachTo(TableServiceContext context, TItem item)
+        {
+            EnsureRowKey(item);
+
+            var eTag = GetETag(item);
+
+            if (eTag != null)
+                context.AttachTo(EntitySetName, item, eTag);
+            else
+                context.AttachTo(EntitySetName, item);
+        }
+        #endregion Private Methods
+
         public void ApplyRules(params TItem[] items)
         {
             this.ApplyRulesDefaultImplementation(items);
         }
 
-        public IEnumerable<TItem> Save(params TItem[] items)
+        public TItem[] Save(params TItem[] items)
         {
             this.ApplyRules(items);
             var context = CloneContext();
             foreach (TItem item in items)
             {
-                AttachTo(context, item);
+                this.AttachTo(context, item);
                 context.UpdateObject(item);
             }
 
@@ -152,18 +162,19 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             {
                 var innerException = ex.InnerException as DataServiceClientException;
 
-                if(innerException == null)
+                if (innerException == null)
+                {
                     throw;
-
-                //
+                }
                 // Exceptions: http://technet.microsoft.com/en-us/library/dd179438.aspx
-
                 else if (innerException.StatusCode == 404) // 404 = "Not Found"
+                {
                     return Handle404DataServiceClientException(items, ex);
+                }
                 else if (innerException.StatusCode == 412) // UpdateConditionNotSatisfied (concurrency)
                 {
                     throw new DBConcurrencyException(
-                        "Record has been modified outside the current save operation.", 
+                        "Record has been modified outside the current save operation.",
                         innerException);
                 }
                 else
@@ -171,7 +182,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             }
         }// Tested
 
-        public IEnumerable<TItem> Insert(params TItem[] items)
+        public TItem[] Insert(params TItem[] items)
         {
             var context = CloneContext();
             var result = new List<TItem>(items.Length);
@@ -184,10 +195,10 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 
             context.SaveChangesWithRetries(SaveChangesOptions.Batch);
 
-            return result;
+            return result.ToArray();
         } // Tested
 
-        public IEnumerable<TItem> Update(params TItem[] items)
+        public TItem[] Update(params TItem[] items)
         {
             var context = CloneContext();
             var result = new List<TItem>(items.Length);
@@ -200,7 +211,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 
             context.SaveChangesWithRetries(SaveChangesOptions.Batch);
 
-            return result;
+            return result.ToArray();
         } // TODO: Test
 
         public int Delete(params TItem[] items)
