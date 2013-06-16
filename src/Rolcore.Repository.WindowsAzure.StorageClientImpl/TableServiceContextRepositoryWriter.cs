@@ -23,6 +23,19 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         where TItem : class
     {
         #region DataServiceClientException Handling Methods
+        private TItem[] Handle400DataServiceClientException(TItem[] items, DataServiceRequestException ex)
+        {
+            // This sometimes happens during an update in dev storage during upsert, though it's 
+            // not really clear why.
+
+            Trace.TraceWarning("Local dev storage detected. If you are reading this in production, you may wish to freak out.");
+            Trace.Indent();
+            Trace.TraceError(ex.ToString());
+            Trace.Unindent();
+
+            return this.Update(items);
+        }
+
         private TItem[] Handle404DataServiceClientException(TItem[] items, DataServiceRequestException ex)
         {
             // Force "insert or replace" to work on the local storage emulator!
@@ -167,7 +180,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                     throw;
                 }
                 // Exceptions: http://technet.microsoft.com/en-us/library/dd179438.aspx
-                else if (innerException.StatusCode == 404) // 404 = "Not Found"
+                else if (innerException.StatusCode == 400) // 400 = "Bad Request"
+                {
+                    return Handle400DataServiceClientException(items, ex);
+                }
+                else if (innerException.StatusCode == 404 || innerException.StatusCode == 400) // 404 = "Not Found", 400 = "Bad Request"
                 {
                     return Handle404DataServiceClientException(items, ex);
                 }
@@ -180,7 +197,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                 else
                     throw;
             }
-        }// Tested
+        } // Tested
 
         public TItem[] Insert(params TItem[] items)
         {
