@@ -70,6 +70,9 @@ namespace Rolcore.Repository
         /// <returns>The number of items deleted.</returns>
         int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null);
 
+        /// <summary>
+        /// Gets or sets the rules to apply to items prior to insert or update operations.
+        /// </summary>
         [ImportMany]
         IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }

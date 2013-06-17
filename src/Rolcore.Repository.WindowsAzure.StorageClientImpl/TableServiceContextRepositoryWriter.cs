@@ -16,13 +16,19 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
     /// Implements <see cref="IRepositoryWriter{}"/> using a <see cref="TableServiceContext"/> as 
     /// the storage mechanism.
     /// </summary>
-    /// <typeparam name="TItem"></typeparam>
+    /// <typeparam name="TItem">Specifies the type of item stored in the repository.</typeparam>
     public class TableServiceContextRepositoryWriter<TItem> 
         : TableServiceContextRepositoryBase, 
           IRepositoryWriter<TItem, DateTime>
         where TItem : class
     {
         #region DataServiceClientException Handling Methods
+        /// <summary>
+        /// Works around issues with the Azure storage emulator that cause a HTTP 400 response.
+        /// </summary>
+        /// <param name="items">Specifies the items on which the exception occurred.</param>
+        /// <param name="ex">Specifies the exception</param>
+        /// <returns>The persisted items.</returns>
         private TItem[] Handle400DataServiceClientException(TItem[] items, DataServiceRequestException ex)
         {
             // This sometimes happens during an update in dev storage during upsert, though it's 
@@ -36,13 +42,17 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return this.Update(items);
         }
 
+        /// <summary>
+        /// Force "insert or replace" to work on the local storage emulator. From 
+        /// http://www.windowsazure.com/en-us/develop/net/how-to-guides/table-services/#insert-entity:
+        /// "Note that insert-or-replace is not supported on the local storage emulator, so this 
+        /// code runs only when using an account on the table service."
+        /// </summary>
+        /// <param name="items">Specifies the items on which the exception occurred.</param>
+        /// <param name="ex">Specifies the exception</param>
+        /// <returns>The persisted items</returns>
         private TItem[] Handle404DataServiceClientException(TItem[] items, DataServiceRequestException ex)
         {
-            // Force "insert or replace" to work on the local storage emulator!
-            // From http://www.windowsazure.com/en-us/develop/net/how-to-guides/table-services/#insert-entity:
-            // "Note that insert-or-replace is not supported on the local storage emulator,
-            // so this code runs only when using an account on the table service."
-
             Trace.TraceWarning("Local dev storage detected. If you are reading this in production, you may wish to freak out.");
             Trace.Indent();
             Trace.TraceError(ex.ToString());
@@ -78,22 +88,45 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         #endregion DataServiceClientException Handling Methods
 
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter"/> class.
+        /// </summary>
+        /// <param name="context">The value for <see cref="Context"/>.</param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
         public TableServiceContextRepositoryWriter(TableServiceContext context, string entitySetName)
             : base(context, entitySetName)
         {
             
         } // Tested
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter"/> class.
+        /// </summary>
+        /// <param name="client">A <see cref="CloudTableClient"/> that provides access to the 
+        /// backing <see cref="TableServiceContext"/></param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
         public TableServiceContextRepositoryWriter(CloudTableClient client, string entitySetName)
             : base(client, entitySetName)
         {
         } // Tested
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter"/> class.
+        /// </summary>
+        /// <param name="storageAccount">Specifies the <see cref="CloudStorageAccount"/> in which 
+        /// entities are to be stored.</param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
         public TableServiceContextRepositoryWriter(CloudStorageAccount storageAccount, string entitySetName)
             : base(storageAccount, entitySetName)
         {
         } // Tested
 
+        /// <summary>
+        /// Initializes a new <see cref="TableServiceContextRepositoryBase"/>.
+        /// </summary>
+        /// <param name="connectionString">Specifies the connection string to the cloud storage 
+        /// account in which entities are to be stored.</param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
         public TableServiceContextRepositoryWriter(string connectionString, string entitySetName)
             : base(connectionString, entitySetName)
         {
@@ -118,7 +151,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         /// <summary>
         /// Clones the backing <see cref="TableServiceContext"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A copy of <see cref="Context"/>.</returns>
         private TableServiceContext CloneContext()
         {
             var result = new TableServiceContext(this.Context.BaseUri.ToString(), Context.StorageCredentials);
@@ -127,6 +160,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return result;
         }
 
+        /// <summary>
+        /// Gets the specified items ETag.
+        /// </summary>
+        /// <param name="item">Specifies the item.</param>
+        /// <returns>The ETag value of the item.</returns>
         private string GetETag(TItem item)
         {
             dynamic dynItem = item;
@@ -138,6 +176,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                 .SingleOrDefault();
         }
 
+        /// <summary>
+        /// Attaches the specified item to the specified context.
+        /// </summary>
+        /// <param name="context">The context to attach the item to.</param>
+        /// <param name="item">The item to attach.</param>
         private void AttachTo(TableServiceContext context, TItem item)
         {
             EnsureRowKey(item);
@@ -151,11 +194,22 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         }
         #endregion Private Methods
 
+        /// <summary>
+        /// Applies associated <see cref="Rules"/> to the specified items.
+        /// </summary>
+        /// <param name="items">Specifies the items to apply rules to.</param>
         public void ApplyRules(params TItem[] items)
         {
             this.ApplyRulesDefaultImplementation(items);
         }
 
+        /// <summary>
+        /// Inserts or updates the specified items in the repository.
+        /// </summary>
+        /// <param name="items">Specifies the items to insert or update.</param>
+        /// <returns>The saved items. Note that depending on the implementation, the result may 
+        /// be copies of items passed in; the items therefore may not reflect changes caused by
+        /// the backing repository (for example, an auto-generated key).</returns>
         public TItem[] Save(params TItem[] items)
         {
             this.ApplyRules(items);
@@ -199,6 +253,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             }
         } // Tested
 
+        /// <summary>
+        /// Inserts the specified items.
+        /// </summary>
+        /// <param name="items">Specifies the items to insert.</param>
+        /// <returns>The inserted items.</returns>
         public TItem[] Insert(params TItem[] items)
         {
             this.ApplyRules(items);
@@ -216,6 +275,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return result.ToArray();
         } // Tested
 
+        /// <summary>
+        /// Inserts the specified items.
+        /// </summary>
+        /// <param name="items">Specifies the items to insert.</param>
+        /// <returns>The inserted items.</returns>
         public TItem[] Update(params TItem[] items)
         {
             this.ApplyRules(items);
@@ -233,6 +297,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return result.ToArray();
         } // TODO: Test
 
+        /// <summary>
+        /// Deletes the specified items in the repository and returns the number of items deleted.
+        /// </summary>
+        /// <param name="items">Specifies the items to delete.</param>
+        /// <returns>The number of items deleted.</returns>
         public int Delete(params TItem[] items)
         {
             var context = CloneContext();
@@ -249,6 +318,17 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             
         }// Tested
 
+        /// <summary>
+        /// Deletes the items specified by the given row key, concurrency, and (optional) partition 
+        /// key values and returns the number of items deleted. Note that though the most common 
+        /// use for this method is to delete a single item, this MAY result in multiple items being
+        /// deleted if the partitionKey argument is not specified.
+        /// </summary>
+        /// <param name="rowKey">Specifies the row key (unique identifier) of the item to delete.</param>
+        /// <param name="concurrency">Specifies the value to check for optimistic concurrency.</param>
+        /// <param name="partitionKey">Specifies the partition on which the item exists; typically, 
+        /// this argument is only used distributed repositories such as Azure's table service.</param>
+        /// <returns>The number of items deleted.</returns>
         public int Delete(string rowKey, DateTime concurrency, string partitionKey)
         {
 
@@ -269,6 +349,9 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return 0;
         } // Tested
 
+        /// <summary>
+        /// Gets or sets the rules to apply to items prior to insert or update operations.
+        /// </summary>
         [ImportMany]
         public IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }
