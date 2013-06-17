@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
-using System.Data.Services.Client;
-using System.Data;
-using System.Diagnostics;
-using Microsoft.WindowsAzure;
-using Rolcore.Reflection;
-using System.ComponentModel.Composition;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="TableServiceContextRepositoryWriter.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Data;
+    using System.Data.Services.Client;
+    using System.Diagnostics;
+    using System.Linq;
+    using Microsoft.WindowsAzure;
+    using Microsoft.WindowsAzure.StorageClient;
+    using Rolcore.Reflection;
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// Implements <see cref="IRepositoryWriter{}"/> using a <see cref="TableServiceContext"/> as 
     /// the storage mechanism.
@@ -22,6 +27,57 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
           IRepositoryWriter<TItem, DateTime>
         where TItem : class
     {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter{TItem}"/> class.
+        /// </summary>
+        /// <param name="context">The value for <see cref="Context"/>.</param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
+        public TableServiceContextRepositoryWriter(TableServiceContext context, string entitySetName)
+            : base(context, entitySetName)
+        {   
+        } // Tested
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter{TItem}"/> class.
+        /// </summary>
+        /// <param name="client">A <see cref="CloudTableClient"/> that provides access to the 
+        /// backing <see cref="TableServiceContext"/></param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
+        public TableServiceContextRepositoryWriter(CloudTableClient client, string entitySetName)
+            : base(client, entitySetName)
+        {
+        } // Tested
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter{TItem}"/> class.
+        /// </summary>
+        /// <param name="storageAccount">Specifies the <see cref="CloudStorageAccount"/> in which 
+        /// entities are to be stored.</param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
+        public TableServiceContextRepositoryWriter(CloudStorageAccount storageAccount, string entitySetName)
+            : base(storageAccount, entitySetName)
+        {
+        } // Tested
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter{TItem}"/> class.
+        /// </summary>
+        /// <param name="connectionString">Specifies the connection string to the cloud storage 
+        /// account in which entities are to be stored.</param>
+        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
+        public TableServiceContextRepositoryWriter(string connectionString, string entitySetName)
+            : base(connectionString, entitySetName)
+        {
+        } // Tested
+        #endregion Constructors
+
+        /// <summary>
+        /// Gets or sets the rules to apply to items prior to insert or update operations.
+        /// </summary>
+        [ImportMany]
+        public IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
+
         #region DataServiceClientException Handling Methods
         /// <summary>
         /// Works around issues with the Azure storage emulator that cause a HTTP 400 response.
@@ -33,7 +89,6 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         {
             // This sometimes happens during an update in dev storage during upsert, though it's 
             // not really clear why.
-
             Trace.TraceWarning("Local dev storage detected. If you are reading this in production, you may wish to freak out.");
             Trace.Indent();
             Trace.TraceError(ex.ToString());
@@ -51,6 +106,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         /// <param name="items">Specifies the items on which the exception occurred.</param>
         /// <param name="ex">Specifies the exception</param>
         /// <returns>The persisted items</returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
         private TItem[] Handle404DataServiceClientException(TItem[] items, DataServiceRequestException ex)
         {
             Trace.TraceWarning("Local dev storage detected. If you are reading this in production, you may wish to freak out.");
@@ -86,52 +142,6 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return items;
         }
         #endregion DataServiceClientException Handling Methods
-
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter"/> class.
-        /// </summary>
-        /// <param name="context">The value for <see cref="Context"/>.</param>
-        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
-        public TableServiceContextRepositoryWriter(TableServiceContext context, string entitySetName)
-            : base(context, entitySetName)
-        {
-            
-        } // Tested
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter"/> class.
-        /// </summary>
-        /// <param name="client">A <see cref="CloudTableClient"/> that provides access to the 
-        /// backing <see cref="TableServiceContext"/></param>
-        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
-        public TableServiceContextRepositoryWriter(CloudTableClient client, string entitySetName)
-            : base(client, entitySetName)
-        {
-        } // Tested
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TableServiceContextRepositoryWriter"/> class.
-        /// </summary>
-        /// <param name="storageAccount">Specifies the <see cref="CloudStorageAccount"/> in which 
-        /// entities are to be stored.</param>
-        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
-        public TableServiceContextRepositoryWriter(CloudStorageAccount storageAccount, string entitySetName)
-            : base(storageAccount, entitySetName)
-        {
-        } // Tested
-
-        /// <summary>
-        /// Initializes a new <see cref="TableServiceContextRepositoryBase"/>.
-        /// </summary>
-        /// <param name="connectionString">Specifies the connection string to the cloud storage 
-        /// account in which entities are to be stored.</param>
-        /// <param name="entitySetName">The value for <see cref="EntitySetName"/>.</param>
-        public TableServiceContextRepositoryWriter(string connectionString, string entitySetName)
-            : base(connectionString, entitySetName)
-        {
-        } // Tested
-        #endregion Constructors
 
         #region Private Methods
         private static void EnsureRowKey(TItem item)
@@ -185,12 +195,16 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         {
             EnsureRowKey(item);
 
-            var eTag = GetETag(item);
+            var etag = GetETag(item);
 
-            if (eTag != null)
-                context.AttachTo(EntitySetName, item, eTag);
+            if (etag != null)
+            {
+                context.AttachTo(EntitySetName, item, etag);
+            }
             else
+            {
                 context.AttachTo(EntitySetName, item);
+            }
         }
         #endregion Private Methods
 
@@ -233,23 +247,25 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                 {
                     throw;
                 }
-                // Exceptions: http://technet.microsoft.com/en-us/library/dd179438.aspx
-                else if (innerException.StatusCode == 400) // 400 = "Bad Request"
+                //// Exceptions: http://technet.microsoft.com/en-us/library/dd179438.aspx
+                else if (innerException.StatusCode == 400) //// 400 = "Bad Request"
                 {
                     return Handle400DataServiceClientException(items, ex);
                 }
-                else if (innerException.StatusCode == 404 || innerException.StatusCode == 400) // 404 = "Not Found", 400 = "Bad Request"
+                else if (innerException.StatusCode == 404 || innerException.StatusCode == 400) //// 404 = "Not Found", 400 = "Bad Request"
                 {
                     return Handle404DataServiceClientException(items, ex);
                 }
-                else if (innerException.StatusCode == 412) // UpdateConditionNotSatisfied (concurrency)
+                else if (innerException.StatusCode == 412) //// UpdateConditionNotSatisfied (concurrency)
                 {
                     throw new DBConcurrencyException(
                         "Record has been modified outside the current save operation.",
                         innerException);
                 }
                 else
+                {
                     throw;
+                }
             }
         } // Tested
 
@@ -314,8 +330,6 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             context.SaveChangesWithRetries(SaveChangesOptions.Batch);
 
             return items.Count();
-
-            
         }// Tested
 
         /// <summary>
@@ -331,28 +345,24 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         /// <returns>The number of items deleted.</returns>
         public int Delete(string rowKey, DateTime concurrency, string partitionKey)
         {
-
             var itemsToDelete = Context.CreateQuery<TItem>(EntitySetName).AsEnumerable()
                 .Where(item => 
                     (item as dynamic).RowKey == rowKey &&
                     (item as dynamic).Timestamp == concurrency);
 
             if (partitionKey != null)
+            {
                 itemsToDelete = itemsToDelete
                     .Where(item =>
                         (item as dynamic).PartitionKey == partitionKey);
-
+            }
 
             if (itemsToDelete.Any())
+            {
                 return Delete(itemsToDelete.ToArray());
+            }
 
             return 0;
         } // Tested
-
-        /// <summary>
-        /// Gets or sets the rules to apply to items prior to insert or update operations.
-        /// </summary>
-        [ImportMany]
-        public IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }
 }
