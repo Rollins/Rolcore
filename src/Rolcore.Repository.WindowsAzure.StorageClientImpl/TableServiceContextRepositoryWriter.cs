@@ -201,6 +201,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 
         public TItem[] Insert(params TItem[] items)
         {
+            this.ApplyRules(items);
             var context = CloneContext();
             var result = new List<TItem>(items.Length);
             foreach (TItem item in items)
@@ -217,6 +218,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 
         public TItem[] Update(params TItem[] items)
         {
+            this.ApplyRules(items);
             var context = CloneContext();
             var result = new List<TItem>(items.Length);
             foreach (TItem item in items)
