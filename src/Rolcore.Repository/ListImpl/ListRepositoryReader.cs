@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics.Contracts;
-using System.Collections;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ListRepositoryReader.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Repository.ListImpl
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+
     /// <summary>
     /// Provides read-access to a repository via the <see cref="IList<>"/> interface.
     /// </summary>
