@@ -42,7 +42,7 @@ namespace Rolcore.Repository.Tests
                 PartitionKey = "Mocks",
                 StringProperty = string.Empty
             };
-            result = target.Save(result).Single();
+            result = target.Save(result)[0];
 
             return result;
         }
@@ -222,6 +222,29 @@ namespace Rolcore.Repository.Tests
             SaveTestEntity(target);
 
             Assert.IsTrue(rules[0].ApplyWasCalled, "Apply() was not called");
+        }
+
+        [TestMethod]
+        public void Save_HandlesKookyPartitionAndRowKeys()
+        {
+            var target = CreateTargetRepository();
+            MockEntity<TConcurrency> testEntity = new MockEntity<TConcurrency>()
+            {
+                PartitionKey = "aHR0cDovL3d3dy5zcHN1LmVkdS8=|MjAxMy0wNi0xNiAyMDoyNToxOFo=",
+                RowKey = "aHR0cDovL2NhbGVuZGFyLnNwc3UuZWR1L2NhbC9ldmVudC9ldmVudFZpZXcuZG8_Yj1kZSZjYWxQYXRoPS9wdWJsaWMvY2Fscy9NYWluQ2FsJmd1aWQ9Q0FMLTI4OWMzMDZmLTNjMjhiMWQ3LTAxM2MtMmFjZTM2YTQtMDAwMDIyNjZkZW1vYmVkZXdvcmtAbXlzaXRlLmVkdSZyZWN1cnJlbmNlSWQ9",
+                DateTimeProperty = DateTime.Now,
+                IntProperty = (new Random()).Next(),
+                StringProperty = string.Empty
+            };
+
+            testEntity = target.Insert(testEntity).Single();
+
+            testEntity.DateTimeProperty = DateTime.UtcNow;
+            testEntity.StringProperty = "arbitrary modification";
+
+            testEntity = target.Save(testEntity).Single(); // This used to cause an exception in azure even though Update() works!
+
+            Assert.AreEqual("arbitrary modification", testEntity.StringProperty);
         }
         #endregion Save() Tests
 

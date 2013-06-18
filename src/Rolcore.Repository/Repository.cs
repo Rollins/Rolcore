@@ -60,7 +60,7 @@ namespace Rolcore.Repository
         /// <returns>The updated items. Note that depending on the implementation, the result may 
         /// be copies of items passed in; the items therefore may not reflect changes caused by
         /// the backing repository (for example, an auto-generated key).</returns>
-        public IEnumerable<TItem> Save(params TItem[] items)
+        public TItem[] Save(params TItem[] items)
         {
             return this._Writer.Save(items);
         } // TODO: Test
@@ -91,12 +91,12 @@ namespace Rolcore.Repository
             return this._Writer.Delete(rowKey, concurrency, partitionKey);
         } // TODO: Test
 
-        public IEnumerable<TItem> Insert(params TItem[] items)
+        public TItem[] Insert(params TItem[] items)
         {
             return this._Writer.Insert(items);
         } // TODO: Test
 
-        public IEnumerable<TItem> Update(params TItem[] items)
+        public TItem[] Update(params TItem[] items)
         {
             return this._Writer.Update(items);
         } // TODO: Test

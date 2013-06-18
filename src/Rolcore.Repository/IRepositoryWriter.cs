@@ -31,7 +31,7 @@ namespace Rolcore.Repository
         /// <param name="items">Specifies the items to insert.</param>
         /// <returns>The inserted items. Note that depending on the implementation, the objects in
         /// the result may be copies of items passed or they may be the original instances.</returns>
-        IEnumerable<TItem> Insert(params TItem[] items);
+        TItem[] Insert(params TItem[] items);
 
         /// <summary>
         /// Inserts the specified items.
@@ -39,7 +39,7 @@ namespace Rolcore.Repository
         /// <param name="items">Specifies the items to insert.</param>
         /// <returns>The inserted items. Note that depending on the implementation, the objects in
         /// the result may be copies of items passed or they may be the original instances.</returns>
-        IEnumerable<TItem> Update(params TItem[] items);
+        TItem[] Update(params TItem[] items);
 
         /// <summary>
         /// Inserts or updates the specified items in the repository.
@@ -48,7 +48,7 @@ namespace Rolcore.Repository
         /// <returns>The saved items. Note that depending on the implementation, the result may 
         /// be copies of items passed in; the items therefore may not reflect changes caused by
         /// the backing repository (for example, an auto-generated key).</returns>
-        IEnumerable<TItem> Save(params TItem[] items);
+        TItem[] Save(params TItem[] items);
 
         /// <summary>
         /// Deletes the specified items in the repository and returns the number of items deleted.
@@ -70,6 +70,9 @@ namespace Rolcore.Repository
         /// <returns>The number of items deleted.</returns>
         int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null);
 
+        /// <summary>
+        /// Gets or sets the rules to apply to items prior to insert or update operations.
+        /// </summary>
         [ImportMany]
         IEnumerable<IRepositoryItemRule<TItem>> Rules { get; set; }
     }
