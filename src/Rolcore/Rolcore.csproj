@@ -138,6 +138,7 @@
   <ItemGroup>
     <Compile Include="Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="Collections\Generic\KeyValuePairExtensions.cs" />
+    <Compile Include="Collections\Generic\IEnumerableExtensions.cs" />
     <Compile Include="Collections\ListExtensions.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionEx.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensions.cs" />

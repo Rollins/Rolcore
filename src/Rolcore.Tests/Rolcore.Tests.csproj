@@ -146,6 +146,7 @@
     <Compile Include="RandomAssignmentExperimentTest.cs" />
     <Compile Include="ReflectionUtilsTest.cs" />
     <Compile Include="StringExtensionsTest.cs" />
+    <Compile Include="IEnumerableExtensionsTest.cs" />
     <Compile Include="UriExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>

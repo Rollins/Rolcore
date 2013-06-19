@@ -185,6 +185,15 @@ namespace Rolcore
             }
         } // Tested
 
+        public static DateRange UtcNow
+        {
+            get
+            {
+                DateTime now = DateTime.UtcNow;
+                return new DateRange(now, now);
+            }
+        } // Tested
+
         /// <summary>
         /// Gets a <see cref="DateRange"/> that represents the current day.
         /// </summary>
