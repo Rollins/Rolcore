@@ -14,7 +14,7 @@ namespace Rolcore.Repository.ListImpl
     public abstract class ListRepositoryBase<TItem>
         where TItem : class
     {
-        protected TItem CloneItem(TItem item)
+        protected static TItem CloneItem(TItem item)
         {
             TItem result;
             var clonable = (item as ICloneable);

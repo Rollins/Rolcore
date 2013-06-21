@@ -16,6 +16,7 @@ namespace Rolcore.Repository.ListImpl
         where TItem : class
     {
         private readonly Action<TItem, TConcurrency> setConcurrency;
+        private readonly Action<TItem> generateKey;
         private readonly Func<TItem, IList<TItem>, TItem> findByItemIdent;
         private readonly Func<TItem, IList<TItem>, TItem> findConcurrentlyByItem;
         private readonly Func<string, TConcurrency, string, IList<TItem>, TItem> findConcurrently;
@@ -36,6 +37,7 @@ namespace Rolcore.Repository.ListImpl
         public ListRepositoryWriter(
             IList<TItem> list,
             Action<TItem, TConcurrency> setConcurrency, 
+            Action<TItem> generateKey,
             Func<TItem, IList<TItem>, TItem> findByItemIdent,
             Func<TItem, IList<TItem>, TItem> findConcurrentlyByItem,
             Func<string, TConcurrency, string, IList<TItem>, TItem> findConcurrently, 
@@ -47,6 +49,7 @@ namespace Rolcore.Repository.ListImpl
             Contract.Requires<ArgumentNullException>(setConcurrency != null, "setSameIdentAndConcurrency cannot be null");
 
             this.setConcurrency = setConcurrency;
+            this.generateKey = generateKey;
             this.findByItemIdent = findByItemIdent;
             this.findConcurrentlyByItem = findConcurrentlyByItem;
             this.findConcurrently = findConcurrently;
@@ -100,7 +103,7 @@ namespace Rolcore.Repository.ListImpl
                 }
 
                 resultItem = CloneItem(item);
-
+                generateKey(resultItem);
                 var concurrency = newConcurrencyValue();
                 setConcurrency(item, concurrency);
                 setConcurrency(resultItem, concurrency);

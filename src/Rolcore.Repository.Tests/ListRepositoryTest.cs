@@ -56,6 +56,10 @@ namespace Rolcore.Repository.Tests
                 (item, timestamp) => {
                     item.Timestamp = timestamp;
                 },
+                // generateKey
+                (item) => {
+                    // Do nothing, key is generated in database
+                },
                 // findByItemIdent
                 (item, list) =>
                 {
