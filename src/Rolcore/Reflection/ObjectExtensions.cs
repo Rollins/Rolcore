@@ -58,17 +58,21 @@ namespace Rolcore.Reflection
                 toType = converter.UnderlyingType;
             }
 
-            if (obj is IConvertible)
+            if (toType != null)
             {
-                return Convert.ChangeType(obj, toType);
+                if (obj is IConvertible)
+                {
+                    return Convert.ChangeType(obj, toType);
+                }
+
+                if (toType.IsAssignableFrom(objType))
+                {
+                    return obj;
+                }
             }
 
-            if (toType.IsAssignableFrom(objType))
-            {
-                return obj;
-            }
-
-            throw new InvalidOperationException("Cannot convert " + objType + " to " + toType);
+            throw new InvalidOperationException(string.Format(
+                "Cannot convert {0} to {1}", objType, toType));
         }
 
         /// <summary>
