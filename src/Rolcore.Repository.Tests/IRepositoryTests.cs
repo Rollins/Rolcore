@@ -15,6 +15,7 @@ namespace Rolcore.Repository.Tests
     ///This is a test class for RepositoryTest and is intended
     ///to contain all RepositoryTest Unit Tests
     ///</summary>
+    [TestClass, Ignore]
     public abstract class IRepositoryTests<TRepository, TConcurrency>
         where TRepository : IRepository<MockEntity<TConcurrency>, TConcurrency>
     {
