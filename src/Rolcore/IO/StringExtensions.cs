@@ -21,6 +21,7 @@ namespace Rolcore.IO
         /// <returns>A <see cref="TextReader"/> that reads the specified string.</returns>
         public static TextReader ToTextReader(this string s)
         {
+            Contract.Requires<ArgumentNullException>(s != null, "col is null");
             return new StringReader(s);
         }
 

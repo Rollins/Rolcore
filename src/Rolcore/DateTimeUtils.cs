@@ -7,6 +7,7 @@ namespace Rolcore
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Utility methods for <see cref="DateTime"/>.
@@ -20,6 +21,9 @@ namespace Rolcore
         /// <returns>An array of <see cref="DateTime"/>.</returns>
         public static DateTime[] HolidaysByYear(int year)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(year >= 1, "year is less than one");
+            Contract.Requires<ArgumentOutOfRangeException>(year <= 9999, "year is greater than 9,999");
+
             DateTime yearStart = new DateTime(year, 1, 1);
             List<DateTime> result = new List<DateTime>(8);
             // New Year's Day
@@ -54,10 +58,12 @@ namespace Rolcore
         /// <see cref="DayOfWeek"/> in the given month and year.</returns>
         public static DateTime GetNthDayOfWeekInMonth(int year, MonthOfYear month, DayOfWeek dayOfWeek, short dayOccurences)
         {
-            if (dayOccurences < 1) throw new ArgumentOutOfRangeException("dayOccurence", "There cannot be less than one occurrence of a day in a month.");
-            if (dayOccurences > 5) throw new ArgumentOutOfRangeException("dayOccurence", "There cannot be more than 5 occurrences of a day in a month.");
-            
-            DateTime result = new DateTime(year, (int)month, 1);
+            Contract.Requires<ArgumentOutOfRangeException>(year >= 1, "year is less than one");
+            Contract.Requires<ArgumentOutOfRangeException>(year <= 9999, "year is greater than 9,999");
+            Contract.Requires<ArgumentOutOfRangeException>(dayOccurences >= 1, "dayOccurences is less than one");
+            Contract.Requires<ArgumentOutOfRangeException>(dayOccurences <= 5, "dayOccurences is greater than five");
+
+            var result = new DateTime(year, (int)month, 1);
 
             int occurences = 0;
             while (occurences < dayOccurences)
@@ -85,6 +91,9 @@ namespace Rolcore
         /// <see cref="DayOfWeek"/> within the given month and year.</returns>
         public static DateTime GetLastDayOfWeekInMonth(int year, MonthOfYear month, DayOfWeek dayOfWeek)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(year >= 1, "year is less than one");
+            Contract.Requires<ArgumentOutOfRangeException>(year <= 9999, "year is greater than 9,999");
+
             try
             {
                 return GetNthDayOfWeekInMonth(year, month, dayOfWeek, 5);

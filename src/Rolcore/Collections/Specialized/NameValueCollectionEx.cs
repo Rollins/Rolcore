@@ -8,6 +8,7 @@ namespace Rolcore.Collections.Specialized
     using System;
     using System.Collections;
     using System.Collections.Specialized;
+    using System.Diagnostics.Contracts;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -49,6 +50,7 @@ namespace Rolcore.Collections.Specialized
         public NameValueCollectionEx(NameValueCollection col) 
             : base(col)
         {
+            Contract.Requires<ArgumentNullException>(col != null, "col is null");
         }
 
         /// <summary>
@@ -60,11 +62,23 @@ namespace Rolcore.Collections.Specialized
         /// <see cref="NameValueCollectionEx"/> can contain.</param>
         public NameValueCollectionEx(int capacity) : base(capacity)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(capacity >= 0, "capacity is less than zero");
         }
 
-        public NameValueCollectionEx(IEqualityComparer equalityComparer) : base(equalityComparer){}
-        public NameValueCollectionEx(int capacity, IEqualityComparer equalityComparer) : base(capacity, equalityComparer){}
-        public NameValueCollectionEx(int capacity, NameValueCollection col) : base(capacity, col){}                                                      
+        public NameValueCollectionEx(IEqualityComparer equalityComparer) : base(equalityComparer)
+        {
+        }
+
+        public NameValueCollectionEx(int capacity, IEqualityComparer equalityComparer) : base(capacity, equalityComparer)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(capacity >= 0, "capacity is less than zero");
+        }
+
+        public NameValueCollectionEx(int capacity, NameValueCollection col) : base(capacity, col)
+        {
+            Contract.Requires<ArgumentOutOfRangeException>(capacity >= 0, "capacity is less than zero");
+            Contract.Requires<ArgumentNullException>(col != null, "col is null");
+        }
         #endregion Constructors
 
         /// <summary>

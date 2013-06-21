@@ -3,8 +3,10 @@
 //     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Diagnostics.Contracts;
 namespace Rolcore.Text.RegularExpressions
 {
+    using System;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -21,16 +23,19 @@ namespace Rolcore.Text.RegularExpressions
         /// <returns>A regular expression</returns>
         public static Regex ToRegEx(this string s, RegexOptions options)
         {
+            Contract.Requires<ArgumentNullException>(s != null, "s is null.");
             return new Regex(s, options);
         }
 
         public static string Between(this string s, string start, string end)
         {
-            string result = "";
+            Contract.Requires<ArgumentNullException>(s != null, "s is null.");
+            Contract.Requires<ArgumentNullException>(start != null, "start is null.");
+            Contract.Requires<ArgumentNullException>(end != null, "end is null.");
 
-            int startIndex = s.IndexOf(start) + start.Length;
-            int endIndex = startIndex + s.Substring(startIndex).IndexOf(end);
-            result = s.Substring(startIndex, endIndex - startIndex); // Write matching lines from Source to output
+            var startIndex = s.IndexOf(start) + start.Length;
+            var endIndex = startIndex + s.Substring(startIndex).IndexOf(end);
+            var result = s.Substring(startIndex, endIndex - startIndex); // Write matching lines from Source to output
 
             return result;
         }

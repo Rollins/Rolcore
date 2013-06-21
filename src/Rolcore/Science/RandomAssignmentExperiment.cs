@@ -3,6 +3,7 @@
 //     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Diagnostics.Contracts;
 namespace Rolcore.Science
 {
     using System;
@@ -47,9 +48,13 @@ namespace Rolcore.Science
 
         public RandomAssignmentExperimentItem<T>[] Add(IEnumerable<T> items, int oddsNumerator)
         {
-            List<RandomAssignmentExperimentItem<T>> result = new List<RandomAssignmentExperimentItem<T>>(items.Count());
+            Contract.Requires<ArgumentNullException>(items != null, "items is null.");
+
+            var result = new List<RandomAssignmentExperimentItem<T>>(items.Count());
             foreach (T item in items)
+            {
                 result.Add(this.Add(item, oddsNumerator));
+            }
 
             return result.ToArray();
 
@@ -73,8 +78,8 @@ namespace Rolcore.Science
 
         public virtual T PickItem()
         {
-            if (this.Count == 0)
-                throw new InvalidOperationException("No items have been configured as part of the experiment.");
+            Contract.Requires<InvalidOperationException>(this.OddsDenominator >= 0, "OddsDenominator is less than zero.");
+            Contract.Requires<InvalidOperationException>(this.Count > 0, "No items have been configured as part of the experiment.");
 
             int maxRandomNumber = this.OddsDenominator + 1;
             int randomNumber = ThreadSafeRandom.Next(1, maxRandomNumber);

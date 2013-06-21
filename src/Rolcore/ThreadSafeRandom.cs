@@ -6,6 +6,7 @@
 namespace Rolcore
 {
     using System;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Provides a thread-safe, statistically random operations. Use instead of 
@@ -54,8 +55,9 @@ namespace Rolcore
         /// Must be greater than or equal to zero.</param>
         public static int Next(int maxValue)
         {
-            EnsureLocal();
+            Contract.Requires<ArgumentOutOfRangeException>(maxValue >= 0, "maxValue is less than zero");
 
+            EnsureLocal();
             return _local.Next(maxValue);
         }
 
@@ -67,6 +69,7 @@ namespace Rolcore
         /// Must be greater than or equal to zero.</param>
         public static int Next(int minValue, int maxValue)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(minValue <= maxValue, "minValue is greater than maxValue");
             EnsureLocal();
 
             return _local.Next(minValue, maxValue);

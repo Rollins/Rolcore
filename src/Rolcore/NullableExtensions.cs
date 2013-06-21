@@ -6,6 +6,7 @@
 namespace Rolcore
 {
     using System;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Extension methods for <see cref="Nullable{}"/> types.
@@ -25,6 +26,7 @@ namespace Rolcore
         public static string NullableToString<T>(this T? value, string format, string nullResult = null) 
             where T : struct
         {
+            Contract.Requires<InvalidOperationException>(!value.HasValue || format != null, "format not supplied for non null value");
             return value.HasValue 
                 ? string.Format(format, value.Value) 
                 : nullResult;

@@ -15,7 +15,7 @@ namespace Rolcore.Data.Tests
     /// Tests for <see cref="DataRowExtensions"/>.
     /// </summary>
     [TestClass]
-    public class DataRowExtensionsTest
+    public sealed class DataRowExtensionsTest : IDisposable
     {
         #region Test Attributes
         /// <summary>
@@ -89,9 +89,13 @@ namespace Rolcore.Data.Tests
         /// Test cleanup.
         /// </summary>
         [TestCleanup]
-        public void DataRowExtensionsTestCleanup()
+        public void Dispose()
         {
-            this.table = null;
+            if (this.table != null)
+            {
+                this.table.Dispose();
+                this.table = null;
+            }
         }
 
         /// <summary>

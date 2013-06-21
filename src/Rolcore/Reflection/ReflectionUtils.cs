@@ -3,6 +3,7 @@
 //     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Diagnostics.Contracts;
 namespace Rolcore.Reflection
 {
     using System;
@@ -46,7 +47,10 @@ namespace Rolcore.Reflection
         /// <returns>Parameter "s" replaced with values from the object.</returns>
         public static string ReplaceVars(string s, object obj)
         {
-            StringBuilder result = new StringBuilder(s);
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(s), "s is null or empty.");
+            Contract.Requires<ArgumentNullException>(obj != null, "obj is null.");
+
+            var result = new StringBuilder(s);
             Regex varMatcher = CreateVarMatcher();
             MatchCollection varMatches = varMatcher.Matches(s);
 
@@ -82,6 +86,9 @@ namespace Rolcore.Reflection
         /// <returns>A new instance of the specified type.</returns>
         public static T CreateObject<T>(string typeName, string assemblyName) where T : class
         {
+            Contract.Requires<ArgumentNullException>(typeName != null, "typeName is null");
+            Contract.Requires<ArgumentNullException>(assemblyName != null, "assemblyName is null");
+
             return (T)Activator.CreateInstance(assemblyName, typeName).Unwrap();
         }
 
