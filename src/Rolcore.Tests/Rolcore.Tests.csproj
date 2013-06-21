@@ -147,6 +147,7 @@
     <Compile Include="ReflectionUtilsTest.cs" />
     <Compile Include="StringExtensionsTest.cs" />
     <Compile Include="IEnumerableExtensionsTest.cs" />
+    <Compile Include="ConfigurationExtensionsTest.cs" />
     <Compile Include="UriExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +155,9 @@
       <Project>{A17A9BA6-19C1-4330-B33C-4B29B2024909}</Project>
       <Name>Rolcore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

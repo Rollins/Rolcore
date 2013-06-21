@@ -143,6 +143,7 @@
     <Compile Include="Collections\Specialized\NameValueCollectionEx.cs" />
     <Compile Include="Collections\Specialized\NameValueCollectionExtensions.cs" />
     <Compile Include="ComponentModel\Composition\ConfigurationExportProvider.cs" />
+    <Compile Include="Configuration\ConfigurationExtensions.cs" />
     <Compile Include="Configuration\FileConfigurationSource.cs" />
     <Compile Include="Configuration\IConfigurationSource.cs" />
     <Compile Include="ConsoleUtils.cs" />
