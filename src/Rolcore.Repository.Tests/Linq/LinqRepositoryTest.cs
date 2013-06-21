@@ -6,7 +6,7 @@ using Rolcore.Repository.Tests.Mocks;
 
 namespace Rolcore.Repository.Tests.Linq
 {
-    [TestClass, Ignore]
+    [TestClass]
     public class LinqRepositoryTest : IRepositoryTests<IRepository<MockEntity<Binary>, Binary>, Binary>
     {
 
@@ -16,7 +16,9 @@ namespace Rolcore.Repository.Tests.Linq
             var context = new TestDataContext();
 
             if (!context.DatabaseExists())
+            {
                 context.CreateDatabase();
+            }
 
             return context;
         }
@@ -30,6 +32,7 @@ namespace Rolcore.Repository.Tests.Linq
                     var allTestItems = context.TestItems.ToList();
                     context.TestItems.DeleteAllOnSubmit(allTestItems);
                     context.SubmitChanges();
+                    // context.DeleteDatabase();
                 }
             }
         }

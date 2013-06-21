@@ -12,7 +12,7 @@ namespace Rolcore.Repository.Tests
     ///This is a test class for ListRepositoryTest and is intended
     ///to contain all ListRepositoryTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class ListRepositoryTest : IRepositoryTests<IRepository<MockEntity<int>, int>, int>
     {
         private readonly List<MockEntity<int>> _List = new List<MockEntity<int>>();

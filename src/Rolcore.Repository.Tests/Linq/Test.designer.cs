@@ -90,6 +90,8 @@ namespace Rolcore.Repository.Tests.Linq
 		
 		private int _IntProperty;
 		
+		private string _TestItemPartitionId;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -104,6 +106,8 @@ namespace Rolcore.Repository.Tests.Linq
     partial void OnDateTimePropertyChanged();
     partial void OnIntPropertyChanging(int value);
     partial void OnIntPropertyChanged();
+    partial void OnPartitionKeyChanging(string value);
+    partial void OnPartitionKeyChanged();
     #endregion
 		
 		public TestItem()
@@ -111,7 +115,7 @@ namespace Rolcore.Repository.Tests.Linq
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TestItemId", DbType="NVarChar(50)", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TestItemId", DbType="NVarChar(250)", CanBeNull=false, IsPrimaryKey=true)]
 		public override string RowKey
 		{
 			get
@@ -207,6 +211,26 @@ namespace Rolcore.Repository.Tests.Linq
 					this._IntProperty = value;
 					this.SendPropertyChanged("IntProperty");
 					this.OnIntPropertyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TestItemPartitionId", DbType="NVarChar(250)", CanBeNull=false)]
+		public override string PartitionKey
+		{
+			get
+			{
+				return this._TestItemPartitionId;
+			}
+			set
+			{
+				if ((this._TestItemPartitionId != value))
+				{
+					this.OnPartitionKeyChanging(value);
+					this.SendPropertyChanging();
+					this._TestItemPartitionId = value;
+					this.SendPropertyChanged("PartitionKey");
+					this.OnPartitionKeyChanged();
 				}
 			}
 		}
