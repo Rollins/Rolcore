@@ -6,12 +6,14 @@
     
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+        <MSBuildCommunityTasksPath>.</MSBuildCommunityTasksPath>
     </PropertyGroup>
 
     <Import Project=".\Build\MSBuild.Community.Tasks.Targets"/>
     
     <ItemGroup>
         <BuildArtifactsDir Include=".\build-artifacts\"/>
+        <MSBuildCommunityTasksPath Include=".\build-artifacts\"/>
         <TestAssemblies Include=".\build-artifacts\*.Tests.dll" />
         <TestResultsDir Include=".\build-artifacts\test-results\"/>
         <NuGetFiles Include="..\nuget\*.*"/>
