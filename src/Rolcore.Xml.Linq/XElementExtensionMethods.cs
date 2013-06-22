@@ -3,14 +3,15 @@
 //     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
-using System;
-using System.Xml;
-using System.Xml.Linq;
-using System.Linq;
-using System.Collections.Generic;
-
 namespace Rolcore.Xml.Linq
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+    using System.Xml;
+    using System.Xml.Linq;
+
     public static class XElementExtensionMethods
     {
         /// <summary>
@@ -19,33 +20,28 @@ namespace Rolcore.Xml.Linq
         /// <param name="xElement">Specifies the <see cref="XElement"/> to convert.</param>
         /// <returns>An <see cref="XmlDocument"/>.</returns>
         public static XmlDocument ToXmlDocument(this XElement xElement)
-        {   //TODO: Unit test
-            if (xElement == null)
-                throw new ArgumentNullException("xElement", "xElement is null.");
+        {   
+            Contract.Requires<ArgumentNullException>(xElement != null, "xElement is null");
 
-            XmlDocument result = new XmlDocument();
-
+            var result = new XmlDocument();
             result.LoadXml(xElement.ToString());
-
             return result;
-        }
+        } // TODO: Unit test
 
         /// <summary>
         /// Retrieves the child element value  
         /// </summary>
         /// <param name="parentElement">The parent element which contains the child element required</param>
-        /// <param name="nameOfTheChildElement">Name of the child element to be retrieved</param>
+        /// <param name="childElementName">Name of the child element to be retrieved</param>
         /// <returns>Returns the value of the child element, if it finds or returns null</returns>
-        public static string GetChildElementValue(this XElement parentElement, string nameOfTheChildElement)
+        public static string GetChildElementValue(this XElement parentElement, string childElementName)
         {
-            if (parentElement == null)
-                throw new ArgumentNullException("parentElement", "parentElement is null.");
-            if (String.IsNullOrEmpty(nameOfTheChildElement))
-                throw new ArgumentException("nameOfTheChildElement is null or empty.", "nameOfTheChildElement");
+            Contract.Requires<ArgumentNullException>(parentElement != null, "parentElement is null");
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(childElementName), "childElementName is null or empty");
             
-            var _childElement = parentElement.Elements().Where(e => e.Name.LocalName == nameOfTheChildElement).FirstOrDefault();
+            var _childElement = parentElement.Elements().Where(e => e.Name.LocalName == childElementName).FirstOrDefault();
             return (_childElement == null) ? string.Empty : _childElement.Value;
-        }
+        } // TODO: Unit test
 
         /// <summary>
         /// Retrieves all the elements by specified name
