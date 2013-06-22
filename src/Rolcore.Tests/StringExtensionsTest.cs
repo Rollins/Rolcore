@@ -34,18 +34,6 @@ namespace Rolcore.Tests
         }
 
         #region Repeat tests
-        /// <summary>
-        ///A test for Repeat
-        ///</summary>
-        [TestMethod, ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void RepeatNegativeTest()
-        {
-            string s = "Hello world!";
-            int numberOfTimes = -1;
-            string expected = string.Empty;
-            string actual = s.Repeat(numberOfTimes);
-            Assert.Fail("Should not reach this code.");
-        }
 
         /// <summary>
         ///A test for Repeat
