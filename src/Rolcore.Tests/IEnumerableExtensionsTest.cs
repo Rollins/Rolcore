@@ -37,7 +37,7 @@ namespace Rolcore.Tests
                 Expected = "<ul><li>item 1</li><li>item 2</li><li>item 3</li></ul>";
 
             string actual = target.Combine(Prepend, Append, ItemPrepend, ItemAppend);
-
+            
             Assert.AreEqual(Expected, actual);
         }
 

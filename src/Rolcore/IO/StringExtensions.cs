@@ -23,7 +23,7 @@ namespace Rolcore.IO
         {
             Contract.Requires<ArgumentNullException>(s != null, "col is null");
             return new StringReader(s);
-        }
+        } // TODO: Test
 
         public static Stream ToStream(this string s)
         {

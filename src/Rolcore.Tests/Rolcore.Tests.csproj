@@ -59,8 +59,10 @@
     <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
-    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeContractsDisjunctiveRequires>False</CodeContractsDisjunctiveRequires>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -148,6 +150,7 @@
     <Compile Include="StringExtensionsTest.cs" />
     <Compile Include="IEnumerableExtensionsTest.cs" />
     <Compile Include="ConfigurationExtensionsTest.cs" />
+    <Compile Include="ByteExtensionsTest.cs" />
     <Compile Include="UriExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>

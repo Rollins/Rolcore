@@ -29,10 +29,16 @@ namespace Rolcore.Repository.Tests.Linq
             {
                 if (context.DatabaseExists())
                 {
-                    var allTestItems = context.TestItems.ToList();
-                    context.TestItems.DeleteAllOnSubmit(allTestItems);
-                    context.SubmitChanges();
-                    // context.DeleteDatabase();
+                    try
+                    {
+                        context.DeleteDatabase(); 
+                    }
+                    catch
+                    {
+                        var allTestItems = context.TestItems.ToList();
+                        context.TestItems.DeleteAllOnSubmit(allTestItems);
+                        context.SubmitChanges();
+                    }
                 }
             }
         }

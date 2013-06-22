@@ -123,5 +123,15 @@ namespace Rolcore.Tests
             isValidRegex = actual.IsMatch("<br \\>");
             Assert.IsFalse(isValidRegex);
         }
+
+        [TestMethod]
+        public void ToSHA1String_ConvertsStringToSHA1Hash()
+        {
+            const string Expected = "17fb5cfe493fdf1fd66cf93348609c7937c036ed";
+            var actual = "Bacon ipsum dolor sit amet biltong tail sirloin bacon pig pork loin spare ribs venison pancetta kielbasa shoulder beef. Ham sausage beef ribs, spare ribs boudin ribeye pork. Flank drumstick boudin pig. Tenderloin venison fatback, spare ribs ham hock doner pork loin. Short loin corned beef bresaola ball tip. Pancetta jowl pig, meatloaf hamburger drumstick short ribs salami brisket beef flank."
+                .ToSHA1String();
+
+            Assert.AreEqual(Expected, actual);
+        }
     }
 }

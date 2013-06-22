@@ -5,6 +5,7 @@ namespace Rolcore.IO
     using System;
     using System.Diagnostics.Contracts;
     using System.IO;
+    using System.Security.Cryptography;
 
     /// <summary>
     /// Extension methods for <see cref="Stream"/>.
@@ -23,6 +24,15 @@ namespace Rolcore.IO
             using (var reader = new StreamReader(stream))
             {
                 var result = reader.ReadToEnd();
+                return result;
+            }
+        } // TODO: Test
+
+        public static string ToSHA1String(this Stream stream)
+        {
+            using (var sha1Provider = new SHA1CryptoServiceProvider())
+            {
+                var result = sha1Provider.ComputeHash(stream).ToHexString();
                 return result;
             }
         } // TODO: Test

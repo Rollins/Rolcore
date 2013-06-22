@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DateRange.cs" company="Rollins, Inc.">
-//     Code by Jason Hunt, found at http://www.noticeablydifferent.com/CodeSamples/DateRange.aspx .
+//     Code by Jason Hunt, found at http://www.noticeablydifferent.com/CodeSamples/DateRange.aspx.
 //     Modified by Rollins, Inc.
 // </copyright>
 //-----------------------------------------------------------------------

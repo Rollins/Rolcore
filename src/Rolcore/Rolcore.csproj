@@ -136,6 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteExtensions.cs" />
     <Compile Include="Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="Collections\Generic\KeyValuePairExtensions.cs" />
     <Compile Include="Collections\Generic\IEnumerableExtensions.cs" />
