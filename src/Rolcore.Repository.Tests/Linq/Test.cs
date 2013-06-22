@@ -1,14 +1,18 @@
-using Rolcore.Repository.Tests.Mocks;
-using System;
-using System.Linq;
-using System.Data.Linq;
-using Rolcore.Repository.LinqImpl;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Diagnostics;
-
+//-----------------------------------------------------------------------
+// <copyright file="TestDataContext.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Repository.Tests.Linq
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Data.Linq;
+    using System.Linq;
+    using Rolcore.Repository.LinqImpl;
+    using Rolcore.Repository.Tests.Mocks;
+
     public sealed partial class TestDataContext : IRepository<MockEntity<Binary>, Binary>
     {
         Repository<MockEntity<System.Data.Linq.Binary>, Binary> _TestItemsRepository;

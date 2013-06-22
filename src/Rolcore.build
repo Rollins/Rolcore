@@ -5,7 +5,7 @@
          DefaultTargets="CompileAndTest">
     
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     </PropertyGroup>
 
     <Import Project=".\Build\MSBuild.Community.Tasks.Targets"/>

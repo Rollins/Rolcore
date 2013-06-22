@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Rolcore.Xml;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ObjectExtensions.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Xml.Linq
 {
+    using System.Xml.Linq;
+
     /// <summary>
     /// Extension methods for <see cref="object"/>.
     /// </summary>
@@ -19,6 +19,6 @@ namespace Rolcore.Xml.Linq
         public static XElement ToXElement(this object o)
         {
             return XElement.Parse(o.ToXmlString());
-        }
+        } // TODO: Test
     }
 }

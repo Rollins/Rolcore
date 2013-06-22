@@ -1,4 +1,9 @@
-﻿namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
+﻿//-----------------------------------------------------------------------
+// <copyright file="TableServiceContextRepositoryTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
+namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
 {
     using System;
     using System.Diagnostics;

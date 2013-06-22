@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.StorageClient;
-using Microsoft.WindowsAzure;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="TableServiceContextRepositoryReader.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Microsoft.WindowsAzure.StorageClient;
+    using Microsoft.WindowsAzure;
+
     /// <summary>
     /// Provides an <see cref="IRepositoryReader<>"/> implementation using
     /// <see cref="TableServiceContext"/> as the backing store.

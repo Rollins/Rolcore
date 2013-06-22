@@ -1,14 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Rolcore;
-using Rolcore.Geography;
-using Rolcore.Text.RegularExpressions;
-using System.Text.RegularExpressions;
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="StringExtensionsTest.cs" company="Rollins, Inc.">
+//     Copyright © Rollins, Inc. 
+// </copyright>
+//-----------------------------------------------------------------------
 namespace Rolcore.Tests
 {
-    
-    
+    using System;
+    using System.Text.RegularExpressions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Rolcore.Geography;
+    using Rolcore.Text.RegularExpressions;
+
     /// <summary>
     ///This is a test class for StringExtensionMethodsTest and is intended
     ///to contain all StringExtensionMethodsTest Unit Tests
@@ -41,7 +43,7 @@ namespace Rolcore.Tests
             string s = "Hello world!";
             int numberOfTimes = -1;
             string expected = string.Empty;
-            string actual = StringExtensions.Repeat(s, numberOfTimes);
+            string actual = s.Repeat(numberOfTimes);
             Assert.Fail("Should not reach this code.");
         }
 
@@ -49,7 +51,7 @@ namespace Rolcore.Tests
         ///A test for Repeat
         ///</summary>
         [TestMethod]
-        public void Repeat0Test()
+        public void Repeat_ReturnsEmptyStringForZeroRepetitions()
         {
             string expected = string.Empty;
             string actual = "Hello world!".Repeat(0);
