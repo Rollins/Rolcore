@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Rolcore.Repository.Tests.Mocks
 {
     [DataServiceKey("PartitionKey", "RowKey")]
-    public class MockEntity<TConcurrency>
+    public class MockEntity<TConcurrency> : ICloneable
     {
         public virtual string RowKey { get; set; }
         public virtual string PartitionKey { get; set; }
@@ -42,6 +42,19 @@ namespace Rolcore.Repository.Tests.Mocks
             return (PartitionKey ?? string.Empty).GetHashCode()
                 + (RowKey ?? string.Empty).GetHashCode()
                 + ((Timestamp == null) ? string.Empty.GetHashCode() : Timestamp.GetHashCode());
+        }
+
+        public object Clone()
+        {
+            return new MockEntity<TConcurrency>()
+            {
+                RowKey = this.RowKey,
+                PartitionKey = this.PartitionKey,
+                Timestamp = this.Timestamp,
+                StringProperty = this.StringProperty,
+                DateTimeProperty = this.DateTimeProperty,
+                IntProperty = this.IntProperty
+            };
         }
     }
 }

@@ -3,6 +3,7 @@
 //     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Diagnostics.Contracts;
 namespace Rolcore.Data
 {
     using System;
@@ -60,16 +61,14 @@ namespace Rolcore.Data
         /// original values from the destination object.</returns>
         public static Dictionary<string, object> CopyRowData(this DataRow source, object destination, bool ignoreBlankValues, NameValueCollection columnMap, params string[] ignoreColumnNames)
         {
-            //// Pre-conditions
-
-            if (source == null)
-                throw new ArgumentNullException("source", "source is null.");
-            if (destination == null)
-                throw new ArgumentNullException("destination", "destination is null.");
-
+            Contract.Requires<ArgumentNullException>(source != null, "source is null.");
+            Contract.Requires<ArgumentNullException>(destination != null, "destination is null.");
+            
+            ignoreColumnNames = ignoreColumnNames ?? new string[]{};
+            columnMap = source.Table.GetColumnMapOrDefault(columnMap);
+            
             //// Map properties
 
-            columnMap = source.Table.GetColumnMapOrDefault(columnMap);
             var destinationType = destination.GetType();
             System.Reflection.PropertyInfo[] destinationProperties = destinationType.GetProperties();
             var result = new Dictionary<string, object>(columnMap.Count);
@@ -87,7 +86,9 @@ namespace Rolcore.Data
                     result.Add(propertyName, sourceValue);
                     var destinationValue = destination.GetPropertyValue(propertyName);
                     if (!sourceValue.Equals(destinationValue) && !ignoreColumnNames.Contains(sourceColumnName))
+                    {
                         destination.SetPropertyValue(propertyName, sourceValue);
+                    }
                 }
             }
 

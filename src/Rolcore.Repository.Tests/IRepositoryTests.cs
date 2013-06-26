@@ -19,6 +19,7 @@ namespace Rolcore.Repository.Tests
     public abstract class IRepositoryTests<TRepository, TConcurrency>
         where TRepository : IRepository<MockEntity<TConcurrency>, TConcurrency>
     {
+        #region Test Setup
         protected abstract IRepository<MockEntity<TConcurrency>, TConcurrency> CreateTargetRepository();
         protected abstract void ClearTestData();
 
@@ -33,7 +34,7 @@ namespace Rolcore.Repository.Tests
             ClearTestData();
         }
 
-        protected MockEntity<TConcurrency> SaveTestEntity(IRepository<MockEntity<TConcurrency>, TConcurrency> target)
+        protected static MockEntity<TConcurrency> SaveTestEntity(IRepository<MockEntity<TConcurrency>, TConcurrency> target)
         {
             MockEntity<TConcurrency> result = new MockEntity<TConcurrency>()
             {
@@ -47,6 +48,7 @@ namespace Rolcore.Repository.Tests
 
             return result;
         }
+        #endregion Test Setup
 
         #region Delete() Tests
 
@@ -180,7 +182,7 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(expectedIntValue, retrievedEntity.IntProperty);
         }
 
-        [TestMethod, ExpectedException(typeof(DBConcurrencyException))]
+        [TestMethod, ExpectedException(typeof(RepositoryConcurrencyException))]
         public virtual void Save_ThrowsConcurrencyException()
         {
             var target = CreateTargetRepository();
@@ -275,7 +277,23 @@ namespace Rolcore.Repository.Tests
             Assert.IsNotNull(retrievedEntity);
         }
 
-        // TODO: Insert_ThrowsExceptionWhenItemAlreadyExists()
+        [TestMethod, ExpectedException(typeof(RepositoryInsertException))]
+        public virtual void Insert_ThrowsExceptionWhenItemAlreadyExists()
+        {
+            var target = CreateTargetRepository();
+
+            var insertedEntity = new MockEntity<TConcurrency>()
+            {
+                RowKey = Guid.NewGuid().ToString(),
+                DateTimeProperty = DateTime.Now,
+                IntProperty = (new Random()).Next(),
+                PartitionKey = "Mocks",
+                StringProperty = string.Empty
+            };
+
+            var alreadyInsertedEntity = target.Insert(insertedEntity).Single().Clone() as MockEntity<TConcurrency>;
+            target.Insert(alreadyInsertedEntity);
+        }
         #endregion Insert() Tests
 
         #region Update() Tests

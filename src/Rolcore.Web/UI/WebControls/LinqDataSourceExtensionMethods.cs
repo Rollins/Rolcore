@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.UI.WebControls;
+using System.Diagnostics.Contracts;
 
 namespace Rolcore.Web.UI.WebControls
 {
@@ -14,13 +15,11 @@ namespace Rolcore.Web.UI.WebControls
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static LinqDataSource Clone(this LinqDataSource source) //TODO: Unit Test
+        public static LinqDataSource Clone(this LinqDataSource source)
         {
-            // Pre-conditions
-            if (source == null)
-                throw new ArgumentNullException("source", "source is null");
-
-            LinqDataSource result = new LinqDataSource
+            Contract.Requires<ArgumentNullException>(source != null, "source is null.");
+            
+            var result = new LinqDataSource
             {
                 ContextTypeName = source.ContextTypeName,
                 TableName = source.TableName,
@@ -31,9 +30,11 @@ namespace Rolcore.Web.UI.WebControls
             };
 
             foreach (Parameter parameter in source.WhereParameters)
+            {
                 result.WhereParameters.Add(parameter);
+            }
 
             return result;
-        }
+        } // TODO: Unit Test
     }
 }

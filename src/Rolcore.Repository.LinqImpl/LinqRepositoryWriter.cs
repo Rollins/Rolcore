@@ -51,7 +51,12 @@
             catch (ChangeConflictException exception)
             {
                 // Required by interface (see unit tests for IRepositoryWriter)
-                throw new DBConcurrencyException(exception.Message, exception);
+                throw new RepositoryConcurrencyException(exception.Message, exception);
+            }
+            catch (DuplicateKeyException exception)
+            {
+                // Required by interface (see unit tests for IRepositoryWriter)
+                throw new RepositoryInsertException(exception.Message, exception);
             }
         }
 
@@ -188,9 +193,11 @@
         {
             var concreteItems = ConcreteFromBase(items);
             foreach (var item in concreteItems)
+            {
                 EnsureItemIsAttached(item, false);
+            }
 
-            Table.DeleteAllOnSubmit(concreteItems);
+            this.Table.DeleteAllOnSubmit(concreteItems);
 
             return this.SubmitChanges().Length;
         }
@@ -200,7 +207,7 @@
             var item = Activator.CreateInstance<TItem>();
             setKeyAndConcurrencyValues(item, rowKey, concurrency, partitionKey);
             
-            if (!ItemExists(item))
+            if (!this.ItemExists(item))
             {
                 return 0;
             }

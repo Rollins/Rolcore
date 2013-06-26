@@ -258,7 +258,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                 }
                 else if (innerException.StatusCode == 412) //// UpdateConditionNotSatisfied (concurrency)
                 {
-                    throw new DBConcurrencyException(
+                    throw new RepositoryConcurrencyException(
                         "Record has been modified outside the current save operation.",
                         innerException);
                 }

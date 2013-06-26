@@ -121,6 +121,9 @@
     <Compile Include="ListImpl\ListRepositoryWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="RepositoryConcurrencyException.cs" />
+    <Compile Include="RepositoryInsertException.cs" />
+    <Compile Include="RepositoryPersistenceException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rolcore\Rolcore.csproj">

@@ -78,7 +78,7 @@ namespace Rolcore.Repository.ListImpl
             {
                 Debug.WriteLine("Saving item: " + item);
 
-                var resultItem = findConcurrentlyByItem(item, List);
+                var resultItem = findByItemIdent(item, List);
                 resultItem = (resultItem == null)
                     ? resultItem = this.Insert(item)[0]
                     : resultItem = this.Update(item)[0];
@@ -98,7 +98,7 @@ namespace Rolcore.Repository.ListImpl
                 var resultItem = findByItemIdent(item, List);
                 if (resultItem != null)
                 {
-                    throw new DBConcurrencyException(
+                    throw new RepositoryInsertException(
                         "Cannot insert an item that already exists: " + item);
                 }
 
@@ -124,8 +124,8 @@ namespace Rolcore.Repository.ListImpl
                 var resultItem = findConcurrentlyByItem(item, List);
 
                 if (resultItem == null)
-                {
-                    throw new DBConcurrencyException("Item does not exist to update: " + item);
+                { 
+                    throw new RepositoryConcurrencyException("Item does not exist to update: " + item);
                 }
 
                 item.CopyMatchingObjectPropertiesTo(resultItem);
@@ -158,10 +158,12 @@ namespace Rolcore.Repository.ListImpl
                 }
             }
 
-            Debug.Assert(result == items.Length);                
+            Debug.Assert(result == items.Length);
 
             foreach (var item in itemsToDelete)
+            {
                 List.Remove(item);
+            }
 
             return result;
         } // Tested
@@ -173,12 +175,16 @@ namespace Rolcore.Repository.ListImpl
             var existingItem = findConcurrently(rowKey, concurrency, partitionKey, List);
 
             if (existingItem == null)
+            {
                 return 0;
+            }
             
             var index = List.IndexOf(existingItem);
 
             if (index < 0)
+            {
                 return 0;
+            }
 
             List.RemoveAt(index);
 
