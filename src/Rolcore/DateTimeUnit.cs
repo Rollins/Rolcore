@@ -11,36 +11,36 @@ namespace Rolcore
     public enum DateTimeUnit
     {
         /// <summary>
-        /// One year of time.
+        /// One millisecond of time.
         /// </summary>
-        Year,
-        /// <summary>
-        /// One month of time.
-        /// </summary>
-        Month,
-        /// <summary>
-        /// One week of time.
-        /// </summary>
-        Week,
-        /// <summary>
-        /// One day of time.
-        /// </summary>
-        Day,
-        /// <summary>
-        /// One hour of time.
-        /// </summary>
-        Hour,
-        /// <summary>
-        /// One minute of time.
-        /// </summary>
-        Minute,
+        Millisecond = 0,
         /// <summary>
         /// One second of time.
         /// </summary>
-        Second,
+        Second = 1,
         /// <summary>
-        /// One millisecond of time.
+        /// One minute of time.
         /// </summary>
-        Millisecond
+        Minute = Seconds.PerMinute,
+        /// <summary>
+        /// One hour of time.
+        /// </summary>
+        Hour = Seconds.PerHour,
+        /// <summary>
+        /// One day of time.
+        /// </summary>
+        Day = Seconds.PerDay,
+        /// <summary>
+        /// One week of time.
+        /// </summary>
+        Week = Seconds.PerWeek,
+        /// <summary>
+        /// One month of time.
+        /// </summary>
+        Month = (int)Seconds.PerMonth,
+        /// <summary>
+        /// One year of time.
+        /// </summary>
+        Year = Seconds.PerYear
     }
 }

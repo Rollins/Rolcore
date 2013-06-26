@@ -3,6 +3,7 @@
 //     Copyright © Rollins, Inc. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System.Diagnostics.Contracts;
 namespace Rolcore.Collections
 {
     using System;
@@ -22,9 +23,8 @@ namespace Rolcore.Collections
         /// <param name="list">Specifies the list to shuffle.</param>
         public static void Shuffle(this IList list)
         {
-            if (list == null || list.Count == 0)
-                throw new ArgumentException("list is null or empty.", "list");
-            
+            Contract.Requires<ArgumentException>(list != null && list.Count > 0, "list is null or empty.");
+
             int maxRandom = list.Count;
             for (int i = 0; i < list.Count; i++)
             {
@@ -43,8 +43,7 @@ namespace Rolcore.Collections
         /// <param name="list">Specifies the list to shuffle.</param>
         public static void Shuffle(this object[] list)
         {
-            if (list == null || list.Length == 0)
-                throw new ArgumentException("list is null or empty.", "list");
+            Contract.Requires<ArgumentException>(list != null && list.Length > 0, "list is null or empty.");
             
             int maxRandom = list.Length;
             for (int i = 0; i < list.Length; i++)
@@ -65,11 +64,9 @@ namespace Rolcore.Collections
 
         public static IEnumerable<T> Duplicates<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
         {
-            if (list1 == null)
-                throw new ArgumentNullException("list1", "list1 is null.");
-            if (list2 == null)
-                throw new ArgumentNullException("list2", "list2 is null.");
-            
+            Contract.Requires<ArgumentNullException>(list1 != null, "list1 is null.");
+            Contract.Requires<ArgumentNullException>(list2 != null, "list2 is null.");
+
             List<T> result = new List<T>(list1.Where(l1Item => list2.Contains(l1Item)));
             result.AddRange(list2.Where(l2Item => (list1.Contains(l2Item) && !result.Contains(l2Item))));
 
@@ -79,8 +76,7 @@ namespace Rolcore.Collections
         [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:CurlyBracketsMustNotBeOmitted", Justification = "Reviewed.")]
         public static IEnumerable<T> Uniques<T>(this IEnumerable<T> list)
         {
-            if (list == null)
-                throw new ArgumentNullException("list", "list is null.");
+            Contract.Requires<ArgumentNullException>(list != null, "list is null.");
 
             List<T> result = new List<T>();
             foreach (T item in list)

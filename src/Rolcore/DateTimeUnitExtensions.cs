@@ -6,6 +6,7 @@
 namespace Rolcore
 {
     using System;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Extension methods for <see cref="DateTimeUnit"/>.
@@ -16,12 +17,16 @@ namespace Rolcore
         /// Calculates the number of milliseconds in a given <see cref="DateTimeUnit"/>. For 
         /// example, if the DateTimeUnit passed in is Days the unit multiplier would be 
         /// 24*60*60*1000 = 86,400,000 (24 hours per day * 60 minutes per hour * 60 seconds per 
-        /// minute * 1,000 miliseconds per second).
+        /// minute * 1,000 milliseconds per second).
         /// </summary>
         /// <param name="unit">Specifies the unit of measure.</param>
         /// <returns></returns>
         public static long ToMilliseconds(this DateTimeUnit dateTimeUnit)
         {
+            Contract.Requires<ArgumentOutOfRangeException>(
+                (int)dateTimeUnit < (int)DateTimeUnit.Year,
+                "dateTimeUnit too large to convert to milliseconds.");
+
             switch (dateTimeUnit)
             {
                 case DateTimeUnit.Millisecond:

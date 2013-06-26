@@ -13,17 +13,17 @@ namespace Rolcore
         /// <summary>
         /// Duh.
         /// </summary>
-        public const int PerMillisecond = 1;
+        public const byte PerMillisecond = 1;
 
         /// <summary>
         /// Milliseconds per second.
         /// </summary>
-        public const int PerSecond = 1000;
+        public const ushort PerSecond = 1000;
 
         /// <summary>
         /// Milliseconds per minute.
         /// </summary>
-        public const int PerMinute = Milliseconds.PerSecond * Seconds.PerMinute;
+        public const ushort PerMinute = Milliseconds.PerSecond * Seconds.PerMinute;
 
         /// <summary>
         /// Milliseconds per hour.
