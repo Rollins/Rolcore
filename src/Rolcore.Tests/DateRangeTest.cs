@@ -16,13 +16,14 @@ namespace Rollins.Tests
     [TestClass]
     public class DateRangeTest
     {
+        #region Constructor Tests
         /// <summary>
         /// A test for DateRange default constructor.
         ///</summary>
         [TestMethod]
-        public void DateRangeDefaultConstructorTest()
+        public void ConstructorDefault_ConstructsInfiniteDateRange()
         {
-            DateRange target = new DateRange(); // Defaults to infinite range.
+            var target = new DateRange(); // Defaults to infinite range.
             Assert.IsTrue(target.Includes(DateTime.MinValue));
             Assert.IsTrue(target.Includes(DateTime.MaxValue));
         }
@@ -31,33 +32,172 @@ namespace Rollins.Tests
         ///A test for DateRange(DateTime, DateTime) Constructor
         ///</summary>
         [TestMethod]
-        public void DateRangeConstructorTest()
+        public void Constructor_SetsStartDateAndEndDateValues()
         {
-            Nullable<DateTime> startDate = DateTime.Today;
-            Nullable<DateTime> endDate = DateTime.Today.AddDays(1);
-            DateRange target = new DateRange(startDate, endDate);
+            DateTime? startDate = DateTime.Today;
+            DateTime? endDate = DateTime.Today.AddDays(1);
+            var target = new DateRange(startDate, endDate);
             Assert.AreEqual(startDate, target.StartDate);
             Assert.AreEqual(endDate, target.EndDate);
         }
+        #endregion Constructor Tests
 
+        #region Equals() Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
         [TestMethod]
-        public void EqualsTest()
+        public void Equals_ReturnsTrueForInifiniteDateRanges()
         {
-            DateRange target = new DateRange();
-            DateRange other = new DateRange();
+            var target = new DateRange();
+            var other = new DateRange();
 
-            bool expected = true;
-            bool actual = target.Equals(other);
-            Assert.AreEqual(expected, actual);
-
-            other = new DateRange(DateTime.Today, DateTime.Now);
-            actual = target.Equals(other);
-            expected = false;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(true, target.Equals(other));
         }
+
+        [TestMethod]
+        public void Equals_ReturnsTrueForEquivelantStartAndEndDates()
+        {
+            var start = DateTime.Today;
+            var end = DateTime.Now;
+            var target = new DateRange(start, end);
+            var other = new DateRange(start, end);
+
+            Assert.AreEqual(true, target.Equals(other));
+        }
+
+        [TestMethod]
+        public void Equals_ReturnsTrueForEquivelantStartAndNullEndDates()
+        {
+            var start = DateTime.Today;
+            var target = new DateRange(start, null);
+            var other = new DateRange(start, null);
+
+            Assert.AreEqual(true, target.Equals(other));
+        }
+
+        [TestMethod]
+        public void Equals_ReturnsTrueForNullStartAndEquivelantEndDates()
+        {
+            var end = DateTime.Today;
+            var target = new DateRange(null, end);
+            var other = new DateRange(null, end);
+
+            Assert.AreEqual(true, target.Equals(other));
+        }
+
+        [TestMethod]
+        public void Equals_ReturnsFalseForEquivelantStartAndDifferentEndDates()
+        {
+            var start = DateTime.Today;
+            var end1 = start.AddMilliseconds(1);
+            var end2 = start.AddMilliseconds(2);
+            var target = new DateRange(start, end1);
+            var other = new DateRange(start, end2);
+
+            Assert.AreEqual(false, target.Equals(other));
+        }
+
+        [TestMethod]
+        public void Equals_ReturnsFalseForDifferentStartAndEquivelantEndDates()
+        {
+            var start1 = DateTime.Today;
+            var start2 = DateTime.Today.AddMilliseconds(1);
+            var end = DateTime.Now;
+            var target = new DateRange(start1, end);
+            var other = new DateRange(start2, end);
+
+            Assert.AreEqual(false, target.Equals(other));
+        }
+        #endregion Equals() Tests
+
+        #region Includes() Tests
+        [TestMethod]
+        public void Includes_IsTrueForDateBetweenStartAndEndDates()
+        {
+            var target = new DateRange(DateTime.Today, DateTime.Today.AddDays(1));
+            Assert.IsTrue(target.Includes(DateTime.Today.AddHours(12)));
+        }
+
+        [TestMethod]
+        public void Includes_IsAlwaysTrueForInfiniteRange()
+        {
+            var target = new DateRange();
+            Assert.IsTrue(target.Includes(DateTime.Today));
+            Assert.IsTrue(target.Includes(DateTime.MinValue));
+            Assert.IsTrue(target.Includes(DateTime.MaxValue));
+        }
+
+        [TestMethod]
+        public void Includes_IsTrueForStartDate()
+        {
+            var target = new DateRange(DateTime.Today, DateTime.Now);
+            Assert.IsTrue(target.Includes(DateTime.Today));
+        }
+
+        [TestMethod]
+        public void Includes_IsTrueForEndDate()
+        {
+            var now = DateTime.Now;
+            var target = new DateRange(DateTime.Today, now);
+            Assert.IsTrue(target.Includes(now));
+        }
+
+        [TestMethod]
+        public void Includes_IsFalseForDateAfterEndDate()
+        {
+            var now = DateTime.Now;
+            var target = new DateRange(DateTime.Today, now);
+            Assert.IsFalse(target.Includes(now.AddMilliseconds(1)));
+        }
+
+        [TestMethod]
+        public void Includes_IsFalseForDateBeforeEndDate()
+        {
+            var target = new DateRange(DateTime.Today, DateTime.Now);
+            Assert.IsFalse(target.Includes(DateTime.Today.AddMilliseconds(-1)));
+        }
+        #endregion Includes() Tests
+
+        #region TimeSpan Tests
+
+        [TestMethod]
+        public void TimeSpan_IsTimeSpanOfDateRange()
+        {
+            var now = DateTime.Now;
+            var target = new DateRange(now, now.AddDays(1));
+            Assert.AreEqual(Milliseconds.PerDay, target.TimeSpan.Value.TotalMilliseconds);
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsNullForInfiniteDateRange()
+        {
+            var target = new DateRange();
+            Assert.AreEqual(null, target.TimeSpan);
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsNullForInfiniteDateRangeWithFiniteStart()
+        {
+            var target = new DateRange(DateTime.Now, null);
+            Assert.AreEqual(null, target.TimeSpan);
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsNullForInfiniteDateRangeWithFiniteEnd()
+        {
+            var target = new DateRange(DateTime.Now, null);
+            Assert.AreEqual(null, target.TimeSpan);
+        }
+
+        [TestMethod]
+        public void TimeSpan_IsZeroForInstantDateRange()
+        {
+            var now = DateTime.Now;
+            var target = new DateRange(now, now);
+            Assert.AreEqual(0, target.TimeSpan.Value.Milliseconds);
+        }
+        #endregion TimeSpan Tests
 
         /// <summary>
         ///A test for GetIntersection
@@ -128,51 +268,6 @@ namespace Rollins.Tests
             Assert.AreEqual(0, actual.StartDate.Value.Millisecond);
             
             Assert.AreEqual(Milliseconds.PerDay, actual.TimeSpan.Value.TotalMilliseconds);
-        }
-
-        /// <summary>
-        /// A test for TimeSpan
-        ///</summary>
-        [TestMethod]
-        public void TimeSpanTest()
-        {
-            // Infinite \\
-            DateRange target = new DateRange();
-            Nullable<TimeSpan> actual = target.TimeSpan;
-            Assert.AreEqual(null, actual);
-
-            target = new DateRange(DateTime.Now, null);
-            actual = target.TimeSpan;
-            Assert.AreEqual(null, actual);
-
-            target = new DateRange(null, DateTime.Now);
-            actual = target.TimeSpan;
-            Assert.AreEqual(null, actual);
-
-            DateTime now = DateTime.Now;
-
-            // Instant \\
-            target = new DateRange(now, now);
-            actual = target.TimeSpan;
-            Assert.AreEqual(0, actual.Value.TotalMilliseconds);
-
-            // One Second \\
-            target = new DateRange(now, now.AddSeconds(1));
-            actual = target.TimeSpan;
-            Assert.AreEqual(1000, actual.Value.TotalMilliseconds);
-
-            target = new DateRange(now.AddSeconds(-1), now);
-            actual = target.TimeSpan;
-            Assert.AreEqual(1000, actual.Value.TotalMilliseconds);
-
-            // One Day \\
-            target = new DateRange(now, now.AddDays(1));
-            actual = target.TimeSpan;
-            Assert.AreEqual(86400000, actual.Value.TotalMilliseconds);
-
-            target = new DateRange(now.AddDays(-1), now);
-            actual = target.TimeSpan;
-            Assert.AreEqual(86400000, actual.Value.TotalMilliseconds);
         }
 
         /// <summary>

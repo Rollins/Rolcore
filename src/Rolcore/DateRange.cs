@@ -103,7 +103,7 @@ namespace Rolcore
         public TimeSpan? TimeSpan
         {
             get { return this.EndDate - this.StartDate; }
-        } // TODO: Test
+        } // Tested
 
         /// <summary>
         /// Gets the start date time of the date range. A null value represents an infinitely past
@@ -112,7 +112,7 @@ namespace Rolcore
         public DateTime? StartDate
         {
             get { return this.startDate; }
-        } // TODO: Test
+        } // Tested
 
         /// <summary>
         /// Gets the end date time of the date range. A null value represents an infinitely future
@@ -121,7 +121,7 @@ namespace Rolcore
         public DateTime? EndDate
         {
             get { return this.endDate; }
-        } // TODO: Test
+        } // Tested
 
         /// <summary>
         /// Gets the intersecting <see cref="DateRange"/> that overlaps the current and 
@@ -194,7 +194,7 @@ namespace Rolcore
         public bool Includes(DateTime d)
         {
             return this.Intersects(new DateRange(d, d));
-        } // TODO: Test
+        } // Tested
 
         /// <summary>
         /// Determines whether the specified <see cref="Object"/> is equal to the current 
