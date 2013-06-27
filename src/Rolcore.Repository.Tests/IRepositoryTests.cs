@@ -294,6 +294,55 @@ namespace Rolcore.Repository.Tests
             var alreadyInsertedEntity = target.Insert(insertedEntity).Single().Clone() as MockEntity<TConcurrency>;
             target.Insert(alreadyInsertedEntity);
         }
+
+        [TestMethod]
+        public virtual void Insert_InsertsAfterItemAlreadyExistsException()
+        {
+            var target = CreateTargetRepository();
+
+            var insertedEntity = new MockEntity<TConcurrency>()
+            {
+                RowKey = Guid.NewGuid().ToString(),
+                DateTimeProperty = DateTime.Now,
+                IntProperty = (new Random()).Next(),
+                PartitionKey = "Mocks",
+                StringProperty = string.Empty
+            };
+
+            var alreadyInsertedEntity = target.Insert(insertedEntity).Single().Clone() as MockEntity<TConcurrency>;
+
+            var exceptionThrown = false;
+
+            try
+            {
+                target.Insert(alreadyInsertedEntity);
+            }
+            catch (RepositoryInsertException riEx)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsTrue(exceptionThrown);
+
+            var newEntityToInsert = new MockEntity<TConcurrency>()
+            {
+                RowKey = Guid.NewGuid().ToString(),
+                DateTimeProperty = DateTime.Now,
+                IntProperty = (new Random()).Next(),
+                PartitionKey = "Mocks",
+                StringProperty = string.Empty
+            };
+
+            newEntityToInsert = target.Insert(newEntityToInsert).Single();
+
+            var retrievedNewEntity = target.Items
+                .Where(item =>
+                    item.PartitionKey == newEntityToInsert.PartitionKey
+                 && item.RowKey == newEntityToInsert.RowKey)
+                .Single();
+
+            Assert.IsNotNull(retrievedNewEntity);
+        }
         #endregion Insert() Tests
 
         #region Update() Tests

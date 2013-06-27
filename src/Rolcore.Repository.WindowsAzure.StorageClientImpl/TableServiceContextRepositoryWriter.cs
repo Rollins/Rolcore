@@ -286,7 +286,14 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                 result.Add(item);
             }
 
-            context.SaveChangesWithRetries(SaveChangesOptions.Batch);
+            try
+            {
+                context.SaveChangesWithRetries(SaveChangesOptions.Batch);
+            }
+            catch (DataServiceRequestException ex)
+            {
+                throw new RepositoryInsertException(ex.Message, ex);
+            }
 
             return result.ToArray();
         } // Tested
