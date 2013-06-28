@@ -12,14 +12,8 @@ namespace Rolcore.Repository.Tests.Linq
 
         protected override IRepository<MockEntity<Binary>, Binary> CreateTargetRepository()
         {
-
-            var context = new TestDataContext();
-
-            if (!context.DatabaseExists())
-            {
-                context.CreateDatabase();
-            }
-
+            var context = new TestRepository();
+            
             return context;
         }
 

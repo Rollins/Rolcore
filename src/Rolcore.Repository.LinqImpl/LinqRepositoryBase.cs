@@ -1,28 +1,57 @@
 ﻿namespace Rolcore.Repository.LinqImpl
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Data.Linq;
     using System.Diagnostics.Contracts;
     using Rolcore.Diagnostics;
+    using Rolcore.Reflection;
 
-    public class LinqRepositoryBase<TItem, TBase>
+    public class LinqRepositoryBase<TDataContext, TItem, TBase>
+        where TDataContext : DataContext
         where TBase : class
         where TItem : class, TBase
     {
-        protected Table<TItem> Table { get; private set; }
+        private readonly Func<TDataContext> dataContextFactory;
 
-        public LinqRepositoryBase(Table<TItem> table)
+        protected static Table<TItem> GetTable(TDataContext context)
         {
-            Contract.Requires<ArgumentNullException>(table != null, "table cannot be null");
-            Contract.Requires<ArgumentException>(table.Context != null, "table.Context cannot be null");
-            Contract.Ensures(table == Table, "table cannot be null");
+            var result = context.GetTable<TItem>();
+            if (result == null)
+            {
+                throw new InvalidOperationException(string.Format(
+                    "DdtaContext does not contain a table of type {0}",
+                    typeof(TItem)));
+            }
 
-            this.Table = table;
+            return result;
+        }
 
-            #if(DEBUG)
-            if(this.Table.Context.Log == null)
-                this.Table.Context.Log = new DebuggerWriter();
-            #endif
+        protected TDataContext CreateDataContext()
+        {
+            var result = dataContextFactory();
+
+            if (!result.DatabaseExists())
+            {
+                result.CreateDatabase();
+            }
+
+            return result;
+        }
+
+        public LinqRepositoryBase()
+            : this(() => { return Activator.CreateInstance<TDataContext>(); })
+        {
+            Contract.Ensures(this.dataContextFactory != null, "dataContextFactory is null");
+        }
+
+        [ImportingConstructor]
+        public LinqRepositoryBase(Func<TDataContext> dataContextFactory)
+        {
+            Contract.Requires<ArgumentNullException>(dataContextFactory != null, "dataContextFactory is null");
+            Contract.Ensures(this.dataContextFactory == dataContextFactory, "DataContextFactory is null");
+
+            this.dataContextFactory = dataContextFactory;
         }
     }
 }

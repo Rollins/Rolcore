@@ -14,17 +14,18 @@ namespace Rolcore.Repository.LinqImpl
     /// <typeparam name="TBase">The base class (typically a POCO) for the type of object stored in 
     /// the repository.</typeparam>
     /// <typeparam name="TConcurrency">The type of value used for concurrency.</typeparam>
-    public class LinqRepository<TItem, TBase, TConcurrency> : Repository<TBase, TConcurrency>
+    public class LinqRepository<TDataContext, TItem, TBase, TConcurrency> : Repository<TBase, TConcurrency>
+        where TDataContext : DataContext
         where TBase : class
         where TItem : class, TBase
     {
         public LinqRepository(
-            Table<TItem> table, 
+            Func<TDataContext> dataContextFactory,
             Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues, 
-            Func<TBase, bool> itemExists)
+            Func<TBase, Table<TItem>, bool> itemExists)
             : base(
-                new LinqRepositoryReader<TItem, TBase>(table), 
-                new LinqRepositoryWriter<TItem, TBase, TConcurrency>(table, setKeyAndConcurrencyValues, itemExists))
+                new LinqRepositoryReader<TDataContext, TItem, TBase>(dataContextFactory),
+                new LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>(dataContextFactory, setKeyAndConcurrencyValues, itemExists))
         {
             Contract.Requires<ArgumentNullException>(setKeyAndConcurrencyValues != null, "setKeyAndConcurrencyValues is null");
             Contract.Requires<ArgumentNullException>(itemExists != null, "itemExists is null");

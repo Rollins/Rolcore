@@ -5,25 +5,44 @@ using System.Text;
 using System.Data.Linq;
 using System.Diagnostics.Contracts;
 using System.Collections;
+using System.ComponentModel.Composition;
 
 namespace Rolcore.Repository.LinqImpl
 {
-    public class LinqRepositoryReader<TItem, TBase> 
-        : LinqRepositoryBase<TItem, TBase>,
+    public class LinqRepositoryReader<TDataContext, TItem, TBase>
+        : LinqRepositoryBase<TDataContext, TItem, TBase>,
           IRepositoryReader<TBase>
+        where TDataContext : DataContext
         where TBase : class
         where TItem : class, TBase
     {
-        public LinqRepositoryReader(Table<TItem> table) 
-            : base(table)
+        private void SetupTable()
         {
-            Contract.Requires<ArgumentNullException>(table != null, "table is null");
-            Contract.Requires<ArgumentNullException>(table.Context != null, "table is null");
+            this.Table = new Lazy<Table<TItem>>(() =>
+            {
+                return GetTable(this.CreateDataContext());
+            });
+        }
+
+        protected Lazy<Table<TItem>> Table { get; private set; }
+
+        public LinqRepositoryReader() : base()
+        {
+            this.SetupTable();
+        }
+
+        [ImportingConstructor]
+        public LinqRepositoryReader(Func<TDataContext> dataContextFactory)
+            : base(dataContextFactory)
+        {
+            Contract.Requires<ArgumentNullException>(dataContextFactory != null, "dataContextFactory is null");
+            Contract.Ensures(dataContextFactory != null, "dataContextFactory is null");
+            this.SetupTable();
         }
 
         public IQueryable<TBase> Items
         {
-            get { return Table.Cast<TBase>(); }
+            get { return this.Table.Value; }
         }
     }
 }

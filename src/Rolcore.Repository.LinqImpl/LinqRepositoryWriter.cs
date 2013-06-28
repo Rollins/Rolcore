@@ -9,16 +9,18 @@
     using System.Linq;
     using Rolcore.Reflection;
     using System.ComponentModel.Composition;
+    using System.Data.SqlClient;
     
-    public class LinqRepositoryWriter<TItem, TBase, TConcurrency> 
-        : LinqRepositoryBase<TItem, TBase>, 
+    public class LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>
+        : LinqRepositoryBase<TDataContext, TItem, TBase>, 
           IRepositoryWriter<TBase, TConcurrency>
+        where TDataContext : DataContext
         where TBase : class
         where TItem : class, TBase
     {
         private readonly Type itemType;
         private readonly Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues;
-        private readonly Func<TBase, bool> itemExists;
+        private readonly Func<TBase, Table<TItem>, bool> itemExists;
 
         private static TBase NewItem()
         {
@@ -27,11 +29,11 @@
             return result;
         }
 
-        private TItem[] SubmitChanges()
+        private TItem[] SubmitChanges(TDataContext context)
         {
             try
             {
-                var changes = Table.Context.GetChangeSet();
+                var changes = context.GetChangeSet();
                 var result = changes.Inserts
                     .Where(insert =>
                         insert.GetType() == itemType)
@@ -44,7 +46,7 @@
                     .Cast<TItem>()
                     .ToArray();
 
-                Table.Context.SubmitChanges();
+                context.SubmitChanges();
 
                 return result;
             }
@@ -103,16 +105,25 @@
             }
         }
 
-        private void EnsureItemIsAttached(TItem item, bool asModified)
+        protected Table<TItem> GetTable(TDataContext context)
+        {
+            var result = context.GetTable<TItem>();
+            if (result == null)
+            {
+            }
+            return result;
+        }
+
+        private void EnsureItemIsAttached(Table<TItem> table, TItem item, bool asModified)
         {
             Contract.Requires<ArgumentNullException>(item != null, "item is null");
 
-            TItem original = this.Table.GetOriginalEntityState(item);
+            TItem original = table.GetOriginalEntityState(item);
             if (original == null)
             {
                 try
                 {
-                    this.Table.Attach(item, asModified);
+                    table.Attach(item, asModified);
                     Debug.WriteLine(String.Format("Item attached: {0}", item));
                 }
                 catch (DuplicateKeyException ex)
@@ -124,13 +135,11 @@
         }
 
         public LinqRepositoryWriter(
-            Table<TItem> table, 
+            Func<TDataContext> dataContextFactory, 
             Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues, 
-            Func<TBase, bool> itemExists) 
-            : base(table)
+            Func<TBase, Table<TItem>, bool> itemExists)
+            : base(dataContextFactory)
         {
-            Contract.Requires<ArgumentNullException>(table != null, "table is null");
-            Contract.Requires<ArgumentNullException>(table.Context != null, "table is null");
             Contract.Requires<ArgumentNullException>(setKeyAndConcurrencyValues != null, "setKeyAndConcurrencyValues cannot be null");
             Contract.Requires<ArgumentNullException>(itemExists != null, "itemExists cannot be null");
             Contract.Ensures(itemType != null);
@@ -149,81 +158,109 @@
         public TBase[] Save(params TBase[] items)
         {
             this.ApplyRules(items);
-            foreach (var item in items)
+            using (var context = this.CreateDataContext())
             {
-                var concrete = ConcreteFromBase(item);
-                if (ItemExists(concrete))
-                    EnsureItemIsAttached(concrete, true);
-                else
+                var table = GetTable(context);
+                foreach (var item in items)
                 {
-                    Table.InsertOnSubmit(concrete);
-                    Debug.WriteLine(string.Format("Inserting: {0}", item));
+                    var concrete = ConcreteFromBase(item);
+                    if (ItemExists(concrete, table))
+                    {
+                        EnsureItemIsAttached(table, concrete, true);
+                    }
+                    else
+                    {
+                        table.InsertOnSubmit(concrete);
+                        Debug.WriteLine(string.Format("Inserting: {0}", item));
+                    }
                 }
-            }
 
-            return SubmitChanges();
+                return SubmitChanges(context);
+            }
         }
 
         public TBase[] Insert(params TBase[] items)
         {
             this.ApplyRules(items);
-            foreach (var item in items)
+            using (var context = this.CreateDataContext())
             {
-                var concrete = ConcreteFromBase(item);
-                Table.InsertOnSubmit(concrete);
-                Debug.WriteLine(string.Format("Inserting: {0}", item));
-            }
+                var table = GetTable(context);
+                foreach (var item in items)
+                {
+                    var concrete = ConcreteFromBase(item);
+                    table.InsertOnSubmit(concrete);
+                    Debug.WriteLine(string.Format("Inserting: {0}", item));
+                }
 
-            return this.SubmitChanges();
+                try
+                {
+                    return this.SubmitChanges(context);
+                }
+                catch (SqlException ex)
+                {
+                    throw new RepositoryInsertException(ex.Message, ex);
+                }
+            }
         }
 
         public TBase[] Update(params TBase[] items)
         {
             this.ApplyRules(items);
-            foreach (var item in items)
+            using (var context = this.CreateDataContext())
             {
-                var concrete = ConcreteFromBase(item);
-                EnsureItemIsAttached(concrete, true);
-            }
+                var table = GetTable(context);
+                foreach (var item in items)
+                {
+                    var concrete = ConcreteFromBase(item);
+                    EnsureItemIsAttached(table, concrete, true);
+                }
 
-            return this.SubmitChanges();
+                return this.SubmitChanges(context);
+            }
         }
 
         public int Delete(params TBase[] items)
         {
             var concreteItems = ConcreteFromBase(items);
-            foreach (var item in concreteItems)
+            using (var context = this.CreateDataContext())
             {
-                EnsureItemIsAttached(item, false);
+                var table = GetTable(context);
+                foreach (var item in concreteItems)
+                {
+                    EnsureItemIsAttached(table, item, false);
+                }
+
+                table.DeleteAllOnSubmit(concreteItems);
+                return this.SubmitChanges(context).Length;
             }
-
-            this.Table.DeleteAllOnSubmit(concreteItems);
-
-            return this.SubmitChanges().Length;
         }
 
         public int Delete(string rowKey, TConcurrency concurrency, string partitionKey = null)
         {
             var item = Activator.CreateInstance<TItem>();
             setKeyAndConcurrencyValues(item, rowKey, concurrency, partitionKey);
-            
-            if (!this.ItemExists(item))
-            {
-                return 0;
-            }
 
-            this.EnsureItemIsAttached(item, false);
-            this.Table.DeleteOnSubmit(item);
-            this.Table.Context.SubmitChanges();
-            return 1;
+            using (var context = this.CreateDataContext())
+            {
+                var table = GetTable(context);
+                if (!this.ItemExists(item, table))
+                {
+                    return 0;
+                }
+
+                this.EnsureItemIsAttached(table, item, false);
+                table.DeleteOnSubmit(item);
+                table.Context.SubmitChanges();
+                return 1;
+            }
         }
 
         [ImportMany]
         public IEnumerable<IRepositoryItemRule<TBase>> Rules { get; set; }
 
-        public bool ItemExists(TBase item)
+        public bool ItemExists(TBase item, Table<TItem> table)
         {
-            return itemExists(item);
+            return itemExists(item, table);
         }
     }
 }
