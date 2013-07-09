@@ -49,7 +49,7 @@
         public LinqRepositoryBase(Func<TDataContext> dataContextFactory)
         {
             Contract.Requires<ArgumentNullException>(dataContextFactory != null, "dataContextFactory is null");
-            Contract.Ensures(this.dataContextFactory == dataContextFactory, "DataContextFactory is null");
+            Contract.Ensures(this.dataContextFactory == dataContextFactory, "DataContextFactory was not assigned properly");
 
             this.dataContextFactory = dataContextFactory;
         }

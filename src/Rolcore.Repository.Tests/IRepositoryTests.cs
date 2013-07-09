@@ -317,7 +317,7 @@ namespace Rolcore.Repository.Tests
             {
                 target.Insert(alreadyInsertedEntity);
             }
-            catch (RepositoryInsertException riEx)
+            catch (RepositoryInsertException)
             {
                 exceptionThrown = true;
             }
@@ -343,6 +343,40 @@ namespace Rolcore.Repository.Tests
 
             Assert.IsNotNull(retrievedNewEntity);
         }
+
+        [TestMethod]
+        public virtual void Insert_SupportsMultipleOperations()
+        {
+            var target = CreateTargetRepository();
+
+            var retrievedNullEntity = target.Items
+                .Where(item =>
+                    item.PartitionKey == string.Empty
+                 && item.RowKey == string.Empty)
+                .SingleOrDefault();
+
+            Assert.IsNull(retrievedNullEntity);
+
+            var insertedEntity = new MockEntity<TConcurrency>()
+            {
+                RowKey = Guid.NewGuid().ToString(),
+                DateTimeProperty = DateTime.Now,
+                IntProperty = (new Random()).Next(),
+                PartitionKey = "Mocks",
+                StringProperty = string.Empty
+            };
+
+            insertedEntity = target.Insert(insertedEntity).Single();
+
+            var retrievedNewEntity = target.Items
+                .Where(item =>
+                    item.PartitionKey == insertedEntity.PartitionKey
+                 && item.RowKey == insertedEntity.RowKey)
+                .Single();
+
+            Assert.IsNotNull(retrievedNewEntity);
+        }
+
         #endregion Insert() Tests
 
         #region Update() Tests
