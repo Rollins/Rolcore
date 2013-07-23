@@ -1,4 +1,5 @@
-﻿namespace Rolcore.Repository.LinqImpl
+﻿using System.Threading.Tasks;
+namespace Rolcore.Repository.LinqImpl
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +11,7 @@
     using Rolcore.Reflection;
     using System.ComponentModel.Composition;
     using System.Data.SqlClient;
+    using System.Reflection;
     
     public class LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>
         : LinqRepositoryBase<TDataContext, TItem, TBase>, 
@@ -18,6 +20,7 @@
         where TBase : class
         where TItem : class, TBase
     {
+        private readonly IEnumerable<PropertyInfo> entitySetProperties = typeof(TItem).GetProperties().Where(t => t.PropertyType.IsGenericType && t.PropertyType.GetGenericTypeDefinition() == typeof(EntitySet<>));
         private readonly Type itemType;
         private readonly Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues;
         private readonly Func<TBase, Table<TItem>, bool> itemExists;
@@ -105,12 +108,14 @@
             }
         }
 
-        protected Table<TItem> GetTable(TDataContext context)
+        protected static Table<TItem> GetTable(TDataContext context)
         {
             var result = context.GetTable<TItem>();
             if (result == null)
             {
+                throw new InvalidOperationException(string.Format("{0} does not contain a table for type {1}", context.GetType(), typeof(TItem)));
             }
+
             return result;
         }
 
@@ -121,12 +126,10 @@
             TItem original = table.GetOriginalEntityState(item);
             if (original == null)
             {
-                var entitySetProperties = item.GetType().GetProperties().Where(t =>
-                    t.PropertyType.IsGenericType && t.PropertyType.GetGenericTypeDefinition() == typeof(EntitySet<>));
-                foreach (var entitySet in entitySetProperties)
+                Parallel.ForEach(entitySetProperties, entitySet =>
                 {
                     entitySet.SetValue(item, null);
-                }
+                });
                 try
                 {
                     table.Attach(item, asModified);
