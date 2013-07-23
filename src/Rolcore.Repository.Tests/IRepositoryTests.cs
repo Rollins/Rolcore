@@ -399,6 +399,62 @@ namespace Rolcore.Repository.Tests
 
             Assert.AreEqual(expectedIntProp, retrievedEntity.IntProperty);
         }
+
+
+        [TestMethod]
+        public virtual void Update_UpdatesMany()
+        {
+            Debug.WriteLine(this.GetType().ToString());
+            var target = CreateTargetRepository();
+
+            var testEntity1 = SaveTestEntity(target);
+            var testEntity2 = SaveTestEntity(target);
+            var testEntity3 = SaveTestEntity(target);
+
+            var retrievedEntity1 = target.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity1.PartitionKey
+                 && item.RowKey == testEntity1.RowKey)
+                .Single();
+            var retrievedEntity2 = target.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity2.PartitionKey
+                 && item.RowKey == testEntity2.RowKey)
+                .Single();
+            var retrievedEntity3 = target.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity3.PartitionKey
+                 && item.RowKey == testEntity3.RowKey)
+                .Single();
+
+            var expectedIntProp1 = ++retrievedEntity1.IntProperty;
+            var expectedIntProp2 = ++retrievedEntity2.IntProperty;
+            var expectedIntProp3 = ++retrievedEntity3.IntProperty;
+
+            var target2 = CreateTargetRepository();
+
+            target2.Update(retrievedEntity1, retrievedEntity2, retrievedEntity3);
+
+            retrievedEntity1 = target2.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity1.PartitionKey
+                 && item.RowKey == testEntity1.RowKey)
+                .Single();
+            retrievedEntity2 = target2.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity2.PartitionKey
+                 && item.RowKey == testEntity2.RowKey)
+                .Single();
+            retrievedEntity3 = target2.Items
+                .Where(item =>
+                    item.PartitionKey == testEntity3.PartitionKey
+                 && item.RowKey == testEntity3.RowKey)
+                .Single();
+
+            Assert.AreEqual(expectedIntProp1, retrievedEntity1.IntProperty);
+            Assert.AreEqual(expectedIntProp2, retrievedEntity2.IntProperty);
+            Assert.AreEqual(expectedIntProp3, retrievedEntity3.IntProperty);
+        }
         #endregion Update() Tests
 
         #region Items Tests
