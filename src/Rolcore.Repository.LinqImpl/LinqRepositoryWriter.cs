@@ -121,6 +121,12 @@
             TItem original = table.GetOriginalEntityState(item);
             if (original == null)
             {
+                var entitySetProperties = item.GetType().GetProperties().Where(t =>
+                    t.PropertyType.IsGenericType && t.PropertyType.GetGenericTypeDefinition() == typeof(EntitySet<>));
+                foreach (var entitySet in entitySetProperties)
+                {
+                    entitySet.SetValue(item, null);
+                }
                 try
                 {
                     table.Attach(item, asModified);
