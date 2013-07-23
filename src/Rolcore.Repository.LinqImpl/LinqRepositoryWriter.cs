@@ -177,7 +177,6 @@
                     else
                     {
                         table.InsertOnSubmit(concrete);
-                        Debug.WriteLine(string.Format("Inserting: {0}", item));
                     }
                 }
 
