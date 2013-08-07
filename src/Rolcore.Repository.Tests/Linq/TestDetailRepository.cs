@@ -5,9 +5,9 @@ using Rolcore.Repository.Tests.Mocks;
 
 namespace Rolcore.Repository.Tests.Linq
 {
-    public class TestRepository : LinqRepository<TestDataContext, TestItem, MockEntity<Binary>, Binary>
+    public class TestDetailRepository : LinqRepository<TestDataContext, TestItemDetail, MockDetailEntity<Binary>, Binary>
     {
-        public TestRepository()
+        public TestDetailRepository()
             : base(
                 () => { return new TestDataContext(); },
                 (entity, key, concurrency, pKey) =>
