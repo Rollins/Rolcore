@@ -2,10 +2,10 @@
 
 namespace Rolcore.Repository.Tests.Mocks
 {
-    public class MockRepositoryItemRule<TItem> : IRepositoryItemRule<TItem>
+    public class MockRepositoryItemDetailRule<TItem> : IRepositoryItemRule<TItem>
         where TItem : class
     {
-        public MockRepositoryItemRule()
+        public MockRepositoryItemDetailRule()
         {
             ApplyWasCalled = false;
         }
@@ -13,7 +13,7 @@ namespace Rolcore.Repository.Tests.Mocks
         public void Apply(TItem item)
         {
             Debug.WriteLine(
-                string.Format("Rule {0} applied to item {1}", this, item));
+                string.Format("Rule {0} applied to detail item {1}", this, item));
             ApplyWasCalled = true;
         }
 
