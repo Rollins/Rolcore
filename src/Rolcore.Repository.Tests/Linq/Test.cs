@@ -7,10 +7,21 @@ namespace Rolcore.Repository.Tests.Linq
 {
     using System;
     using System.Data.Linq;
+    using Rolcore.Diagnostics;
     using Rolcore.Repository.Tests.Mocks;
 
+    partial class TestDataContext
+    {
+        partial void OnCreated()
+        {
+#if (DEBUG)
+            this.Log = new DebuggerWriter();
+#endif
+        }
+    }
     public partial class TestItem : MockEntity<Binary>
     {
+        
         partial void OnValidate(ChangeAction action)
         {
             if (action == ChangeAction.Insert && RowKey == null)

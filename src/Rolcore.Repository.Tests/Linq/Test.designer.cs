@@ -250,7 +250,7 @@ namespace Rolcore.Repository.Tests.Linq
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TestItem_TestItemDetail", Storage="_TestItemDetails", ThisKey="RowKey", OtherKey="RowKey")]
-		internal EntitySet<TestItemDetail> TestItemDetails
+		public EntitySet<TestItemDetail> TestItemDetails
 		{
 			get
 			{
@@ -416,7 +416,7 @@ namespace Rolcore.Repository.Tests.Linq
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TestItem_TestItemDetail", Storage="_TestItem", ThisKey="RowKey", OtherKey="RowKey", IsForeignKey=true)]
-		internal TestItem TestItem
+		public TestItem TestItem
 		{
 			get
 			{

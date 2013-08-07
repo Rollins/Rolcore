@@ -276,5 +276,27 @@ namespace Rolcore.Reflection
 
             }
         }
+
+        public static PropertyInfo[] GetPropertiesWithAttribute(this object obj, Type attributeType, bool inherit)
+        {
+            Contract.Requires<ArgumentNullException>(obj != null, "obj is null.");
+            Contract.Requires<ArgumentNullException>(attributeType != null, "attributeType is null.");
+            Contract.Requires<InvalidOperationException>(attributeType.IsSubclassOf(typeof(Attribute)), "attributeType is not an attribute.");
+
+            //
+            // Find methods decorated w/ specified attribute
+
+            var result = obj.GetType().GetProperties().ToList();
+            for (int i = result.Count - 1; i >= 0; i--)
+            {
+                var propertyInfo = result[i];
+                var attributes = propertyInfo.GetCustomAttributes(attributeType, inherit);
+                if (attributes.Count(attribute => attribute.GetType() == attributeType) == 0)
+                {
+                    result.RemoveAt(i);
+                }
+            }
+            return result.ToArray();
+        }
     }
 }
