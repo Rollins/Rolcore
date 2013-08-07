@@ -33,6 +33,9 @@ namespace Rolcore.Repository.Tests.Linq
     partial void InsertTestItem(TestItem instance);
     partial void UpdateTestItem(TestItem instance);
     partial void DeleteTestItem(TestItem instance);
+    partial void InsertTestItemDetail(TestItemDetail instance);
+    partial void UpdateTestItemDetail(TestItemDetail instance);
+    partial void DeleteTestItemDetail(TestItemDetail instance);
     #endregion
 		
 		public TestDataContext() : 
@@ -72,6 +75,14 @@ namespace Rolcore.Repository.Tests.Linq
 				return this.GetTable<TestItem>();
 			}
 		}
+		
+		public System.Data.Linq.Table<TestItemDetail> TestItemDetails
+		{
+			get
+			{
+				return this.GetTable<TestItemDetail>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TestItems")]
@@ -91,6 +102,8 @@ namespace Rolcore.Repository.Tests.Linq
 		private int _IntProperty;
 		
 		private string _TestItemPartitionId;
+		
+		private EntitySet<TestItemDetail> _TestItemDetails;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -112,6 +125,7 @@ namespace Rolcore.Repository.Tests.Linq
 		
 		public TestItem()
 		{
+			this._TestItemDetails = new EntitySet<TestItemDetail>(new Action<TestItemDetail>(this.attach_TestItemDetails), new Action<TestItemDetail>(this.detach_TestItemDetails));
 			OnCreated();
 		}
 		
@@ -231,6 +245,206 @@ namespace Rolcore.Repository.Tests.Linq
 					this._TestItemPartitionId = value;
 					this.SendPropertyChanged("PartitionKey");
 					this.OnPartitionKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TestItem_TestItemDetail", Storage="_TestItemDetails", ThisKey="RowKey", OtherKey="RowKey")]
+		public EntitySet<TestItemDetail> TestItemDetails
+		{
+			get
+			{
+				return this._TestItemDetails;
+			}
+			set
+			{
+				this._TestItemDetails.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TestItemDetails(TestItemDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.TestItem = this;
+		}
+		
+		private void detach_TestItemDetails(TestItemDetail entity)
+		{
+			this.SendPropertyChanging();
+			entity.TestItem = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="")]
+	public partial class TestItemDetail : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _RowKey;
+		
+		private string _DetailProperty;
+		
+		private System.Data.Linq.Binary _Timestamp;
+		
+		private string _PartitionKey;
+		
+		private EntityRef<TestItem> _TestItem;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnRowKeyChanging(string value);
+    partial void OnRowKeyChanged();
+    partial void OnDetailPropertyChanging(string value);
+    partial void OnDetailPropertyChanged();
+    partial void OnTimestampChanging(System.Data.Linq.Binary value);
+    partial void OnTimestampChanged();
+    partial void OnPartitionKeyChanging(string value);
+    partial void OnPartitionKeyChanged();
+    #endregion
+		
+		public TestItemDetail()
+		{
+			this._TestItem = default(EntityRef<TestItem>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RowKey", DbType="NVarChar(250)", CanBeNull=false, IsPrimaryKey=true)]
+		public override string RowKey
+		{
+			get
+			{
+				return this._RowKey;
+			}
+			set
+			{
+				if ((this._RowKey != value))
+				{
+					if (this._TestItem.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRowKeyChanging(value);
+					this.SendPropertyChanging();
+					this._RowKey = value;
+					this.SendPropertyChanged("RowKey");
+					this.OnRowKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DetailProperty", DbType="NVarChar(50)", CanBeNull=false, IsPrimaryKey=true)]
+		public override string DetailProperty
+		{
+			get
+			{
+				return this._DetailProperty;
+			}
+			set
+			{
+				if ((this._DetailProperty != value))
+				{
+					this.OnDetailPropertyChanging(value);
+					this.SendPropertyChanging();
+					this._DetailProperty = value;
+					this.SendPropertyChanged("DetailProperty");
+					this.OnDetailPropertyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Timestamp", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public override System.Data.Linq.Binary Timestamp
+		{
+			get
+			{
+				return this._Timestamp;
+			}
+			set
+			{
+				if ((this._Timestamp != value))
+				{
+					this.OnTimestampChanging(value);
+					this.SendPropertyChanging();
+					this._Timestamp = value;
+					this.SendPropertyChanged("Timestamp");
+					this.OnTimestampChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PartitionKey", DbType="NVarChar(250)", CanBeNull=false)]
+		public override string PartitionKey
+		{
+			get
+			{
+				return this._PartitionKey;
+			}
+			set
+			{
+				if ((this._PartitionKey != value))
+				{
+					this.OnPartitionKeyChanging(value);
+					this.SendPropertyChanging();
+					this._PartitionKey = value;
+					this.SendPropertyChanged("PartitionKey");
+					this.OnPartitionKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TestItem_TestItemDetail", Storage="_TestItem", ThisKey="RowKey", OtherKey="RowKey", IsForeignKey=true)]
+		public TestItem TestItem
+		{
+			get
+			{
+				return this._TestItem.Entity;
+			}
+			set
+			{
+				TestItem previousValue = this._TestItem.Entity;
+				if (((previousValue != value) 
+							|| (this._TestItem.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TestItem.Entity = null;
+						previousValue.TestItemDetails.Remove(this);
+					}
+					this._TestItem.Entity = value;
+					if ((value != null))
+					{
+						value.TestItemDetails.Add(this);
+						this._RowKey = value.RowKey;
+					}
+					else
+					{
+						this._RowKey = default(string);
+					}
+					this.SendPropertyChanged("TestItem");
 				}
 			}
 		}

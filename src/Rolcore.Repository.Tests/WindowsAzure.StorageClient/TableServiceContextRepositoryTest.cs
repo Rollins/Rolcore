@@ -17,6 +17,7 @@ namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
     public class TableServiceContextRepositoryTest : IRepositoryTests<IRepository<MockEntity<DateTime>, DateTime>, DateTime>
     {
         const string MocksTableName = "Mocks";
+        const string DetailMocksTableName = "DetailMocks";
         const string StorageConnectionString = "UseDevelopmentStorage=true";
         const string CsrunPath = @"C:\Program Files\Microsoft SDKs\Windows Azure\Emulator\csrun.exe"; //TODO: Do not hard-code path
 
@@ -71,6 +72,23 @@ namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
                 new TableServiceContextRepositoryWriter<MockEntity<DateTime>>(serviceContext, MocksTableName));
         }
 
+        protected override IRepository<MockDetailEntity<DateTime>, DateTime> CreateDetailTargetRepository()
+        {
+            // Retrieve storage account from connection-string
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(StorageConnectionString);
+
+            // Create the table client
+            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+
+            tableClient.CreateTableIfNotExist(MocksTableName);
+
+            // Get the data service context
+            TableServiceContext serviceContext = tableClient.GetDataServiceContext();
+
+            return new Repository<MockDetailEntity<DateTime>, DateTime>(
+                new TableServiceContextRepositoryReader<MockDetailEntity<DateTime>>(serviceContext, DetailMocksTableName),
+                new TableServiceContextRepositoryWriter<MockDetailEntity<DateTime>>(serviceContext, DetailMocksTableName));
+        }
 
         /// <summary>
         /// Clears out all test data from cloud storage.
@@ -88,6 +106,15 @@ namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
             }
 
             tableClient.CreateTableIfNotExist(MocksTableName);
+
+            // Create the detail table client
+            CloudTableClient detailTableClient = storageAccount.CreateCloudTableClient();
+            if (detailTableClient.DoesTableExist(DetailMocksTableName))
+            {
+                detailTableClient.DeleteTable(DetailMocksTableName);
+            }
+
+            detailTableClient.CreateTableIfNotExist(DetailMocksTableName);
         }
     }
 }

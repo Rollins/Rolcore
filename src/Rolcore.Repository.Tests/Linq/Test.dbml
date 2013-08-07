@@ -8,6 +8,16 @@
       <Column Name="DateTimeProperty" Modifier="Override" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" UpdateCheck="Always" />
       <Column Name="IntProperty" Modifier="Override" Type="System.Int32" DbType="INT" CanBeNull="false" UpdateCheck="Always" />
       <Column Name="PartitionKey" Storage="_TestItemPartitionId" Modifier="Override" Type="System.String" DbType="NVarChar(250)" CanBeNull="false" UpdateCheck="Always" />
+      <Association Name="TestItem_TestItemDetail" Member="TestItemDetails" ThisKey="RowKey" OtherKey="RowKey" Type="TestItemDetail" />
+    </Type>
+  </Table>
+  <Table Name="" Member="TestItemDetails">
+    <Type Name="TestItemDetail">
+      <Column Name="RowKey" Modifier="Override" Type="System.String" DbType="NVarChar(250)" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Always" />
+      <Column Name="DetailProperty" Modifier="Override" Type="System.String" DbType="NVarChar(50)" IsPrimaryKey="true" CanBeNull="false" UpdateCheck="Always" />
+      <Column Name="Timestamp" Modifier="Override" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Column Name="PartitionKey" Modifier="Override" Type="System.String" DbType="NVarChar(250)" CanBeNull="false" UpdateCheck="Always" />
+      <Association Name="TestItem_TestItemDetail" Member="TestItem" ThisKey="RowKey" OtherKey="RowKey" Type="TestItem" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

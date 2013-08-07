@@ -1,4 +1,5 @@
-﻿namespace Rolcore.Repository.LinqImpl
+﻿using System.Threading.Tasks;
+namespace Rolcore.Repository.LinqImpl
 {
     using System;
     using System.Collections.Generic;
@@ -10,14 +11,29 @@
     using Rolcore.Reflection;
     using System.ComponentModel.Composition;
     using System.Data.SqlClient;
-    
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using System.Data.Linq.Mapping;
+
     public class LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>
-        : LinqRepositoryBase<TDataContext, TItem, TBase>, 
+        : LinqRepositoryBase<TDataContext, TItem, TBase>,
           IRepositoryWriter<TBase, TConcurrency>
         where TDataContext : DataContext
         where TBase : class
         where TItem : class, TBase
     {
+        private readonly IEnumerable<PropertyInfo> entitySetProperties =
+            typeof(TItem).GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+            .Where(t =>
+                t.PropertyType.IsGenericType
+                && t.PropertyType.GetGenericTypeDefinition() == typeof(EntitySet<>));
+
+        private readonly IEnumerable<FieldInfo> entityRefFields =
+            typeof(TItem).GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(t =>
+                t.FieldType.IsGenericType
+                && t.FieldType.GetGenericTypeDefinition() == typeof(EntityRef<>));
+
         private readonly Type itemType;
         private readonly Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues;
         private readonly Func<TBase, Table<TItem>, bool> itemExists;
@@ -47,6 +63,11 @@
                     .ToArray();
 
                 context.SubmitChanges();
+
+                Parallel.ForEach(result, item =>
+                {
+                    DetachItem(item);
+                });
 
                 return result;
             }
@@ -105,13 +126,44 @@
             }
         }
 
-        protected Table<TItem> GetTable(TDataContext context)
+        protected static Table<TItem> GetTable(TDataContext context)
         {
             var result = context.GetTable<TItem>();
             if (result == null)
             {
+                throw new InvalidOperationException(string.Format("{0} does not contain a table for type {1}", context.GetType(), typeof(TItem)));
             }
+
             return result;
+        }
+
+        private void DetachItem(TItem item)
+        {
+#if(DEBUG)
+            foreach (var entitySet in this.entitySetProperties)
+#else
+            Parallel.ForEach(this.entitySetProperties, entitySet =>
+#endif
+            {
+                entitySet.SetValue(item, null);
+            }
+#if(!DEBUG)
+);
+#endif
+
+
+#if(DEBUG)
+            foreach (var entityRef in entityRefFields)
+#else
+            Parallel.ForEach(entityRefProperties, entityRef =>
+#endif
+
+            {
+                entityRef.SetValue(item, null);
+            }
+#if(!DEBUG)
+);
+#endif
         }
 
         private void EnsureItemIsAttached(Table<TItem> table, TItem item, bool asModified)
@@ -121,6 +173,7 @@
             TItem original = table.GetOriginalEntityState(item);
             if (original == null)
             {
+                DetachItem(item);
                 try
                 {
                     table.Attach(item, asModified);
@@ -135,8 +188,8 @@
         }
 
         public LinqRepositoryWriter(
-            Func<TDataContext> dataContextFactory, 
-            Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues, 
+            Func<TDataContext> dataContextFactory,
+            Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues,
             Func<TBase, Table<TItem>, bool> itemExists)
             : base(dataContextFactory)
         {
@@ -171,7 +224,6 @@
                     else
                     {
                         table.InsertOnSubmit(concrete);
-                        Debug.WriteLine(string.Format("Inserting: {0}", item));
                     }
                 }
 
