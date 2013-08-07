@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRepositoryReaderContracts.cs" />
     <Compile Include="Contracts\IRepositoryItemRuleContracts.cs" />
     <Compile Include="Contracts\IRepositoryWriterContracts.cs" />
     <Compile Include="IRepository.cs" />

@@ -105,15 +105,6 @@
             }
         }
 
-        protected Table<TItem> GetTable(TDataContext context)
-        {
-            var result = context.GetTable<TItem>();
-            if (result == null)
-            {
-            }
-            return result;
-        }
-
         private void EnsureItemIsAttached(Table<TItem> table, TItem item, bool asModified)
         {
             Contract.Requires<ArgumentNullException>(item != null, "item is null");
