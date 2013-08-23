@@ -80,7 +80,7 @@ namespace Rolcore.Repository.Tests.WindowsAzure.StorageClient
             // Create the table client
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
-            tableClient.CreateTableIfNotExist(MocksTableName);
+            tableClient.CreateTableIfNotExist(DetailMocksTableName);
 
             // Get the data service context
             TableServiceContext serviceContext = tableClient.GetDataServiceContext();
