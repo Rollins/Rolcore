@@ -17,6 +17,13 @@ namespace Rolcore.Repository.Tests.Linq
             return context;
         }
 
+        protected override IRepository<MockDetailEntity<Binary>, Binary> CreateDetailTargetRepository()
+        {
+            var context = new TestDetailRepository();
+
+            return context;
+        }
+
         protected override void ClearTestData()
         {
             using (var context = new TestDataContext())
