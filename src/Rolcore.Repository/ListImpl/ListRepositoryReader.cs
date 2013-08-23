@@ -45,13 +45,10 @@ namespace Rolcore.Repository.ListImpl
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> of all items available in the list.
         /// </summary>
-        public IQueryable<TItem> Items
+        public IQueryable<TItem> Items()
         {
-            get
-            {
-                this.EnsureClone();
-                return this.cloneList.AsQueryable();
-            }
+            this.EnsureClone();
+            return this.cloneList.AsQueryable();
         } // Tested
     }
 }

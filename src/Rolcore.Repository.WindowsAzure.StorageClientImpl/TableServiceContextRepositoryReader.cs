@@ -42,12 +42,9 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         {
         } // Tested
 
-        public IQueryable<TItem> Items
+        public IQueryable<TItem> Items()
         {
-            get 
-            {
-                return Context.CreateQuery<TItem>(EntitySetName);
-            }
+            return Context.CreateQuery<TItem>(EntitySetName);
         } // Tested
     }
 }

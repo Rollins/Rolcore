@@ -25,8 +25,8 @@ namespace Rolcore.Repository
             where T : class
         {
             foreach (var value in values)
-            {   
-                var items = repository.Items.AsEnumerable()
+            {
+                var items = repository.Items().AsEnumerable()
                     .Where(item => 
                         where(value, item));
 

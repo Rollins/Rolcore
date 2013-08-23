@@ -15,13 +15,10 @@
         /// <summary>
         /// Requires Items to return a non-null result.
         /// </summary>
-        public IQueryable<T> Items
+        public IQueryable<T> Items()
         {
-            get 
-            {
-                Contract.Ensures(Contract.Result<IQueryable<T>>() != null, "Items is null");
-                return default(IQueryable<T>);
-            }
+            Contract.Ensures(Contract.Result<IQueryable<T>>() != null, "Items is null");
+            return default(IQueryable<T>);
         }
     }
 }

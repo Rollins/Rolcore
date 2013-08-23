@@ -43,9 +43,9 @@ namespace Rolcore.Repository
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> of all items available in the repository.
         /// </summary>
-        public IQueryable<TItem> Items
+        public IQueryable<TItem> Items()
         {
-            get { return this._Reader.Items; }
+            return this._Reader.Items();
         } // TODO: Test
 
         public void ApplyRules(params TItem[] items)

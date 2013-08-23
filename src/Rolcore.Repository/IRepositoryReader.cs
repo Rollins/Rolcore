@@ -22,6 +22,6 @@ namespace Rolcore.Repository
         /// <summary>
         /// Gets an <see cref="IEnumerable"/> of all items available in the repository.
         /// </summary>
-        IQueryable<T> Items { get; }
+        IQueryable<T> Items();
     }
 }

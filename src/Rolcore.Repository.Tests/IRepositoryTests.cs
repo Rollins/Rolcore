@@ -75,7 +75,7 @@ namespace Rolcore.Repository.Tests
 
             var insertedEntity = SaveTestEntity(target);
 
-            var retrievedEntity = target.Items
+            var retrievedEntity = target.Items()
                 .Where(item => 
                     item.RowKey == insertedEntity.RowKey)
                 .Single();
@@ -87,7 +87,7 @@ namespace Rolcore.Repository.Tests
 
             target.Delete(retrievedEntity);
 
-            retrievedEntity = target.Items
+            retrievedEntity = target.Items()
                 .Where(item => 
                     item.RowKey == insertedEntity.RowKey)
                 .SingleOrDefault();
@@ -103,7 +103,7 @@ namespace Rolcore.Repository.Tests
             var insertedMasterEntity = SaveTestEntity(mastertarget);
             var insertedDetailEntity = SaveTestDetailEntity(insertedMasterEntity.RowKey, detailTarget);
 
-            var retrievedDetailEntity = detailTarget.Items
+            var retrievedDetailEntity = detailTarget.Items()
                 .Where(item => 
                     item.RowKey == insertedDetailEntity.RowKey)
                 .Single();
@@ -114,7 +114,7 @@ namespace Rolcore.Repository.Tests
 
             Assert.AreEqual(1, deleteCount);
 
-            retrievedDetailEntity = detailTarget.Items
+            retrievedDetailEntity = detailTarget.Items()
                 .Where(item =>
                     item.RowKey == insertedDetailEntity.RowKey
                     && item.DetailProperty == insertedDetailEntity.DetailProperty)
@@ -168,7 +168,7 @@ namespace Rolcore.Repository.Tests
 
             var insertedEntity = SaveTestEntity(target);
 
-            var retrievedEntity = target.Items
+            var retrievedEntity = target.Items()
                 .Where(item => 
                     item.RowKey == insertedEntity.RowKey)
                 .Single();
@@ -178,7 +178,7 @@ namespace Rolcore.Repository.Tests
 
             Assert.AreEqual(1, deleteCount);
 
-            retrievedEntity = target.Items
+            retrievedEntity = target.Items()
                 .Where(item => 
                     item.RowKey == insertedEntity.RowKey)
                 .SingleOrDefault();
@@ -205,7 +205,7 @@ namespace Rolcore.Repository.Tests
 
             var insertedEntity = SaveTestEntity(target);
 
-            var retrievedEntity = target.Items
+            var retrievedEntity = target.Items()
                 .Where(item =>
                     item.RowKey == insertedEntity.RowKey)
                 .Single();
@@ -227,7 +227,7 @@ namespace Rolcore.Repository.Tests
 
             var insertedEntity = SaveTestEntity(target);
 
-            var retrievedEntity = target.Items
+            var retrievedEntity = target.Items()
                 .Where(item =>
                     item.RowKey == insertedEntity.RowKey)
                 .Single();
@@ -259,11 +259,11 @@ namespace Rolcore.Repository.Tests
 
             var insertedEntity = SaveTestEntity(target);
 
-            var retrievedEntity1 = target.Items
+            var retrievedEntity1 = target.Items()
                 .Where(item =>
                     item.RowKey == insertedEntity.RowKey)
                 .Single();
-            var retrievedEntity2 = conflictTarget.Items
+            var retrievedEntity2 = conflictTarget.Items()
                 .Where(item =>
                     item.RowKey == insertedEntity.RowKey)
                 .Single();
@@ -337,7 +337,7 @@ namespace Rolcore.Repository.Tests
 
             insertedEntity = target.Insert(insertedEntity).Single();
 
-            var retrievedEntity = target.Items
+            var retrievedEntity = target.Items()
                 .Where(item =>
                     item.PartitionKey == insertedEntity.PartitionKey
                  && item.RowKey == insertedEntity.RowKey)
@@ -416,7 +416,7 @@ namespace Rolcore.Repository.Tests
 
             newEntityToInsert = target.Insert(newEntityToInsert).Single();
 
-            var retrievedNewEntity = target.Items
+            var retrievedNewEntity = target.Items()
                 .Where(item =>
                     item.PartitionKey == newEntityToInsert.PartitionKey
                  && item.RowKey == newEntityToInsert.RowKey)
@@ -436,7 +436,7 @@ namespace Rolcore.Repository.Tests
         {
             var target = CreateTargetRepository();
 
-            var retrievedNullEntity = target.Items
+            var retrievedNullEntity = target.Items()
                 .Where(item =>
                     item.PartitionKey == string.Empty
                  && item.RowKey == string.Empty)
@@ -455,7 +455,7 @@ namespace Rolcore.Repository.Tests
 
             insertedEntity = target.Insert(insertedEntity).Single();
 
-            var retrievedNewEntity = target.Items
+            var retrievedNewEntity = target.Items()
                 .Where(item =>
                     item.PartitionKey == insertedEntity.PartitionKey
                  && item.RowKey == insertedEntity.RowKey)
@@ -483,7 +483,7 @@ namespace Rolcore.Repository.Tests
 
             target.Update(testEntity);
 
-            var retrievedEntity = target.Items
+            var retrievedEntity = target.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity.PartitionKey
                  && item.RowKey == testEntity.RowKey)
@@ -508,17 +508,17 @@ namespace Rolcore.Repository.Tests
             var testEntity2 = SaveTestEntity(target);
             var testEntity3 = SaveTestEntity(target);
 
-            var retrievedEntity1 = target.Items
+            var retrievedEntity1 = target.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity1.PartitionKey
                  && item.RowKey == testEntity1.RowKey)
                 .Single();
-            var retrievedEntity2 = target.Items
+            var retrievedEntity2 = target.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity2.PartitionKey
                  && item.RowKey == testEntity2.RowKey)
                 .Single();
-            var retrievedEntity3 = target.Items
+            var retrievedEntity3 = target.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity3.PartitionKey
                  && item.RowKey == testEntity3.RowKey)
@@ -532,17 +532,17 @@ namespace Rolcore.Repository.Tests
 
             target2.Update(retrievedEntity1, retrievedEntity2, retrievedEntity3);
 
-            retrievedEntity1 = target2.Items
+            retrievedEntity1 = target2.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity1.PartitionKey
                  && item.RowKey == testEntity1.RowKey)
                 .Single();
-            retrievedEntity2 = target2.Items
+            retrievedEntity2 = target2.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity2.PartitionKey
                  && item.RowKey == testEntity2.RowKey)
                 .Single();
-            retrievedEntity3 = target2.Items
+            retrievedEntity3 = target2.Items()
                 .Where(item =>
                     item.PartitionKey == testEntity3.PartitionKey
                  && item.RowKey == testEntity3.RowKey)
@@ -571,7 +571,7 @@ namespace Rolcore.Repository.Tests
 
             var insertedEntities = new[] { SaveTestEntity(target), SaveTestEntity(target), SaveTestEntity(target) };
 
-            Assert.AreEqual(insertedEntities.Length, target.Items.ToArray().Length);
+            Assert.AreEqual(insertedEntities.Length, target.Items().ToArray().Length);
         }
 
         [TestMethod]

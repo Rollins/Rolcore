@@ -16,19 +16,11 @@ namespace Rolcore.Repository.LinqImpl
         where TBase : class
         where TItem : class, TBase
     {
-        private void SetupTable()
-        {
-            this.Table = new Lazy<Table<TItem>>(() =>
-            {
-                return GetTable(this.CreateDataContext());
-            });
-        }
-
         protected Lazy<Table<TItem>> Table { get; private set; }
 
         public LinqRepositoryReader() : base()
         {
-            this.SetupTable();
+            
         }
 
         [ImportingConstructor]
@@ -37,12 +29,11 @@ namespace Rolcore.Repository.LinqImpl
         {
             Contract.Requires<ArgumentNullException>(dataContextFactory != null, "dataContextFactory is null");
             Contract.Ensures(dataContextFactory != null, "dataContextFactory is null");
-            this.SetupTable();
         }
 
-        public IQueryable<TBase> Items
+        public IQueryable<TBase> Items()
         {
-            get { return this.Table.Value; }
+            return GetTable(this.CreateDataContext());
         }
     }
 }
