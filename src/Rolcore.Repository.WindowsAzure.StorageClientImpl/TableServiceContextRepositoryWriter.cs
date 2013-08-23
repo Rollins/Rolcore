@@ -80,24 +80,6 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
 
         #region DataServiceClientException Handling Methods
         /// <summary>
-        /// Works around issues with the Azure storage emulator that cause a HTTP 400 response.
-        /// </summary>
-        /// <param name="items">Specifies the items on which the exception occurred.</param>
-        /// <param name="ex">Specifies the exception</param>
-        /// <returns>The persisted items.</returns>
-        private TItem[] Handle400DataServiceClientException(TItem[] items, DataServiceRequestException ex)
-        {
-            // This sometimes happens during an update in dev storage during upsert, though it's 
-            // not really clear why.
-            Trace.TraceWarning("Local dev storage detected. If you are reading this in production, you may wish to freak out.");
-            Trace.Indent();
-            Trace.TraceError(ex.ToString());
-            Trace.Unindent();
-
-            return this.Update(items);
-        }
-
-        /// <summary>
         /// Force "insert or replace" to work on the local storage emulator. From 
         /// http://www.windowsazure.com/en-us/develop/net/how-to-guides/table-services/#insert-entity:
         /// "Note that insert-or-replace is not supported on the local storage emulator, so this 
@@ -107,39 +89,43 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         /// <param name="ex">Specifies the exception</param>
         /// <returns>The persisted items</returns>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed.")]
-        private TItem[] Handle404DataServiceClientException(TItem[] items, DataServiceRequestException ex)
+        private void SaveUsingDevStorage(TableServiceContext context, TItem item)
         {
+            dynamic dynItem = (item as dynamic);
+            var entityCheat = new EntityCheat() { PartitionKey = dynItem.PartitionKey, RowKey = dynItem.RowKey, Timestamp = dynItem.Timestamp };
+
+            var existingEntity = context.CreateQuery<EntityCheat>(EntitySetName)
+                .Where(e =>
+                    e.PartitionKey == entityCheat.PartitionKey
+                 && e.RowKey == entityCheat.RowKey)
+                .SingleOrDefault();
+            if (existingEntity == null)
+            {
+                context.AddObject(EntitySetName, item);
+            }
+            else
+            {
+                if (existingEntity.Timestamp != dynItem.Timestamp)
+                {
+                    throw new RepositoryConcurrencyException(
+                        "Record has been modified outside the current save operation.");
+                }
+                context.AttachTo(EntitySetName, item, "*");
+                context.UpdateObject(item);
+            }
+        }
+
+        private TItem[] Handle400DataServiceClientException(TItem[] items, DataServiceRequestException ex)
+        {
+            // This sometimes happens during an update in dev storage during upsert, though it's 
+            // not really clear why.
+
             Trace.TraceWarning("Local dev storage detected. If you are reading this in production, you may wish to freak out.");
             Trace.Indent();
             Trace.TraceError(ex.ToString());
-            Trace.TraceInformation("More information at http://www.windowsazure.com/en-us/develop/net/how-to-guides/table-services/#insert-entity");
             Trace.Unindent();
 
-            var context = CloneContext();
-
-            foreach (dynamic item in items)
-            {
-                var entityCheat = new EntityCheat() { PartitionKey = item.PartitionKey, RowKey = item.RowKey };
-                var existingEntity = context.CreateQuery<EntityCheat>(EntitySetName)
-                    .Where(e =>
-                        e.PartitionKey == entityCheat.PartitionKey
-                     && e.RowKey == entityCheat.RowKey)
-                    .SingleOrDefault();
-                if (existingEntity == null)
-                {
-                    Context.Detach(item);
-                    Context.AddObject(EntitySetName, item);
-                }
-                else
-                {
-                    Context.Detach(existingEntity);
-                    Context.AttachTo(EntitySetName, item, "*");
-                    Context.UpdateObject(item);
-                }
-            }
-
-            Context.SaveChangesWithRetries(SaveChangesOptions.ReplaceOnUpdate);
-            return items;
+            return this.Update(items);
         }
         #endregion DataServiceClientException Handling Methods
 
@@ -227,11 +213,18 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         public TItem[] Save(params TItem[] items)
         {
             this.ApplyRules(items);
-            var context = CloneContext();
+            var context = this.CloneContext();
             foreach (TItem item in items)
             {
-                this.AttachTo(context, item);
-                context.UpdateObject(item);
+                if (context.BaseUri.IsLoopback)
+                {
+                    this.SaveUsingDevStorage(context, item);
+                }
+                else
+                {
+                    this.AttachTo(context, item);
+                    context.UpdateObject(item);
+                }
             }
 
             try
@@ -247,16 +240,18 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                 {
                     throw;
                 }
-                //// Exceptions: http://technet.microsoft.com/en-us/library/dd179438.aspx
-                else if (innerException.StatusCode == 400) //// 400 = "Bad Request"
+
+                // Exceptions: http://technet.microsoft.com/en-us/library/dd179438.aspx
+
+                // 400 BadRequest: DuplicatePropertiesSpecified, EntityTooLarge, InvalidValueType, 
+                //   PropertiesNeedValue, PropertyNameTooLong, TooManyProperties, 
+                //   XMethodIncorrectCount, XMethodIncorrectValue, XMethodNotUsingPost.
+                if (innerException.StatusCode == 400) // 400 = "Bad Request"
                 {
                     return Handle400DataServiceClientException(items, ex);
                 }
-                else if (innerException.StatusCode == 404 || innerException.StatusCode == 400) //// 404 = "Not Found", 400 = "Bad Request"
-                {
-                    return Handle404DataServiceClientException(items, ex);
-                }
-                else if (innerException.StatusCode == 412) //// UpdateConditionNotSatisfied (concurrency)
+                // 412 UpdateConditionNotSatisfied (concurrency)
+                else if (innerException.StatusCode != 412)
                 {
                     throw new RepositoryConcurrencyException(
                         "Record has been modified outside the current save operation.",
@@ -352,7 +347,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
         /// <returns>The number of items deleted.</returns>
         public int Delete(string rowKey, DateTime concurrency, string partitionKey)
         {
-            var itemsToDelete = Context.CreateQuery<TItem>(EntitySetName).AsEnumerable()
+            var itemsToDelete = Context.CreateQuery<TItem>(this.EntitySetName).AsEnumerable()
                 .Where(item => 
                     (item as dynamic).RowKey == rowKey &&
                     (item as dynamic).Timestamp == concurrency);

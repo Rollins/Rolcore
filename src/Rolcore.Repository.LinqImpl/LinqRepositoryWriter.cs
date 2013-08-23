@@ -12,15 +12,28 @@ namespace Rolcore.Repository.LinqImpl
     using System.ComponentModel.Composition;
     using System.Data.SqlClient;
     using System.Reflection;
-    
+    using System.Threading.Tasks;
+    using System.Data.Linq.Mapping;
+
     public class LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>
-        : LinqRepositoryBase<TDataContext, TItem, TBase>, 
+        : LinqRepositoryBase<TDataContext, TItem, TBase>,
           IRepositoryWriter<TBase, TConcurrency>
         where TDataContext : DataContext
         where TBase : class
         where TItem : class, TBase
     {
-        private readonly IEnumerable<PropertyInfo> entitySetProperties = typeof(TItem).GetProperties().Where(t => t.PropertyType.IsGenericType && t.PropertyType.GetGenericTypeDefinition() == typeof(EntitySet<>));
+        private readonly IEnumerable<PropertyInfo> entitySetProperties =
+            typeof(TItem).GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+            .Where(t =>
+                t.PropertyType.IsGenericType
+                && t.PropertyType.GetGenericTypeDefinition() == typeof(EntitySet<>));
+
+        private readonly IEnumerable<FieldInfo> entityRefFields =
+            typeof(TItem).GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(t =>
+                t.FieldType.IsGenericType
+                && t.FieldType.GetGenericTypeDefinition() == typeof(EntityRef<>));
+
         private readonly Type itemType;
         private readonly Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues;
         private readonly Func<TBase, Table<TItem>, bool> itemExists;
@@ -50,6 +63,11 @@ namespace Rolcore.Repository.LinqImpl
                     .ToArray();
 
                 context.SubmitChanges();
+
+                Parallel.ForEach(result, item =>
+                {
+                    DetachItem(item);
+                });
 
                 return result;
             }
@@ -119,6 +137,35 @@ namespace Rolcore.Repository.LinqImpl
             return result;
         }
 
+        private void DetachItem(TItem item)
+        {
+#if(DEBUG)
+            foreach (var entitySet in this.entitySetProperties)
+#else
+            Parallel.ForEach(this.entitySetProperties, entitySet =>
+#endif
+            {
+                entitySet.SetValue(item, null);
+            }
+#if(!DEBUG)
+);
+#endif
+
+
+#if(DEBUG)
+            foreach (var entityRef in entityRefFields)
+#else
+            Parallel.ForEach(entityRefProperties, entityRef =>
+#endif
+
+            {
+                entityRef.SetValue(item, null);
+            }
+#if(!DEBUG)
+);
+#endif
+        }
+
         private void EnsureItemIsAttached(Table<TItem> table, TItem item, bool asModified)
         {
             Contract.Requires<ArgumentNullException>(item != null, "item is null");
@@ -126,10 +173,7 @@ namespace Rolcore.Repository.LinqImpl
             TItem original = table.GetOriginalEntityState(item);
             if (original == null)
             {
-                Parallel.ForEach(entitySetProperties, entitySet =>
-                {
-                    entitySet.SetValue(item, null);
-                });
+                DetachItem(item);
                 try
                 {
                     table.Attach(item, asModified);
@@ -144,8 +188,8 @@ namespace Rolcore.Repository.LinqImpl
         }
 
         public LinqRepositoryWriter(
-            Func<TDataContext> dataContextFactory, 
-            Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues, 
+            Func<TDataContext> dataContextFactory,
+            Action<TItem, string, TConcurrency, string> setKeyAndConcurrencyValues,
             Func<TBase, Table<TItem>, bool> itemExists)
             : base(dataContextFactory)
         {

@@ -57,8 +57,8 @@ namespace Rolcore.Repository.Tests
             MockDetailEntity<TConcurrency> result = new MockDetailEntity<TConcurrency>()
             {
                 RowKey = masterRowKey,
-                PartitionKey = "MockDetails",
-                DetailProperty = string.Format("DetailPropertyValue{0}", (new Random()).Next().ToString())
+                PartitionKey = "mockdetails",
+                DetailProperty = string.Format("Detail Property Value {0}", (new Random()).Next().ToString())
             };
             result = detailTarget.Save(result)[0];
 
@@ -105,8 +105,7 @@ namespace Rolcore.Repository.Tests
 
             var retrievedDetailEntity = detailTarget.Items
                 .Where(item => 
-                    item.RowKey == insertedDetailEntity.RowKey
-                    && item.DetailProperty == insertedDetailEntity.DetailProperty)
+                    item.RowKey == insertedDetailEntity.RowKey)
                 .Single();
 
             Assert.IsNotNull(retrievedDetailEntity);
@@ -122,12 +121,6 @@ namespace Rolcore.Repository.Tests
                 .SingleOrDefault();
 
             Assert.IsNull(retrievedDetailEntity);
-        }
-
-        [TestMethod]
-        public virtual void Delete_DeletesADetailEntityAndAMasterEntity()
-        {
-            Assert.Inconclusive("Not implemented");
         }
 
         [TestMethod]
@@ -310,7 +303,7 @@ namespace Rolcore.Repository.Tests
             MockEntity<TConcurrency> testEntity = new MockEntity<TConcurrency>()
             {
                 PartitionKey = "aHR0cDovL3d3dy5zcHN1LmVkdS8=|MjAxMy0wNi0xNiAyMDoyNToxOFo=",
-                RowKey = "aHR0cDovL2NhbGVuZGFyLnNwc3UuZWR1L2NhbC9ldmVudC9ldmVudFZpZXcuZG8_Yj1kZSZjYWxQYXRoPS9wdWJsaWMvY2Fscy9NYWluQ2FsJmd1aWQ9Q0FMLTI4OWMzMDZmLTNjMjhiMWQ3LTAxM2MtMmFjZTM2YTQtMDAwMDIyNjZkZW1vYmVkZXdvcmtAbXlzaXRlLmVkdSZyZWN1cnJlbmNlSWQ9",
+                RowKey = "aHR0cDovL2NhbGVuZGFyLnNwc3UuZWR1L2NhbC9ldmVudC9ldmVudFZpZXcuZG8_Yj1kZSZjYWxQYXRoPS9wdWJsaWMvY2Fsc",//y9NYWluQ2FsJmd1aWQ9Q0FMLTI4OWMzMDZmLTNjMjhiMWQ3LTAxM2MtMmFjZTM2YTQtMDAwMDIyNjZkZW1vYmVkZXdvcmtAbXlzaXRlLmVkdSZyZWN1cnJlbmNlSWQ9",
                 DateTimeProperty = DateTime.Now,
                 IntProperty = (new Random()).Next(),
                 StringProperty = string.Empty
