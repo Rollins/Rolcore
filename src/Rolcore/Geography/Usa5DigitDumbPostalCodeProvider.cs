@@ -8,6 +8,7 @@ namespace Rolcore.Geography
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Diagnostics.Contracts;
 
     /// <summary>
     /// Implements <see cref="IPostalCodeProvider"/> by providing 5-digit USA zip codes based on a
@@ -24,7 +25,9 @@ namespace Rolcore.Geography
         /// <summary>
         /// Backing store and default for <see cref="PostalCodeRangeLast"/>
         /// </summary>
-        private uint postalCodeRangeLast = 99999;
+        private uint postalCodeRangeLast = MaxPostalCodeRangeLast;
+
+        public const uint MaxPostalCodeRangeLast = 99999;
 
         #region Properties
 
@@ -47,7 +50,11 @@ namespace Rolcore.Geography
         public uint PostalCodeRangeLast
         {
             get { return this.postalCodeRangeLast; }
-            set { this.postalCodeRangeLast = value; }
+            set 
+            {
+                Contract.Requires<ArgumentOutOfRangeException>(value <= MaxPostalCodeRangeLast, "value cannot be greater than MaxPostalCodeRangeLast");
+                this.postalCodeRangeLast = value; 
+            }
         }
 
         #endregion Properties
