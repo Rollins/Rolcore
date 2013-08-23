@@ -108,8 +108,6 @@ namespace Rolcore.Repository.LinqImpl
             }
         }
 
-<<<<<<< HEAD
-=======
         protected static Table<TItem> GetTable(TDataContext context)
         {
             var result = context.GetTable<TItem>();
@@ -121,7 +119,6 @@ namespace Rolcore.Repository.LinqImpl
             return result;
         }
 
->>>>>>> 845b7aef29624bb1b5b694955ed4f65c0e65cf5b
         private void EnsureItemIsAttached(Table<TItem> table, TItem item, bool asModified)
         {
             Contract.Requires<ArgumentNullException>(item != null, "item is null");
