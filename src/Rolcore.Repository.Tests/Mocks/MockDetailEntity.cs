@@ -3,7 +3,7 @@ using System.Data.Services.Common;
 
 namespace Rolcore.Repository.Tests.Mocks
 {
-    [DataServiceKey("RowKey", "DetailProperty")]
+    [DataServiceKey("PartitionKey", "RowKey")]
     public class MockDetailEntity<TConcurrency> : ICloneable
     {
         public virtual string RowKey { get; set; }

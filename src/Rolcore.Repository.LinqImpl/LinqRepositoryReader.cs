@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.Composition;
 using System.Data.Linq;
 using System.Diagnostics.Contracts;
-using System.Collections;
-using System.ComponentModel.Composition;
+using System.Linq;
 
 namespace Rolcore.Repository.LinqImpl
 {

@@ -1,19 +1,16 @@
-﻿using System.Threading.Tasks;
-namespace Rolcore.Repository.LinqImpl
+﻿namespace Rolcore.Repository.LinqImpl
 {
     using System;
     using System.Collections.Generic;
-    using System.Data;
+    using System.ComponentModel.Composition;
     using System.Data.Linq;
+    using System.Data.SqlClient;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using Rolcore.Reflection;
-    using System.ComponentModel.Composition;
-    using System.Data.SqlClient;
     using System.Reflection;
     using System.Threading.Tasks;
-    using System.Data.Linq.Mapping;
+    using Rolcore.Reflection;
 
     public class LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>
         : LinqRepositoryBase<TDataContext, TItem, TBase>,
@@ -155,7 +152,7 @@ namespace Rolcore.Repository.LinqImpl
 #if(DEBUG)
             foreach (var entityRef in entityRefFields)
 #else
-            Parallel.ForEach(entityRefProperties, entityRef =>
+            Parallel.ForEach(entityRefFields, entityRef =>
 #endif
 
             {
