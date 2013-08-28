@@ -1,1 +1,1 @@
-msbuild Rolcore.build /target:Package > package.log 2>&1
+msbuild Rolcore.build /target:Package
