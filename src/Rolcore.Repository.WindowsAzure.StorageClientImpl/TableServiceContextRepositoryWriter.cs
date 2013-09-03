@@ -8,14 +8,13 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
-    using System.Data;
     using System.Data.Services.Client;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Microsoft.WindowsAzure;
     using Microsoft.WindowsAzure.StorageClient;
     using Rolcore.Reflection;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Implements <see cref="IRepositoryWriter{}"/> using a <see cref="TableServiceContext"/> as 
@@ -110,6 +109,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
                     throw new RepositoryConcurrencyException(
                         "Record has been modified outside the current save operation.");
                 }
+                context.Detach(existingEntity);
                 context.AttachTo(EntitySetName, item, "*");
                 context.UpdateObject(item);
             }

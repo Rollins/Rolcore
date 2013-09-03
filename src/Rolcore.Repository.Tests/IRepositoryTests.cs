@@ -43,7 +43,7 @@ namespace Rolcore.Repository.Tests
                 DateTimeProperty = DateTime.Now,
                 IntProperty = (new Random()).Next(),
                 PartitionKey = "Mocks",
-                StringProperty = string.Empty
+                StringProperty = "String Value " + (new Random()).Next().ToString()
             };
             result = target.Save(result)[0];
 
@@ -149,13 +149,13 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(0, retrievedEntities.Length);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Delete_DeletesMultipleDetailEntities()
         {
             Assert.Inconclusive("Not implemented");
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Delete_DeletesMultipleDetailEntitiesAndMultipleMasterEntities()
         {
             Assert.Inconclusive("Not implemented");
@@ -213,10 +213,9 @@ namespace Rolcore.Repository.Tests
             Assert.IsNotNull(retrievedEntity);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Save_InsertsNewDetailEntity()
         {
-
             Assert.Inconclusive("Not implemented");
         }
 
@@ -245,7 +244,7 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(expectedIntValue, retrievedEntity.IntProperty);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Save_UpdatesExistingDetailEntity()
         {
             Assert.Inconclusive("Not implemented");
@@ -346,7 +345,7 @@ namespace Rolcore.Repository.Tests
             Assert.IsNotNull(retrievedEntity);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Insert_InsertsDetail()
         {
             Assert.Inconclusive("Not implemented");
@@ -370,7 +369,7 @@ namespace Rolcore.Repository.Tests
             target.Insert(alreadyInsertedEntity);
         }
 
-        [TestMethod, ExpectedException(typeof(RepositoryInsertException))]
+        //[TestMethod, ExpectedException(typeof(RepositoryInsertException)), Ignore]
         public virtual void Insert_ThrowsExceptionWhenDetailItemAlreadyExists()
         {
             Assert.Inconclusive("Not implemented");
@@ -425,7 +424,7 @@ namespace Rolcore.Repository.Tests
             Assert.IsNotNull(retrievedNewEntity);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Insert_InsertsAfterDetailItemAlreadyExistsException()
         {
             Assert.Inconclusive("Not implemented");
@@ -464,7 +463,7 @@ namespace Rolcore.Repository.Tests
             Assert.IsNotNull(retrievedNewEntity);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Insert_SupportsMultipleOperationsWithDetailRecords()
         {
             Assert.Inconclusive("Not implemented");
@@ -492,7 +491,7 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(expectedIntProp, retrievedEntity.IntProperty);
         }
 
-
+        //[TestMethod, Ignore]
         public virtual void Update_UpdatesDetail()
         {
             Assert.Inconclusive("Not implemented");
@@ -554,7 +553,7 @@ namespace Rolcore.Repository.Tests
         }
 
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Update_UpdatesManyDetails()
         {
             Assert.Inconclusive("Not implemented");
@@ -574,7 +573,7 @@ namespace Rolcore.Repository.Tests
             Assert.AreEqual(insertedEntities.Length, target.Items().ToArray().Length);
         }
 
-        [TestMethod]
+        //[TestMethod, Ignore]
         public virtual void Items_ContainsAllDetailItems()
         {
             Assert.Inconclusive("Not implemented");

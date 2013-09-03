@@ -4,8 +4,6 @@
     using System.ComponentModel.Composition;
     using System.Data.Linq;
     using System.Diagnostics.Contracts;
-    using Rolcore.Diagnostics;
-    using Rolcore.Reflection;
 
     public class LinqRepositoryBase<TDataContext, TItem, TBase>
         where TDataContext : DataContext
