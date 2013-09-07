@@ -7,12 +7,14 @@ using System.Runtime.Serialization;
 
 namespace Rolcore.Repository
 {
+    [Serializable]
     public class RepositoryInsertException : RepositoryPersistenceException
     {
         public RepositoryInsertException()
         {
             
         }
+
         public RepositoryInsertException(string message)
             : base(message)
         {

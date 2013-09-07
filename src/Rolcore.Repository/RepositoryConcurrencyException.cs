@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Rolcore.Repository
 {
+    [Serializable]
     public class RepositoryConcurrencyException : RepositoryPersistenceException
     {
         public RepositoryConcurrencyException()
