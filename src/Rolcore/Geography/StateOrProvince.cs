@@ -5,9 +5,12 @@
 //-----------------------------------------------------------------------
 namespace Rolcore.Geography
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Represents a geographical state or province.
     /// </summary>
+    [DebuggerDisplay("{Name} ({Abbreviation})")]
     public class StateOrProvince
     {
         /// <summary>

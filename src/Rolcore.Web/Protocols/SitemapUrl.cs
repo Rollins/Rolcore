@@ -1,7 +1,9 @@
-using System;
-
 namespace Rolcore.Web.Protocols
 {
+    using System;
+    using System.Diagnostics;
+
+    [DebuggerDisplay("{Loc}")]
     public class SitemapUrl
     {
         private double? _RelativePriority;
