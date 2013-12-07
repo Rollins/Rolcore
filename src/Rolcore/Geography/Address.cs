@@ -5,11 +5,13 @@
 //-----------------------------------------------------------------------
 namespace Rolcore.Geography
 {
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
     /// Represents an address.
     /// </summary>
+    [DebuggerDisplay("{Address1}, {City} {StateOrProvince}, {PostalCode}")]
     public class Address
     {
         /// <summary>

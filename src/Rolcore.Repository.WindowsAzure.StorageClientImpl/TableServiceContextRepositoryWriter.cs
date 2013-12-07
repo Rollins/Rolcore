@@ -93,11 +93,21 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             dynamic dynItem = (item as dynamic);
             var entityCheat = new EntityCheat() { PartitionKey = dynItem.PartitionKey, RowKey = dynItem.RowKey, Timestamp = dynItem.Timestamp };
 
-            var existingEntity = context.CreateQuery<EntityCheat>(EntitySetName)
-                .Where(e =>
-                    e.PartitionKey == entityCheat.PartitionKey
-                 && e.RowKey == entityCheat.RowKey)
-                .SingleOrDefault();
+            EntityCheat existingEntity = null;
+            try
+            {
+                existingEntity = context.CreateQuery<EntityCheat>(EntitySetName)
+                    .Where(e =>
+                        e.PartitionKey == entityCheat.PartitionKey
+                     && e.RowKey == entityCheat.RowKey)
+                    .SingleOrDefault();
+            }
+            catch (DataServiceQueryException ex)
+            {
+                // Sometimes the emulater is just a jerk
+                Trace.TraceError(ex.Message);
+            }
+
             if (existingEntity == null)
             {
                 context.AddObject(EntitySetName, item);

@@ -14,5 +14,6 @@ namespace Rolcore.Repository
     public interface IRepository<TItem, TConcurrency> : IRepositoryReader<TItem>, IRepositoryWriter<TItem, TConcurrency>
         where TItem : class
     {
+        
     }
 }

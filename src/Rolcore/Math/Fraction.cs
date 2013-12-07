@@ -6,10 +6,12 @@
 namespace Rolcore.Math
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// A fraction.
     /// </summary>
+    [DebuggerDisplay("{Numerator}/{Denominator}")]
     public class Fraction
     {
         /// <summary>
