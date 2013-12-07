@@ -12,6 +12,9 @@
     using System.Threading.Tasks;
     using Rolcore.Reflection;
 
+    /// <summary>
+    /// LINQ to SQL implementation of <see cref="IRepositoryWriter{,}"/>.
+    /// </summary>
     public class LinqRepositoryWriter<TDataContext, TItem, TBase, TConcurrency>
         : LinqRepositoryBase<TDataContext, TItem, TBase>,
           IRepositoryWriter<TBase, TConcurrency>
@@ -19,6 +22,9 @@
         where TBase : class
         where TItem : class, TBase
     {
+        /// <summary>
+        /// Enumerable of relational properties.
+        /// </summary>
         private readonly IEnumerable<PropertyInfo> entitySetProperties =
             typeof(TItem).GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
             .Where(t =>
@@ -121,17 +127,6 @@
             {
                 yield return ConcreteFromBase(item);
             }
-        }
-
-        protected static Table<TItem> GetTable(TDataContext context)
-        {
-            var result = context.GetTable<TItem>();
-            if (result == null)
-            {
-                throw new InvalidOperationException(string.Format("{0} does not contain a table for type {1}", context.GetType(), typeof(TItem)));
-            }
-
-            return result;
         }
 
         private void DetachItem(TItem item)

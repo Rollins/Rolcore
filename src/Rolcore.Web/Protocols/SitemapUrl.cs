@@ -1,8 +1,8 @@
-using System;
-using System.Diagnostics;
-
 namespace Rolcore.Web.Protocols
 {
+    using System;
+    using System.Diagnostics;
+
     [DebuggerDisplay("{Loc}")]
     public class SitemapUrl
     {

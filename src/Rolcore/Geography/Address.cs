@@ -11,7 +11,7 @@ namespace Rolcore.Geography
     /// <summary>
     /// Represents an address.
     /// </summary>
-    [DebuggerDisplay("{Address1}, {City} {StateOrProvince}, {PostalCode}")]
+    [DebuggerDisplay("{Address1}, {City}, {StateOrProvince} {PostalCode}")]
     public class Address
     {
         /// <summary>

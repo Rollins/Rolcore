@@ -18,7 +18,8 @@
             if (result == null)
             {
                 throw new InvalidOperationException(string.Format(
-                    "DdtaContext does not contain a table of type {0}",
+                    "{0} does not contain a table for type {1}", 
+                    context.GetType(), 
                     typeof(TItem)));
             }
 

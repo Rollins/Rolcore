@@ -7,6 +7,9 @@ namespace Rolcore.Repository
 {
     using System;
 
+    /// <summary>
+    /// Represents an error that occurs during a persistence operation.
+    /// </summary>
     [Serializable]
     public class RepositoryPersistenceException : Exception
     {

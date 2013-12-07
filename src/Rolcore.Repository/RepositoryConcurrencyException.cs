@@ -7,6 +7,9 @@ using System.Runtime.Serialization;
 
 namespace Rolcore.Repository
 {
+    /// <summary>
+    /// Represents a concurrency error that occurs during a persistence operation.
+    /// </summary>
     [Serializable]
     public class RepositoryConcurrencyException : RepositoryPersistenceException
     {

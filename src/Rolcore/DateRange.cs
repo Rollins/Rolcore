@@ -7,6 +7,7 @@
 namespace Rolcore
 {
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace Rolcore
     /// the <see cref="TimeSpan"/> structure, this class retains the start and end date 
     /// components of the range (hence the choice for the term "Range" instead of "Span").
     /// </summary>
+    [DebuggerDisplay("From {StartDate} to {EndDate}")]
     public class DateRange : IEquatable<DateRange> 
     {
         /// <summary>
