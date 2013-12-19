@@ -6,7 +6,7 @@
 namespace Rolcore
 {
     /// <summary>
-    /// Contains constants related to hours.
+    /// Contains constants related to hours.s
     /// </summary>
     public static class Hours
     {
