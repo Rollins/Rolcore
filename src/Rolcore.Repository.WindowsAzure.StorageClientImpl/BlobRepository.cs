@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using Microsoft.WindowsAzure;
+using Microsoft.WindowsAzure.StorageClient;
+
+namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
+{
+    public class BlobRepository<TItem> : IBlobRepositoryReader<TItem>, IBlobRepositoryWriter<Stream>
+        where TItem : CloudBlob
+    {
+        protected readonly IBlobRepositoryReader<TItem> _Reader;
+        protected readonly IBlobRepositoryWriter<Stream> _Writer;
+
+        public BlobRepository(string connectionString, string containerName)
+        {
+            _Reader = new BlobRepositoryReader<TItem>(connectionString, containerName);
+            _Writer = new BlobRepositoryWriter<Stream>(connectionString, containerName);
+        }
+
+        public BlobRepository(CloudStorageAccount storageAccount, string containerName)
+        {
+            _Reader = new BlobRepositoryReader<TItem>(storageAccount, containerName);
+            _Writer = new BlobRepositoryWriter<Stream>(storageAccount, containerName);
+        }
+
+        public BlobRepository(CloudBlobClient blobClient, string containerName)
+        {
+            _Reader = new BlobRepositoryReader<TItem>(blobClient, containerName);
+            _Writer = new BlobRepositoryWriter<Stream>(blobClient, containerName);
+        }
+
+        IEnumerable<TItem> IBlobRepositoryReader<TItem>.GetBlobs()
+        {
+            return this._Reader.GetBlobs();
+        }
+
+        IEnumerable<TItem> IBlobRepositoryReader<TItem>.GetBlobs(string relativeURI)
+        {
+            return this._Reader.GetBlobs(relativeURI);
+        }
+
+        IEnumerable<CloudBlobDirectory> IBlobRepositoryReader<TItem>.GetDirectories()
+        {
+            return this._Reader.GetDirectories();
+        }
+
+        IEnumerable<CloudBlobDirectory> IBlobRepositoryReader<TItem>.GetDirectories(string relativeURI)
+        {
+            return this._Reader.GetDirectories(relativeURI);
+        }
+
+        CloudBlob IBlobRepositoryWriter<Stream>.Write(Stream stream, string blobName)
+        {
+            return _Writer.Write(stream, blobName);
+        }
+
+        CloudBlob IBlobRepositoryWriter<Stream>.WriteBlock(Stream stream, string blobName, string blockID)
+        {
+            return _Writer.WriteBlock(stream, blobName, blockID);
+        }
+
+        CloudBlob IBlobRepositoryWriter<Stream>.CommitBlocks(string blobName, IEnumerable<string> blockIDs)
+        {
+            return _Writer.CommitBlocks(blobName, blockIDs);
+        }
+    }
+}
