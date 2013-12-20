@@ -33,37 +33,37 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             _Writer = new BlobRepositoryWriter<Stream>(blobClient, containerName);
         }
 
-        IEnumerable<TItem> IBlobRepositoryReader<TItem>.GetBlobs()
+        public IEnumerable<TItem> GetBlobs()
         {
             return this._Reader.GetBlobs();
         }
 
-        IEnumerable<TItem> IBlobRepositoryReader<TItem>.GetBlobs(string relativeURI)
+        public IEnumerable<TItem> GetBlobs(string relativeURI)
         {
             return this._Reader.GetBlobs(relativeURI);
         }
 
-        IEnumerable<CloudBlobDirectory> IBlobRepositoryReader<TItem>.GetDirectories()
+        public IEnumerable<CloudBlobDirectory> GetDirectories()
         {
             return this._Reader.GetDirectories();
         }
 
-        IEnumerable<CloudBlobDirectory> IBlobRepositoryReader<TItem>.GetDirectories(string relativeURI)
+        public IEnumerable<CloudBlobDirectory> GetDirectories(string relativeURI)
         {
             return this._Reader.GetDirectories(relativeURI);
         }
 
-        CloudBlob IBlobRepositoryWriter<Stream>.Write(Stream stream, string blobName)
+        public CloudBlob Write(Stream stream, string blobName)
         {
             return _Writer.Write(stream, blobName);
         }
 
-        CloudBlob IBlobRepositoryWriter<Stream>.WriteBlock(Stream stream, string blobName, string blockID)
+        public CloudBlob WriteBlock(Stream stream, string blobName, string blockID)
         {
             return _Writer.WriteBlock(stream, blobName, blockID);
         }
 
-        CloudBlob IBlobRepositoryWriter<Stream>.CommitBlocks(string blobName, IEnumerable<string> blockIDs)
+        public CloudBlob CommitBlocks(string blobName, IEnumerable<string> blockIDs)
         {
             return _Writer.CommitBlocks(blobName, blockIDs);
         }
