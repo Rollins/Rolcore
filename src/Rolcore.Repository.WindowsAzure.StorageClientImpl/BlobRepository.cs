@@ -43,6 +43,11 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return this._Reader.GetBlobs(relativeURI);
         }
 
+        public TItem GetBlob(string relativePathToContainer)
+        {
+            return this._Reader.GetBlob(relativePathToContainer);
+        }
+
         public IEnumerable<CloudBlobDirectory> GetDirectories()
         {
             return this._Reader.GetDirectories();

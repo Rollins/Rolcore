@@ -86,6 +86,12 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
             return blobItems;
         }
 
+
+
+        public TItem GetBlob(string relativePathToContainer)
+        {
+            return Container.GetBlobReference(relativePathToContainer) as TItem;
+        }
     }
 }
 

@@ -11,6 +11,7 @@ namespace Rolcore.Repository.WindowsAzure.StorageClientImpl
     {
         IEnumerable<TItem> GetBlobs();
         IEnumerable<TItem> GetBlobs(string relativeURI);
+        TItem GetBlob(string relativePathToContainer);
 
         IEnumerable<CloudBlobDirectory> GetDirectories(); 
         IEnumerable<CloudBlobDirectory> GetDirectories(string relativeURI);
