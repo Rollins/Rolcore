@@ -8,6 +8,7 @@ namespace Rolcore
     using System;
     using System.Diagnostics.Contracts;
     using System.Text;
+    using System.Text.RegularExpressions;
     using Rolcore.IO;
 
     /// <summary>
@@ -24,6 +25,20 @@ namespace Rolcore
         /// The character used instead of '/' for URI safe Base64 encoding.
         /// </summary>
         public const char Base64UriSafeSlashAlternative = '_';
+
+        /// <summary>
+        /// Determines if the given string is a palindrome (can be read the same forwards and 
+        /// backwards).
+        /// </summary>
+        /// <param name="s">Specifies the string to check.</param>
+        /// <returns>True if the string is a palindrome, otherwise false.</returns>
+        public static bool IsPalindrome(this string s)
+        {
+            var notAlphas = new Regex("[^a-z]");
+            var alphas = notAlphas.Replace(s.ToLower(), string.Empty);
+            var reverseAlphas = alphas.Reverse();
+            return string.Equals(alphas, reverseAlphas, StringComparison.InvariantCulture);
+        }
 
         /// <summary>
         /// Checks that the string ends with the specified character. If it doesn't then the 
@@ -98,6 +113,18 @@ namespace Rolcore
 
             return result.ToString();
         } // Tested
+
+        /// <summary>
+        /// Reverses the given string.
+        /// </summary>
+        /// <param name="s">Specfies the string to reverse.</param>
+        /// <returns>A reversed string.</returns>
+        public static string Reverse(this string s)
+        {
+            var result = s.ToCharArray();
+            Array.Reverse(result);
+            return new string(result);
+        }
 
         /// <summary>
         /// Converts the string to a <see cref="Uri"/>.

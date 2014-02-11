@@ -74,6 +74,39 @@ namespace Rolcore.Tests
         }
         #endregion Repeat tests
 
+        [TestMethod]
+        public void Reverse_Reverses()
+        {
+            var forward = "0123456789";
+            var expected = "9876543210";
+            var actual = forward.Reverse();
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #region IsPalindrome Tests
+        [TestMethod]
+        public void IsPalindrome_ReturnsTrueWhenGivenOneWordPalindrome()
+        {
+            var mom = "Mom";
+            Assert.IsTrue(mom.IsPalindrome());
+        }
+
+        [TestMethod]
+        public void IsPalindrome_ReturnsTrueWhenGivenMultiWordPalindrome()
+        {
+            var redruM = "Red rum, sir, is murder";
+            Assert.IsTrue(redruM.IsPalindrome());
+        }
+
+        [TestMethod]
+        public void IsPalindrome_ReturnsFalseWhenNotGivenPalindrome()
+        {
+            var redrum = "Red rum is murder";
+            Assert.IsFalse(redrum.IsPalindrome());
+        }
+        #endregion IsPalindrome Tests
+
         /// <summary>
         ///A test for IsInUsa5DigitPostalCodeFormat
         ///</summary>
